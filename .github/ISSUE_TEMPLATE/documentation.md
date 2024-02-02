@@ -1,7 +1,7 @@
 ---
 name: Documentation
 about: Create or modify documentation
-title: 'Doc - '
+title: ''
 labels: doc
 assignees: ''
 
