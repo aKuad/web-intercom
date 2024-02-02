@@ -1,7 +1,7 @@
 ---
 name: Feature add
 about: Required or good idea of feature
-title: 'Feature - '
+title: ''
 labels: feature
 assignees: ''
 

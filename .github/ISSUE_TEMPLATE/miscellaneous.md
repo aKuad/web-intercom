@@ -1,7 +1,7 @@
 ---
 name: Miscellaneous
 about: Uncategorized issue or idea
-title: 'Misc - '
+title: ''
 labels: misc
 assignees: ''
 

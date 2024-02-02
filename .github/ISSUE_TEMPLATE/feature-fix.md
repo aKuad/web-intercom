@@ -1,7 +1,7 @@
 ---
 name: Feature fix
 about: Anything what requires fix or modify
-title: 'Fix - '
+title: ''
 labels: fix
 assignees: ''
 

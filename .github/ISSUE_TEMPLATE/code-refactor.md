@@ -1,7 +1,7 @@
 ---
 name: Code refactor
 about: Required or good idea of code refactoring
-title: 'Refact - '
+title: ''
 labels: refactor
 assignees: ''
 
