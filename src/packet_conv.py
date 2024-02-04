@@ -82,5 +82,5 @@ def packet_dec_audioseg(packet: bytes) -> tuple[AudioSegment, bytes]:
   ext_data_len = packet[0]
   ext_data = packet[1 : 1 + ext_data_len]
   audio_data_raw = packet[1 + ext_data_len :]
-  audio_data = AudioSegment(audio_data_raw, sample_width=AUDIO_PARAM.SAMPLE_WIDTH, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
+  audio_data = AudioSegment(audio_data_raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
   return (audio_data, ext_data)

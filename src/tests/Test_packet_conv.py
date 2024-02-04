@@ -77,13 +77,13 @@ class Test_packet_conv(unittest.TestCase):
 def part_create_testdata_ndarray() -> np.ndarray:
   x = np.arange(AUDIO_PARAM.SAMPLE_RATE)
   x = np.deg2rad(x)
-  y = np.sin(x) * 8 * (AUDIO_PARAM.SAMPLE_WIDTH - 1)
+  y = np.sin(x) * 8 * (AUDIO_PARAM.ONE_SAMPLE_BYTES - 1)
   return np.int16(y).reshape(-1, 1)
 
 
 def part_create_testdata_audioseg() -> AudioSegment:
   raw = part_create_testdata_ndarray().tobytes()
-  return AudioSegment(raw, sample_width=AUDIO_PARAM.SAMPLE_WIDTH, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
+  return AudioSegment(raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
 
 
 if __name__ == "__main__":
