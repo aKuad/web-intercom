@@ -76,8 +76,11 @@ class Test_packet_conv(unittest.TestCase):
 
 def part_create_testdata_ndarray() -> np.ndarray:
   x = np.arange(AUDIO_PARAM.SAMPLE_RATE)
-  x = np.deg2rad(x)
-  y = np.sin(x) * 8 * (AUDIO_PARAM.ONE_SAMPLE_BYTES - 1)
+  y = np.sin(np.deg2rad(x)) * (2**(AUDIO_PARAM.ONE_SAMPLE_BYTES * 8 - 1) - 100)
+  #                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  #                           Increase amplitude
+  # 2**(BYTES * 8 - 1) : data type's max value, -1 for sign bit
+  # - 100              : make margin
   return np.int16(y).reshape(-1, 1)
 
 
