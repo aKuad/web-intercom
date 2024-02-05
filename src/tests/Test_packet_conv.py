@@ -86,7 +86,7 @@ def part_create_testdata_ndarray() -> np.ndarray:
 
 def part_create_testdata_audioseg() -> AudioSegment:
   raw = part_create_testdata_ndarray().tobytes()
-  return AudioSegment(raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
+  return AudioSegment(raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=1)
 
 
 if __name__ == "__main__":

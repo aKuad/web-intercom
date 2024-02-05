@@ -5,7 +5,8 @@ Functions for convert ``pydub.AudioSegment`` or ``numpy.ndarray`` object to ``by
 By conversion, be able to transmit through HTTP, websocket and so on.
 
 Note:
-  Audio format (e.g. sample rate, channels) must be specified in ``AUDIO_PARAM``
+  Audio format (e.g. sample rate, channels) must be specified in ``AUDIO_PARAM.py``.
+  It supports only monoral audio, not for multi channels.
 
 Author: aKuad
 
@@ -48,7 +49,7 @@ def packet_dec_ndarray(packet: bytes) -> tuple[np.ndarray, bytes]:
   ext_data = packet[1 : 1 + ext_data_len]
   audio_data_raw = packet[1 + ext_data_len :]
   audio_data: np.ndarray = np.frombuffer(audio_data_raw, dtype=AUDIO_PARAM.DTYPE)
-  audio_data             = audio_data.reshape(-1, AUDIO_PARAM.CHANNELS)
+  audio_data             = audio_data.reshape(-1, 1)  # 1 channel audio data
   return (audio_data, ext_data)
 
 
@@ -82,5 +83,5 @@ def packet_dec_audioseg(packet: bytes) -> tuple[AudioSegment, bytes]:
   ext_data_len = packet[0]
   ext_data = packet[1 : 1 + ext_data_len]
   audio_data_raw = packet[1 + ext_data_len :]
-  audio_data = AudioSegment(audio_data_raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
+  audio_data = AudioSegment(audio_data_raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=1)
   return (audio_data, ext_data)

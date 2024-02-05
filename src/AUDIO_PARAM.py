@@ -1,6 +1,5 @@
 # coding: UTF-8
 
 SAMPLE_RATE = 44100
-CHANNELS = 1
 DTYPE = "int16"
 ONE_SAMPLE_BYTES = 2
