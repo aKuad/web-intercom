@@ -6,7 +6,7 @@ By conversion, be able to transmit through HTTP, websocket and so on.
 
 Note:
   Audio format (e.g. sample rate, channels) must be specified in ``AUDIO_PARAM.py``.
-  It supports only monoral audio, not for multi channels.
+  It supports only monaural audio, not for multi channels.
 
 Author: aKuad
 
