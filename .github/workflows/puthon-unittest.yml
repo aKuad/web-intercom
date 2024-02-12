@@ -16,6 +16,6 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install numpy pydub
-    - name: Test with pytest
+    - name: Run all tests
       run: |
         python3 -m unittest discover src/tests/ "Test_*.py" -v
