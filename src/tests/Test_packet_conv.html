@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="../static/packet_conv.js"></script>
+    <script>
+      /**
+       * Tests for `packet_conv.js`
+       *
+       * Test cases:
+       *   * Can join audio data with[out] external bytes into a packet (Uint8Array), and split it
+       *
+       * Test steps:
+       *   1. Open this HTML with browser
+       *   2. Open JavaScript console
+       *   3. Click test buttons
+       *   4. Check console output
+       *
+       * @author aKuad
+       */
+
+      /**
+       * Error in type conversion between int16n and float32
+       */
+      ERR_INT16_AND_FLOAT32 = 1 / 32767;
+
+
+      function test_packet_enc_dec_with_ext() {
+        console.log("-- Test_packet_enc_dec_with_ext");
+        const aud_org = part_testdata_rand_int16array();
+        const ext_org = new Uint8Array([1,2,3,4]);
+        const packet = packet_enc(aud_org, ext_org);
+        const [aud_prc, ext_prc] = packet_dec(packet);
+
+        if(part_is_equal_f32a(aud_org, aud_prc, ERR_INT16_AND_FLOAT32) &&
+           ext_org.join() == ext_prc.join()) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG - Original data and decoded data is different");
+          console.log("Audio data - Expected:", aud_org);
+          console.log("             Actual  :", aud_prc);
+          console.log("Ext data   - Expected:", ext_org);
+          console.log("             Actual  :", ext_prc);
+        }
+      }
+
+
+      function test_packet_enc_dec_without_ext() {
+        console.log("-- Test_packet_enc_dec_without_ext");
+        const aud_org = part_testdata_rand_int16array();
+        const packet = packet_enc(aud_org);
+        const [aud_prc, ext_prc] = packet_dec(packet);
+
+        if(part_is_equal_f32a(aud_org, aud_prc, ERR_INT16_AND_FLOAT32) &&
+           ext_prc.length == 0) {
+          console.log("--- OK");
+        } else {
+          console.log("--- NG - Original data and decoded data is different");
+          console.log("Audio data - Expected:", aud_org);
+          console.log("             Actual  :", aud_prc);
+          console.log("Ext len    - Expected:", 0);
+          console.log("             Actual  :", ext_prc.length);
+        }
+      }
+
+
+      function part_testdata_rand_int16array() {
+        return Float32Array.from(new Array(4410), e => (Math.random() - 0.5) * 2);
+        // - 0.5   --> Random number range is [ -0.5, 0.5)
+        // * 2     -->                        [   -1,   1)
+      }
+
+
+      /**
+       * @param {Float32Array} array1 Array to compare
+       * @param {Float32Array} array2 Array to compare
+       * @param {number} allow_diff Value difference to allow
+       * @return {boolean} Equal: true, Otherwise: false
+       */
+      function part_is_equal_f32a(array1, array2, allow_diff) {
+        if(array1.length != array2.length) { return false; }
+
+        for(let i = 0; i < array1.length; i++) {
+          if(Math.abs(array1[i] - array2[i]) > allow_diff) { return false; }
+        }
+        return true;
+      }
+    </script>
+  </head>
+
+  <body>
+    <button onclick="test_packet_enc_dec_with_ext()">test_packet_enc_dec_with_ext</button>
+    <button onclick="test_packet_enc_dec_without_ext()">test_packet_enc_dec_without_ext</button>
+  </body>
+</html>
