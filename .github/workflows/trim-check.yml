@@ -1,0 +1,32 @@
+name: Trailing whitespaces check
+
+on: [push]
+
+jobs:
+  whitespaces-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Test with pytest
+      run: |
+        text_files=`find ./ -type f | xargs file --mime | grep -v 'charset=binary' | sed -E -e 's/: .*$//g'`
+
+        violating_files=""
+
+        while read file; do
+          # Are there lines what has trailing whitespaces
+          if [ "`grep -E '\s+$' \"$file\"`" != "" ]; then
+            violating_files="$violating_files$file\n"
+          fi
+        done << EOF
+          `echo "$text_files"`
+        EOF
+
+        if [ "$violating_files" != "" ]; then
+          violating_files=`echo "$violating_files" | sed -e 's/^/  /g'`
+          #               Make indentation for print ^~~~~~~~~~~~~~~~~~
+          echo "::error ::There are violating files:\n$violating_files"
+          exit 1
+        fi
