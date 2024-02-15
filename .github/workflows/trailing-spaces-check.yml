@@ -3,7 +3,7 @@ name: Trailing whitespaces check
 on: [push]
 
 jobs:
-  whitespaces-check:
+  trailing-spaces-check:
     runs-on: ubuntu-latest
 
     steps:
