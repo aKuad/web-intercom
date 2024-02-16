@@ -18,15 +18,13 @@ jobs:
         while read file; do
           # Are there lines what has trailing whitespaces
           if [ "`grep -E '\s+$' \"$file\"`" != "" ]; then
-            violating_files="$violating_files$file\n"
+            violating_files="$violating_files$file%0A"  # %0A for newline at GitHub Actions log
           fi
         done << EOF
           `echo "$text_files"`
         EOF
 
         if [ "$violating_files" != "" ]; then
-          violating_files=`echo "$violating_files" | sed -e 's/^/  /g'`
-          #               Make indentation for print ^~~~~~~~~~~~~~~~~~
-          echo "::error ::There are violating files:\n$violating_files"
+          echo "::error ::There are some violating files%0A$violating_files"
           exit 1
         fi
