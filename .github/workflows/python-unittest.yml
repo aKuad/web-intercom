@@ -3,7 +3,7 @@ name: Run all python unittests
 on: [push]
 
 jobs:
-  run-tests:
+  python-unittest:
     runs-on: ubuntu-latest
 
     steps:
