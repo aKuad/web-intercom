@@ -51,9 +51,9 @@ Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finaliz
 
 | Syntax       | Description                   |
 | ------------ | ----------------------------- |
-| `Add: <mes>` | made something new            |
-| `Mod: <mes>` | something needed modification |
-| `Fix: <mes>` | something was wrong           |
+| `Add: <mes>` | Made something new            |
+| `Mod: <mes>` | Something needed modification |
+| `Fix: <mes>` | Something was wrong           |
 
 Put a short description and reasons of commit into `<mes>`. Reasons are better.
 
