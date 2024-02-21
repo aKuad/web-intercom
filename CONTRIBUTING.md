@@ -29,7 +29,7 @@ So do not create branches or PRs without issues.
 | Documentation  | `doc/*`       | Documentation editing                                   |
 | Miscellaneous  | `misc/*`      | Other of them                                           |
 
-Put words for describe working into `*`. Multiple words join with `-`. (e.g. `feature/work-desc`)
+Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `feature/work-desc`)
 
 ## Coding conventions
 
