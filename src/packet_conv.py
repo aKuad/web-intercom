@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Raw packet conversion functions
+"""Conversion functions between raw packet and external bytes & raw audio bytes
 
 Functions for convert ``pydub.AudioSegment`` or ``numpy.ndarray`` object to ``bytes``, also reverse can.
 By conversion, be able to transmit through HTTP, websocket and so on.
