@@ -81,7 +81,7 @@ def part_create_testdata_ndarray() -> np.ndarray:
   #                           Increase amplitude
   # 2**(BYTES * 8 - 1) : data type's max value, -1 for sign bit
   # - 100              : make margin
-  return np.int16(y).reshape(-1, 1)
+  return np.int16(y).reshape(-1, 1) # reshape for monaural audio data
 
 
 def part_create_testdata_audioseg() -> AudioSegment:
