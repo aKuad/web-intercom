@@ -19,7 +19,7 @@ sys.path.append(Path(__file__).absolute().parent.parent.__str__())
 import curses
 from random import random
 
-from MixerTUI import MixerTUI
+from modules.MixerTUI import MixerTUI
 
 
 def main(stdscr: curses.window):

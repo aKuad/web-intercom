@@ -25,7 +25,7 @@ import unittest
 import numpy as np
 from pydub import AudioSegment
 
-import packet_conv
+from modules import packet_conv
 import AUDIO_PARAM
 
 
