@@ -7,8 +7,8 @@
 #
 
 msg_firstline=`cat "$1" | grep -v '^#' | grep -v '^\s*$' | sed -n -e '1p'`
-#                       ~~~~~~~~~~~    ~~~~~~~~~~~~~~~
-#                    Ignore comment    Ignore blank or spaces only lines
+#                         ~~~~~~~~~~~~   ~~~~~~~~~~~~~~~
+#                       Ignore comment   Ignore blank or spaces only lines
 
 is_verify_ok=1
 
