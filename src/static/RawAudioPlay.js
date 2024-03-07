@@ -20,10 +20,10 @@ class RawAudioPlay {
    * Play audion from raw float array
    *
    * @param {number} sample_rate Sample rate of audio data to input
-  */
- constructor(sample_rate) {
-   this.#SAMPLE_RATE = sample_rate;
-   this.#audio_ctx = new AudioContext({sampleRate: this.#SAMPLE_RATE});
+   */
+  constructor(sample_rate) {
+    this.#SAMPLE_RATE = sample_rate;
+    this.#audio_ctx = new AudioContext({sampleRate: this.#SAMPLE_RATE});
   }
 
 
