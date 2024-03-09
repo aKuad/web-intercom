@@ -6,14 +6,18 @@
 
 class RawAudioStreamPlay {
   /**
+   * Audio context instance (Web Audio API) for audio controlling
+   *
    * @type {AudioContext}
    */
   #audio_ctx;
 
   /**
+   * Sample rate [Hz] of input audio data
+   *
    * @type {number}
    */
-  #SAMPLE_RATE = 44100;
+  #SAMPLE_RATE;
 
 
   /**
