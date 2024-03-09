@@ -1,10 +1,10 @@
 /**
- * @file Play audion from raw float array
+ * @file Play audion from raw float array stream
  *
  * @author aKuad
  */
 
-class RawAudioPlay {
+class RawAudioStreamPlay {
   /**
    * @type {AudioContext}
    */
@@ -28,7 +28,7 @@ class RawAudioPlay {
 
 
   /**
-   * Play raw audio
+   * Start playing (or enqueue to play) raw audio
    *
    * Note:
    *   It supports only monaural audio.
