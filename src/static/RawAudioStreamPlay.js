@@ -41,10 +41,11 @@ class RawAudioStreamPlay {
    */
   play(raw_data) {
     const buffer_node = this.#audio_ctx.createBufferSource();
-    buffer_node.buffer = this.#audio_ctx.createBuffer(1, raw_data.length, this.#SAMPLE_RATE);
+    const buffer = this.#audio_ctx.createBuffer(1, raw_data.length, this.#SAMPLE_RATE);
+    buffer.copyToChannel(raw_data, 0);
+    buffer_node.buffer = buffer;
+    
     buffer_node.connect(this.#audio_ctx.destination);
-
-    buffer_node.buffer.copyToChannel(raw_data, 0);
     buffer_node.start();
 
     buffer_node.addEventListener("ended", () => {
