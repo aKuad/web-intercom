@@ -1,4 +1,12 @@
 # coding: UTF-8
+"""Audio mixing console TUI
+
+Supply audio faders and meters. User control by keys.
+
+Author:
+  aKuad
+
+"""
 
 import curses
 from curses import window
