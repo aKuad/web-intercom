@@ -41,8 +41,8 @@ if __name__ == "__main__":
                    dtype=AUDIO_PARAM.DTYPE,
                    callback=callback):
       print("Start streaming")
-      while(True):
-        sd.sleep(1000)
+      while(True):      # Infinite waiting loop
+        sd.sleep(1000)  #   1000 (1 sec) has no special meaning
   except KeyboardInterrupt:
     ws.close()
     print("end")
