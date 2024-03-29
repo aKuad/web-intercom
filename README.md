@@ -12,7 +12,7 @@ Inter-communication system on browser via LAN. Powered by python.
   - Required only a browser, additional applications isn't necessary
   - ... means this is cross-platform
 - Each user's input volume controlling
-  - Also works on browser
+  - Also works on browsers
 - Easy to setup the server
   - Required only python3 with pip
 
