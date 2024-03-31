@@ -6,7 +6,9 @@ Note:
 
 Requirements:
   Some additional modules are required.
-  To install them: `pip install fastapi jinja2 uvicorn`
+  To install them::
+
+    pip install fastapi jinja2 uvicorn
 
 Author:
   aKuad
