@@ -3,6 +3,7 @@
 
 It has only mic audio sending, receiving and playing features.
 Useful for server debugging.
+For usage, see ``README.md``.
 
 Author:
   aKuad
