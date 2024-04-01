@@ -16,13 +16,44 @@ Inter-communication system on browser via LAN. Powered by python.
 - Easy to setup the server
   - Required only python3 with pip
 
-## Usage
+## Client usage
+
+### Minimum client (.py)
+
+First, install dependencies.
+
+> [!TIP]
+>
+> If you need, work on virtual environment.
+
+```sh
+pip install -r assets/requirements-min_client.txt
+# or
+pip install websockets numpy pydub sounddevice
+```
+
+> [!NOTE]
+>
+> `pydub` is not used for this. But required for common module.
+
+Then, run `min_client.py`.
+
+```sh
+cd src  # Working directory must be `src`
+python3 min_client.py
+```
+
+## Server deployment
 
 *Work in progress*
 
-## Deployment (Server setting up)
+## Using libraries
 
-*Work in progress*
+websockets - Copyright (c) Aymeric Augustin and contributors
+
+numpy - Copyright (c) NumPy Developers
+
+sounddevice - Copyright (c) 2015-2023 Matthias Geier
 
 ## License
 
