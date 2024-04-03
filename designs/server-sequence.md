@@ -1,24 +1,45 @@
 # Server sequence
 
+## Audio communication
+
 ```mermaid
 sequenceDiagram
-  participant W as Websocket
+  participant WSA as Audio client<br>(Websocket)
   participant S as Server main
   participant AM as Audio mixer
-  participant MU as Mixer UI
 
-  W->>S: Client connected
+  WSA->>S: Client connected
   S->>AM: Lane create
 
   loop
-    par
-      MU ->> AM: Modify volume
-    end
-
-    W->>+S: mic_in = receive()
+    WSA->>+S: mic_in = receive()
     S->>+AM: lane_input(mic_in)
-    AM->>MU: Meter update
     AM-->>-S: mixed_audio
-    S-->>-W: send(mixed_audio)
+    S-->>-WSA: send(mixed_audio)
+  end
+```
+
+## Mixer control
+
+```mermaid
+sequenceDiagram
+  participant WSM as Mixer client<br>(Websocket)
+  participant S as Server main
+  participant AM as Audio mixer
+
+  WSM->>S: Client connected
+
+  par Volume control
+    Note over S: on user controlled
+    WSM->>S: Modified volume value
+    S->>AM: Volume modification
+    S-->>WSM: Modified volume value<br>(to all mixer clients)
+  and Loudness monitor
+    loop runs every 0.1 sec
+      S->>+AM: Fetch each lanes dBFS
+      AM-->>-S: dBFS
+      S->>S: dBFS float to 0~255 integer
+      S->>WSM: Current loudness in integer
+    end
   end
 ```
