@@ -8,14 +8,14 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
-  WSA->>S: Client connected
+  WSA->>S: Client connecting
   S->>AM: Lane create
 
   loop
-    WSA->>+S: mic_in = receive()
-    S->>+AM: lane_input(mic_in)
-    AM-->>-S: mixed_audio
-    S-->>-WSA: send(mixed_audio)
+    WSA->>+S: Audio packet<br>[mic input]
+    S->>+AM: Lane input
+    AM-->>-S: Mixed audio
+    S-->>-WSA: Audio packet<br>[mixed audio]
   end
 ```
 
@@ -27,25 +27,25 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
-  WSM->>S: Client connected
+  WSM->>S: Client connecting
   S->>+AM: Fetch lanes info
   AM-->>-S: Lanes info
-  S->>WSM: Lanes info
+  S->>WSM: Lanes info packet
 
   par Lanes update
     Note over S: on client joined / renamed / left
-    S->>WSM: Lanes info<br>(to all mixer clients)
+    S->>WSM: Lanes info packet [updating]<br>(to all mixer clients)
   and Volume control
     Note over S: on user controlled
     WSM->>S: Modified volume value
     S->>AM: Volume modification
-    S-->>WSM: Modified volume value<br>(to all mixer clients)
+    S->>WSM: Lanes info packet [updating]<br>(to all mixer clients)
   and Loudness monitor
     loop runs every 0.1 sec
       S->>+AM: Fetch each lanes dBFS
       AM-->>-S: dBFS
       S->>S: dBFS float to 0~255 integer
-      S->>WSM: Current loudness in integer
+      S->>WSM: Loudness monitor packet
     end
   end
 ```
