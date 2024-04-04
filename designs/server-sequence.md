@@ -28,8 +28,14 @@ sequenceDiagram
   participant AM as Audio mixer
 
   WSM->>S: Client connected
+  S->>+AM: Fetch lanes info
+  AM-->>-S: Lanes info
+  S->>WSM: Lanes info
 
-  par Volume control
+  par Lanes update
+    Note over S: on client joined / renamed / left
+    S->>WSM: Lanes info<br>(to all mixer clients)
+  and Volume control
     Note over S: on user controlled
     WSM->>S: Modified volume value
     S->>AM: Volume modification
