@@ -37,7 +37,7 @@ sequenceDiagram
     S->>WSM: Lanes info packet [updating]<br>(to all mixer clients)
   and Volume control
     Note over S: on user controlled
-    WSM->>S: Modified volume value
+    WSM->>S: Volume modify packet
     S->>AM: Volume modification
     S->>WSM: Lanes info packet [updating]<br>(to all mixer clients)
   and Loudness monitor
