@@ -1,0 +1,53 @@
+# Packet protocols
+
+## Audio packet
+
+audio client <--> server
+
+| Length [byte] | Description                                    |
+| ------------: | ---------------------------------------------- |
+|             3 | Lane name (\*1) (\*2)                          |
+|             1 | External bytes length (\*3)                    |
+|         0~255 | External bytes                                 |
+|          8820 | Audio PCM (44100Hz, 16bit, 4410 samples) (\*4) |
+
+> [!NOTE]
+>
+> (\*1) When lower 2 characters, empty bytes will be filled with spaces. e.g. `"MX"` -> `"MX "`
+>
+> (\*2) `client -> server` for name updating. `server -> client` for current name echo.
+>
+> (\*3) External bytes for feature extending.
+>
+> (\*4) Duration of one packet is 0.1 sec.
+
+## Volume modify packet
+
+mixer client -> serve
+
+| Length [byte] | Description           |
+| ------------: | --------------------- |
+|            16 | Lane ID to control    |
+|             1 | Modified volume value |
+
+## Lanes info packet
+
+server -> mixer client
+
+| Length [byte] | Description                       |
+| ------------: | --------------------------------- |
+|            16 | Lane ID                           |
+|             3 | Lane name (\*1)                   |
+|             1 | Current volume value              |
+|             1 | Current meter value               |
+|               | Repeat them for all audio clients |
+
+## Loudness monitor packet
+
+server -> mixer client
+
+| Length [byte] | Description                       |
+| ------------: | --------------------------------- |
+|            16 | Lane ID                           |
+|             1 | Current loudness                  |
+|               | Repeat them for all audio clients |
