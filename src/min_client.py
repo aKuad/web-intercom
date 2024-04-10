@@ -16,7 +16,7 @@ import sounddevice as sd
 from websockets.sync.client import connect
 import numpy as np
 
-from modules.packet_conv import packet_enc_ndarray, packet_dec_ndarray
+from modules.packet_conv.audio import packet_enc_ndarray, packet_dec_ndarray
 import AUDIO_PARAM
 
 
