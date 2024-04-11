@@ -18,7 +18,7 @@ import numpy as np
 import AUDIO_PARAM
 
 
-def packet_enc_ndarray(audio_data: np.ndarray, ext_data: bytes = bytes()) -> bytes:
+def enc_from_ndarray(audio_data: np.ndarray, ext_data: bytes = bytes()) -> bytes:
   """Create audio data packet from ``numpy.ndarray``
 
   Args:
@@ -35,7 +35,7 @@ def packet_enc_ndarray(audio_data: np.ndarray, ext_data: bytes = bytes()) -> byt
   return bytes([len(ext_data)]) + ext_data + audio_data.tobytes()
 
 
-def packet_dec_ndarray(packet: bytes) -> tuple[np.ndarray, bytes]:
+def dec_to_ndarray(packet: bytes) -> tuple[np.ndarray, bytes]:
   """Unpack audio data packet to ``numpy.ndarray`` and external data as bytes
 
   Args:
@@ -53,7 +53,7 @@ def packet_dec_ndarray(packet: bytes) -> tuple[np.ndarray, bytes]:
   return (audio_data, ext_data)
 
 
-def packet_enc_audioseg(audio_data: AudioSegment, ext_data: bytes = bytes()) -> bytes:
+def enc_from_audioseg(audio_data: AudioSegment, ext_data: bytes = bytes()) -> bytes:
   """Create audio data packet from ``pydub.AudioSegment``
 
   Args:
@@ -70,7 +70,7 @@ def packet_enc_audioseg(audio_data: AudioSegment, ext_data: bytes = bytes()) -> 
   return bytes([len(ext_data)]) + ext_data + audio_data.raw_data
 
 
-def packet_dec_audioseg(packet: bytes) -> tuple[AudioSegment, bytes]:
+def dec_to_audioseg(packet: bytes) -> tuple[AudioSegment, bytes]:
   """Unpack audio data packet to ``pydub.AudioSegment`` and external data as bytes
 
   Args:

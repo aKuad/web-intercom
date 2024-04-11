@@ -34,8 +34,8 @@ class Test_packet_conv_audio(unittest.TestCase):
     aud_org = part_create_testdata_ndarray()
     ext_org = bytes([1, 2, 3, 4])
 
-    packet = audio.packet_enc_ndarray(aud_org, ext_org)
-    aud_prc, ext_prc = audio.packet_dec_ndarray(packet)
+    packet = audio.enc_from_ndarray(aud_org, ext_org)
+    aud_prc, ext_prc = audio.dec_to_ndarray(packet)
 
     self.assertTrue((aud_org == aud_prc).all())
     self.assertEqual(ext_org, ext_prc)
@@ -45,8 +45,8 @@ class Test_packet_conv_audio(unittest.TestCase):
     aud_org = part_create_testdata_ndarray()
     ext_org = bytes()
 
-    packet = audio.packet_enc_ndarray(aud_org, ext_org)
-    aud_prc, ext_prc = audio.packet_dec_ndarray(packet)
+    packet = audio.enc_from_ndarray(aud_org, ext_org)
+    aud_prc, ext_prc = audio.dec_to_ndarray(packet)
 
     self.assertTrue((aud_org == aud_prc).all())
     self.assertEqual(ext_org, ext_prc)
@@ -56,8 +56,8 @@ class Test_packet_conv_audio(unittest.TestCase):
     aud_org = part_create_testdata_audioseg()
     ext_org = bytes([1, 2, 3, 4])
 
-    packet = audio.packet_enc_audioseg(aud_org, ext_org)
-    aud_prc, ext_prc = audio.packet_dec_audioseg(packet)
+    packet = audio.enc_from_audioseg(aud_org, ext_org)
+    aud_prc, ext_prc = audio.dec_to_audioseg(packet)
 
     self.assertEqual(aud_org, aud_prc)
     self.assertEqual(ext_org, ext_prc)
@@ -67,8 +67,8 @@ class Test_packet_conv_audio(unittest.TestCase):
     aud_org = part_create_testdata_audioseg()
     ext_org = bytes()
 
-    packet = audio.packet_enc_audioseg(aud_org, ext_org)
-    aud_prc, ext_prc = audio.packet_dec_audioseg(packet)
+    packet = audio.enc_from_audioseg(aud_org, ext_org)
+    aud_prc, ext_prc = audio.dec_to_audioseg(packet)
 
     self.assertEqual(aud_org, aud_prc)
     self.assertEqual(ext_org, ext_prc)

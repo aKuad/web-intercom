@@ -16,7 +16,7 @@ import sounddevice as sd
 from websockets.sync.client import connect
 import numpy as np
 
-from modules.packet_conv.audio import packet_enc_ndarray, packet_dec_ndarray
+from modules.packet_conv.audio import enc_from_ndarray, dec_to_ndarray
 import AUDIO_PARAM
 
 
@@ -29,10 +29,10 @@ if __name__ == "__main__":
   ws = connect(SERVER_URI)
 
   def callback(indata: np.ndarray, outdata: np.ndarray, frames, time, status):
-    packet_send = packet_enc_ndarray(indata, bytes())
+    packet_send = enc_from_ndarray(indata, bytes())
     ws.send(packet_send)
     packet_recv = ws.recv()
-    outdata[:], _ = packet_dec_ndarray(packet_recv)
+    outdata[:], _ = dec_to_ndarray(packet_recv)
 
 
   try:
