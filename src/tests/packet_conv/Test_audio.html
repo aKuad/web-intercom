@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <script src="../static/packet_conv.js"></script>
+    <script src="../../static/packet_conv/audio.js"></script>
     <script>
       /**
        * Tests for `packet_conv.js`
@@ -29,8 +29,8 @@
         console.log("-- Test_packet_enc_dec_with_ext");
         const aud_org = part_testdata_rand_int16array();
         const ext_org = new Uint8Array([1,2,3,4]);
-        const packet = packet_enc(aud_org, ext_org);
-        const [aud_prc, ext_prc] = packet_dec(packet);
+        const packet = packet_audio_enc(aud_org, ext_org);
+        const [aud_prc, ext_prc] = packet_audio_dec(packet);
 
         if(part_is_equal_f32a(aud_org, aud_prc, ERR_INT16_AND_FLOAT32) &&
            ext_org.join() == ext_prc.join()) {
@@ -48,8 +48,8 @@
       function test_packet_enc_dec_without_ext() {
         console.log("-- Test_packet_enc_dec_without_ext");
         const aud_org = part_testdata_rand_int16array();
-        const packet = packet_enc(aud_org);
-        const [aud_prc, ext_prc] = packet_dec(packet);
+        const packet = packet_audio_enc(aud_org);
+        const [aud_prc, ext_prc] = packet_audio_dec(packet);
 
         if(part_is_equal_f32a(aud_org, aud_prc, ERR_INT16_AND_FLOAT32) &&
            ext_prc.length == 0) {
