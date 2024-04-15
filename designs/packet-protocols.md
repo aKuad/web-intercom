@@ -32,10 +32,6 @@ mixer client -> serve
 |             1 | uint8 | Lane ID to control    |
 |             1 | uint8 | Modified volume value |
 
-> [!NOTE]
->
-> (\*6) Unlimited integer type: int-type in Python and bigint-object in JavaScript is it.
-
 ## Lanes info packet
 
 server -> mixer client
