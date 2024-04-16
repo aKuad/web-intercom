@@ -31,7 +31,7 @@ So do not create branches or PRs without issues.
 
 Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `feature/work-desc`)
 
-## Coding conventions
+## Coding conventions (general)
 
 ### Functions and variables (etc.) naming
 
@@ -46,6 +46,25 @@ But in JavaScript, constant variables can be written in lower_snake_case. Becaus
 | Class definition module     | `UpperCamelCase.py`        |
 | Functions definition module | `snake_case.py`            |
 | Test code                   | `Test_*.py`                |
+
+## Coding conventions (tests)
+
+As standard, follow [Coding conventions (general)](#coding-conventions-general). Then additionally, follow below.
+
+### Functions / methods naming prefix
+
+| Item                                         | Prefix   |
+| -------------------------------------------- | -------- |
+| Automated unit test                          | `Test_*` |
+| Manual unit test (e.g. UI module)            | `Try_*`  |
+| Test support utility (e.g. temporary server) | `Util_*` |
+
+### Files naming prefix
+
+| Item                                               | Prefix   |
+| -------------------------------------------------- | -------- |
+| Main of test                                       | `test_*` |
+| Test support function (e.g. dummy data generating) | `part_*` |
 
 ## Messages syntax conventions
 
