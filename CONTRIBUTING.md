@@ -45,7 +45,6 @@ But in JavaScript, constant variables can be written in lower_snake_case. Becaus
 | --------------------------- | -------------------------- |
 | Class definition module     | `UpperCamelCase.py`        |
 | Functions definition module | `snake_case.py`            |
-| Test code                   | `Test_*.py`                |
 
 ## Coding conventions (tests)
 
