@@ -50,7 +50,7 @@ But in JavaScript, constant variables can be written in lower_snake_case. Becaus
 
 As standard, follow [Coding conventions (general)](#coding-conventions-general). Then additionally, follow below.
 
-### Functions / methods naming prefix
+### Files naming prefix
 
 | Item                                         | Prefix   |
 | -------------------------------------------- | -------- |
@@ -58,7 +58,7 @@ As standard, follow [Coding conventions (general)](#coding-conventions-general).
 | Manual unit test (e.g. UI module)            | `Try_*`  |
 | Test support utility (e.g. temporary server) | `Util_*` |
 
-### Files naming prefix
+### Functions / methods naming prefix
 
 | Item                                               | Prefix   |
 | -------------------------------------------------- | -------- |
