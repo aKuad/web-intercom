@@ -23,8 +23,7 @@ import unittest
 
 import numpy as np
 
-from modules.packet_conv import audio_ndarray
-import AUDIO_PARAM
+from modules.packet_conv import AUDIO_PARAM, audio_ndarray
 
 
 class Test_packet_conv_audio(unittest.TestCase):

@@ -15,7 +15,7 @@ Author:
 
 import numpy as np
 
-import AUDIO_PARAM
+from . import AUDIO_PARAM
 
 
 def encode(audio_data: np.ndarray, ext_data: bytes = bytes()) -> bytes:
