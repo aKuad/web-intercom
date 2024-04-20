@@ -26,7 +26,7 @@
 
 
       function test_packet_enc_dec_with_ext() {
-        console.log("-- Test_packet_enc_dec_with_ext");
+        console.log("-- test_packet_enc_dec_with_ext");
         const aud_org = part_testdata_rand_int16array();
         const ext_org = new Uint8Array([1,2,3,4]);
         const packet = packet_audio_enc(aud_org, ext_org);
@@ -46,7 +46,7 @@
 
 
       function test_packet_enc_dec_without_ext() {
-        console.log("-- Test_packet_enc_dec_without_ext");
+        console.log("-- test_packet_enc_dec_without_ext");
         const aud_org = part_testdata_rand_int16array();
         const packet = packet_audio_enc(aud_org);
         const [aud_prc, ext_prc] = packet_audio_dec(packet);
