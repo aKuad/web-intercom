@@ -62,7 +62,8 @@ As standard, follow [Coding conventions (general)](#coding-conventions-general).
 
 | Item                                               | Prefix   |
 | -------------------------------------------------- | -------- |
-| Main of test                                       | `test_*` |
+| Main of automated test                             | `test_*` |
+| Main of manual test                                | `try_*`  |
 | Test support function (e.g. dummy data generating) | `part_*` |
 
 ## Messages syntax conventions
