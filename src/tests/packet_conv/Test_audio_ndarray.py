@@ -26,7 +26,7 @@ import numpy as np
 from modules.packet_conv import AUDIO_PARAM, audio_ndarray
 
 
-class Test_packet_conv_audio(unittest.TestCase):
+class Test_packet_conv_audio_ndarray(unittest.TestCase):
   def test_audio_packet_enc_dec_ndarray_ext(self):
     aud_org = part_create_testdata_ndarray()
     ext_org = bytes([1, 2, 3, 4])
