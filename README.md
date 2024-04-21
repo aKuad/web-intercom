@@ -29,12 +29,8 @@ First, install dependencies.
 ```sh
 pip install -r assets/requirements-min_client.txt
 # or
-pip install websockets numpy pydub sounddevice
+pip install websockets numpy sounddevice
 ```
-
-> [!NOTE]
->
-> `pydub` is not used for this. But required for common module.
 
 Then, run `min_client.py`.
 
