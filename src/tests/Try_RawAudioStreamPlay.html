@@ -16,26 +16,26 @@
        * @author aKuad
        */
 
-      function Try_PlayRandomWave() {
-        console.log("-- Try_PlayRandomWave");
+      function try_PlayRandomWave() {
+        console.log("-- try_PlayRandomWave");
         const sample_rate = 44100;
         const player = new RawAudioStreamPlay(sample_rate, 0.05, 0.3);
 
         setInterval(() => {
-          player.play(Part_GenRandomFloatArray(sample_rate / 10));
+          player.play(part_GenRandomFloatArray(sample_rate / 10));
         }, 100);
 
         console.log("--- CHECK - Is it playing random sound?");
       }
 
 
-      function Part_GenRandomFloatArray(elem_count) {
+      function part_GenRandomFloatArray(elem_count) {
         return Float32Array.from(new Array(elem_count), e => Math.random() - 0.5);
       }
     </script>
   </head>
 
   <body>
-    <button onclick="Try_PlayRandomWave()">Try_PlayRandomWave</button>
+    <button onclick="try_PlayRandomWave()">try_PlayRandomWave</button>
   </body>
 </html>
