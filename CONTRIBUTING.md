@@ -55,8 +55,14 @@ As standard, follow [Coding conventions (general)](#coding-conventions-general).
 | Item                                         | Prefix   |
 | -------------------------------------------- | -------- |
 | Automated unit test                          | `Test_*` |
-| Manual unit test (e.g. UI module)            | `Try_*`  |
+| Manual unit test                             | `Try_*`  |
 | Test support utility (e.g. temporary server) | `Util_*` |
+
+> [!NOTE]
+>
+> 'Automated unit test' means tests what can check pass/fail automatically.
+>
+> 'Manual unit test' means test what requires behavior checking by human (e.g. UI module, sound playing module).
 
 ### Functions / methods naming prefix
 
