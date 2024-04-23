@@ -36,7 +36,7 @@ sequenceDiagram
     Note over S: on client joined / renamed / left
     S->>WSM: Lanes info packet<br>(to all mixer clients)
   and Volume control
-    Note over S: on user controlled
+    Note over S: on volume controlled (at mixer client)
     WSM->>S: Volume modify packet
     S->>AM: Volume modification
     S->>WSM: Lanes info packet<br>(to all mixer clients)
