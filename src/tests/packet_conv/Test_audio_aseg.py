@@ -2,7 +2,6 @@
 """Tests for ``packet_conv/audio.py``
 
 Test cases:
-  * Can convert audio data in ``ndarray`` with[out] custom bytes to bytes, and reverse convert
   * Can convert audio data in ``AudioSegment`` with[out] custom bytes to bytes, and reverse convert
 
 Test steps:
@@ -25,39 +24,16 @@ import unittest
 import numpy as np
 from pydub import AudioSegment
 
-from modules.packet_conv import audio
-import AUDIO_PARAM
+from modules.packet_conv import AUDIO_PARAM, audio_aseg
 
 
-class Test_packet_conv_audio(unittest.TestCase):
-  def test_audio_packet_enc_dec_ndarray_ext(self):
-    aud_org = part_create_testdata_ndarray()
-    ext_org = bytes([1, 2, 3, 4])
-
-    packet = audio.enc_from_ndarray(aud_org, ext_org)
-    aud_prc, ext_prc = audio.dec_to_ndarray(packet)
-
-    self.assertTrue((aud_org == aud_prc).all())
-    self.assertEqual(ext_org, ext_prc)
-
-
-  def test_audio_packet_enc_dec_ndarray_noext(self):
-    aud_org = part_create_testdata_ndarray()
-    ext_org = bytes()
-
-    packet = audio.enc_from_ndarray(aud_org, ext_org)
-    aud_prc, ext_prc = audio.dec_to_ndarray(packet)
-
-    self.assertTrue((aud_org == aud_prc).all())
-    self.assertEqual(ext_org, ext_prc)
-
-
+class Test_packet_conv_audio_aseg(unittest.TestCase):
   def test_audio_packet_enc_dec_audioseg_ext(self):
     aud_org = part_create_testdata_audioseg()
     ext_org = bytes([1, 2, 3, 4])
 
-    packet = audio.enc_from_audioseg(aud_org, ext_org)
-    aud_prc, ext_prc = audio.dec_to_audioseg(packet)
+    packet = audio_aseg.encode(aud_org, ext_org)
+    aud_prc, ext_prc = audio_aseg.decode(packet)
 
     self.assertEqual(aud_org, aud_prc)
     self.assertEqual(ext_org, ext_prc)
@@ -67,8 +43,8 @@ class Test_packet_conv_audio(unittest.TestCase):
     aud_org = part_create_testdata_audioseg()
     ext_org = bytes()
 
-    packet = audio.enc_from_audioseg(aud_org, ext_org)
-    aud_prc, ext_prc = audio.dec_to_audioseg(packet)
+    packet = audio_aseg.encode(aud_org, ext_org)
+    aud_prc, ext_prc = audio_aseg.decode(packet)
 
     self.assertEqual(aud_org, aud_prc)
     self.assertEqual(ext_org, ext_prc)
