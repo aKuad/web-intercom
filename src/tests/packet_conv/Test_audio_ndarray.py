@@ -28,7 +28,7 @@ from modules.packet_conv import AUDIO_PARAM, audio_ndarray
 
 class Test_packet_conv_audio_ndarray(unittest.TestCase):
   def test_audio_packet_enc_dec_ndarray_ext(self):
-    aud_org = part_create_testdata_ndarray()
+    aud_org = part_create_random_ndarray()
     ext_org = bytes([1, 2, 3, 4])
 
     packet = audio_ndarray.encode(aud_org, ext_org)
@@ -39,7 +39,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 
 
   def test_audio_packet_enc_dec_ndarray_noext(self):
-    aud_org = part_create_testdata_ndarray()
+    aud_org = part_create_random_ndarray()
     ext_org = bytes()
 
     packet = audio_ndarray.encode(aud_org, ext_org)
@@ -49,14 +49,11 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
     self.assertEqual(ext_org, ext_prc)
 
 
-def part_create_testdata_ndarray() -> np.ndarray:
-  x = np.arange(AUDIO_PARAM.SAMPLE_RATE)
-  y = np.sin(np.deg2rad(x)) * (2**(AUDIO_PARAM.ONE_SAMPLE_BYTES * 8 - 1) - 100)
-  #                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  #                           Increase amplitude
-  # 2**(BYTES * 8 - 1) : data type's max value, -1 for sign bit
-  # - 100              : make margin
-  return np.int16(y).reshape(-1, 1) # reshape for monaural audio data
+def part_create_random_ndarray() -> np.ndarray:
+  # Random bytes as random audio data
+  return np.random.randint(-(2**15), (2**15)-1,
+                           size=(AUDIO_PARAM.SAMPLE_RATE, 1),
+                           dtype=AUDIO_PARAM.DTYPE)
 
 
 if __name__ == "__main__":
