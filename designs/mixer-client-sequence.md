@@ -1,4 +1,4 @@
-# Mixer client
+# Mixer client sequence
 
 ```mermaid
 sequenceDiagram
