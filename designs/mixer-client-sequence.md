@@ -32,3 +32,11 @@ sequenceDiagram
 > [!NOTE]
 >
 > Audio client also runs in parallel. It for mixer monitor.
+
+...
+
+> [!NOTE]
+>
+> It suppose implementation of JavaScript.
+>
+> At Python (with `websockets` module), it takes a little different sequence. But almost of all is same.
