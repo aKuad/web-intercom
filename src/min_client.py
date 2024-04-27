@@ -37,7 +37,7 @@ if __name__ == "__main__":
   try:
     with sd.Stream(channels=1,
                    samplerate=AUDIO_PARAM.SAMPLE_RATE,
-                   blocksize=int(AUDIO_PARAM.SAMPLE_RATE/10),  # One sample size is 1/10 seconds
+                   blocksize=int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC),
                    dtype=AUDIO_PARAM.DTYPE,
                    callback=callback):
       print("Start streaming")

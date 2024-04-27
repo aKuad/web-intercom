@@ -52,7 +52,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 def part_create_random_ndarray() -> np.ndarray:
   # Random bytes as random audio data
   return np.random.randint(-(2**15), (2**15)-1,
-                           size=(AUDIO_PARAM.SAMPLE_RATE, 1),
+                           size=(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS),
                            dtype=AUDIO_PARAM.DTYPE)
 
 
