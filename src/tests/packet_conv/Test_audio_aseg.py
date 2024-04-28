@@ -51,8 +51,11 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
 def part_create_random_audioseg() -> AudioSegment:
-  raw = randbytes(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.ONE_SAMPLE_BYTES) # Random bytes as random audio data
-  return AudioSegment(raw, sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=1)
+  raw = randbytes(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.FRAME_DURATION_SEC)) # Random bytes as random audio data
+  return AudioSegment(raw,
+                      sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
+                      frame_rate=AUDIO_PARAM.SAMPLE_RATE,
+                      channels=AUDIO_PARAM.CHANNELS)
 
 
 if __name__ == "__main__":

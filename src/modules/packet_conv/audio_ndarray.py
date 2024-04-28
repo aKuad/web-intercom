@@ -49,5 +49,5 @@ def decode(packet: bytes) -> tuple[np.ndarray, bytes]:
   ext_data = packet[1 : 1 + ext_data_len]
   audio_data_raw = packet[1 + ext_data_len :]
   audio_data: np.ndarray = np.frombuffer(audio_data_raw, dtype=AUDIO_PARAM.DTYPE)
-  audio_data             = audio_data.reshape(-1, 1)  # 1 channel audio data
+  audio_data             = audio_data.reshape(-1, AUDIO_PARAM.CHANNELS)
   return (audio_data, ext_data)
