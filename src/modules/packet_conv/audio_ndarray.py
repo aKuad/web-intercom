@@ -65,7 +65,7 @@ def encode(audio_pcm: np.ndarray, lane_name: str, ext_bytes: bytes = b"") -> byt
 
   lane_name = (lane_name + "   ")[:3]  # for fill spaces if under 3 characters
 
-  return AUDIO_PACKET_TYPE_ID.to_bytes(1, "big") + lane_name.encode() + len(ext_bytes).to_bytes(1, "big") + ext_bytes + audio_pcm.tobytes()
+  return AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + lane_name.encode() + len(ext_bytes).to_bytes(1, "little") + ext_bytes + audio_pcm.tobytes()
 
 
 def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
