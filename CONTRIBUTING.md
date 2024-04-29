@@ -66,11 +66,12 @@ As standard, follow [Coding conventions (general)](#coding-conventions-general).
 
 ### Functions / methods naming prefix
 
-| Item                                               | Prefix   |
-| -------------------------------------------------- | -------- |
-| Main of automated test                             | `test_*` |
-| Main of manual test                                | `try_*`  |
-| Test support function (e.g. dummy data generating) | `part_*` |
+| Item                                               | Prefix        |
+| -------------------------------------------------- | ------------- |
+| Main of automated test (success expected)          | `test_true_*` |
+| Main of automated test (fail/error expected)       | `test_err_*`  |
+| Main of manual test                                | `try_*`       |
+| Test support function (e.g. dummy data generating) | `part_*`      |
 
 ## Messages syntax conventions
 
