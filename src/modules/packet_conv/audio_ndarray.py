@@ -80,7 +80,7 @@ def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
   Raises:
     * TypeError: If ``raw_packet`` is not ``bytes``
     * ValueError: If ``raw_packet`` type ID bytes is not audio packet type ID
-    * ValueError:
+    * ValueError: If ``raw_packet`` is too short (external bytes info is missing)
 
   """
   # Arguments type checking
