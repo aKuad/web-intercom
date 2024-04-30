@@ -21,7 +21,7 @@ AUDIO_PACKET_TYPE_ID = 0x10
 
 
 def encode(audio_pcm: np.ndarray, lane_name: str, ext_bytes: bytes = b"") -> bytes:
-  """Create audio packet from ``numpy.ndarray`` and external bytes
+  """Create audio packet from ``numpy.ndarray``
 
   Args:
     audio_pcm(np.ndarray): Audio PCM in ``np.ndarray``, expects int16 type
@@ -69,10 +69,10 @@ def encode(audio_pcm: np.ndarray, lane_name: str, ext_bytes: bytes = b"") -> byt
 
 
 def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
-  """Unpack audio packet to ``numpy.ndarray`` and external data as bytes
+  """Unpack audio packet to ``numpy.ndarray``
 
   Args:
-    packet(bytes): Audio data packet
+    raw_packet(bytes): Audio data packet
 
   Return:
     tuple[numpy.ndarray, str, bytes]: Audio PCM in ``numpy.ndarray`` and external bytes
