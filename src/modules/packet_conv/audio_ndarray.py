@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Encoding/decoding functions for audio packet
+"""Encoding/decoding functions for audio packet - conversion for numpy ``ndarray``
 
 More detail of packet protocol, see ``packet-protocol.md``
 
