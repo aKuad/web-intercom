@@ -88,7 +88,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
   def test_err_dec_invalid_value(self):
     raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + part_create_random_ndarray().tobytes()
     #                       ~~~~ as non 0x10 byte
-    raw_packet_invalid_len = audio_ndarray.AUDIO_PACKET_TYPE_ID.to_bytes(1, "big") + b"ABC"
+    raw_packet_invalid_len = audio_ndarray.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
     # ext_bytes data missing packet
 
     self.assertRaises(ValueError, audio_ndarray.decode, raw_packet_invalid_id)
