@@ -6,6 +6,7 @@ audio client <--> server
 
 | Length [byte] | Type   | Description                                          |
 | ------------: | ------ | ---------------------------------------------------- |
+|             1 | uint8  | Packet type ID (0x10)                                |
 |             3 | string | Lane name (\*1) (\*2)                                |
 |             1 | uint8  | External bytes length (\*3)                          |
 |         0~255 | bytes  | External bytes                                       |
@@ -29,6 +30,7 @@ mixer client -> serve
 
 | Length [byte] | Type  | Description           |
 | ------------: | ----- | --------------------- |
+|             1 | uint8 | Packet type ID (0x20) |
 |             1 | uint8 | Lane ID to control    |
 |             1 | uint8 | Modified volume value |
 
@@ -38,6 +40,7 @@ server -> mixer client
 
 | Length [byte] | type   | Description                       |
 | ------------: | ------ | --------------------------------- |
+|             1 | uint8  | Packet type ID (0x30)             |
 |             1 | uint8  | Lane ID                           |
 |             3 | string | Lane name (\*1)                   |
 |             1 | uint8  | Current volume value              |
@@ -50,6 +53,7 @@ server -> mixer client
 
 | Length [byte] | Type  | Description                       |
 | ------------: | ----- | --------------------------------- |
+|             1 | uint8 | Packet type ID (0x40)             |
 |             1 | uint8 | Lane ID                           |
 |             1 | uint8 | Current loudness                  |
 |               |       | Repeat them for all audio clients |
