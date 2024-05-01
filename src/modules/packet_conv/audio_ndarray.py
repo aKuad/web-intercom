@@ -18,6 +18,8 @@ from . import AUDIO_PARAM
 
 
 AUDIO_PACKET_TYPE_ID = 0x10
+"""int: Packet type ID of audio packet
+"""
 
 
 def encode(audio_pcm: np.ndarray, lane_name: str, ext_bytes: bytes = b"") -> bytes:
