@@ -1,8 +1,7 @@
 # coding: UTF-8
-"""Conversion functions between raw packet and external bytes & raw audio bytes
+"""Encoding/decoding functions for audio packet - conversion for pydub ``AudioSegment``
 
-Function for convert ``pydub.AudioSegment`` object to ``bytes``, also reverse can.
-By conversion, be able to transmit through HTTP, websocket and so on.
+More detail of packet protocol, see ``packet-protocol.md``
 
 Note:
   Audio format (e.g. sample rate, channels) must be specified in ``AUDIO_PARAM.py``.
@@ -17,38 +16,90 @@ from pydub import AudioSegment
 from . import AUDIO_PARAM
 
 
-def encode(audio_data: AudioSegment, ext_data: bytes = bytes()) -> bytes:
+AUDIO_PACKET_TYPE_ID = 0x10
+"""int: Packet type ID of audio packet
+"""
+
+
+def encode(audio_pcm: AudioSegment, lane_name: str, ext_bytes: bytes = b"") -> bytes:
   """Create audio packet from ``pydub.AudioSegment``
 
   Args:
-    audio_data(pydub.AudioSegment): Audio data in ``pydub.AudioSegment``
-    ext_data(bytes): User's custom external data
+    audio_pcm(pydub.AudioSegment): Audio PCM in ``pydub.AudioSegment``, expects int16 type
+    lane_name(str): Lane name of view in mixer-client
+    ext_bytes(bytes): User's custom external bytes
 
   Note:
-    ``ext_data`` can contain 0~255 bytes
+    * ``lane_name`` can be 0~3 characters
+    * ``ext_bytes`` can contain 0~255 bytes
 
   Return:
-    bytes: Audio data packet
+    bytes: Audio packet
+
+  Raises:
+    TypeError: If ``audio_pcm`` is not ``pydub.AudioSegment``
+    TypeError: If ``lane_name`` is not ``str``
+    TypeError: If ``ext_bytes`` is not ``bytes``
+    ValueError: If ``lane_name`` is non ascii
+    ValueError: If ``lane_name`` has over 3 characters
+    ValueError: If ``ext_bytes`` has over 255 bytes
 
   """
-  return bytes([len(ext_data)]) + ext_data + audio_data.raw_data
+  # Arguments type checking
+  if(type(audio_pcm) != AudioSegment):
+    raise TypeError(f"audio_pcm must be AudioSegment, but got {type(audio_pcm)}")
+  if(type(lane_name) != str):
+    raise TypeError(f"lane_name must be str, but got {type(lane_name)}")
+  if(type(ext_bytes) != bytes):
+    raise TypeError(f"ext_bytes must be bytes, but got {type(ext_bytes)}")
+
+  # Arguments range checking
+  if(not lane_name.isascii()):
+    raise ValueError("For lane_name, non ascii characters are not allowed")
+  if(len(lane_name) > 3):
+    raise ValueError("For lane_name, over 3 characters string is not allowed")
+  if(len(ext_bytes) > 255):
+    raise ValueError("For ext_bytes, over 255 bytes data is not allowed")
+
+  lane_name = (lane_name + "   ")[:3]  # for fill spaces if under 3 characters
+
+  return AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + lane_name.encode() + len(ext_bytes).to_bytes(1, "little") + ext_bytes + audio_pcm.raw_data
 
 
-def decode(packet: bytes) -> tuple[AudioSegment, bytes]:
-  """Unpack audio packet to ``pydub.AudioSegment`` and external data as bytes
+def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
+  """Unpack audio packet to ``pydub.AudioSegment``
 
   Args:
-    packet(bytes): Audio data packet
+    raw_packet(bytes): Audio data packet
 
   Return:
-    tuple[pydub.AudioSegment, bytes]: Audio data in ``pydub.AudioSegment`` and external data
+    tuple[pydub.AudioSegment, str, bytes]: Decoded data - Audio PCM in ``pydub.AudioSegment``, lane name and external bytes
+
+  Raises:
+    * TypeError: If ``raw_packet`` is not ``bytes``
+    * ValueError: If ``raw_packet`` type ID bytes is not audio packet type ID
+    * ValueError: If ``raw_packet`` is too short (external bytes info is missing)
 
   """
-  ext_data_len = packet[0]
-  ext_data = packet[1 : 1 + ext_data_len]
-  audio_data_raw = packet[1 + ext_data_len :]
-  audio_data = AudioSegment(audio_data_raw,
-                            sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
-                            frame_rate=AUDIO_PARAM.SAMPLE_RATE,
-                            channels=AUDIO_PARAM.CHANNELS)
-  return (audio_data, ext_data)
+  # Arguments type checking
+  if(type(raw_packet) != bytes):
+    raise TypeError(f"raw_packet must be bytes, but received {type(raw_packet)}")
+
+  # Packet type ID checking
+  if(raw_packet[0] != AUDIO_PACKET_TYPE_ID):
+    raise ValueError("Invalid packet type ID, it is not an audio packet")
+
+  # Arguments range checking
+  if(len(raw_packet) < 5):
+    raise ValueError("Invalid packet, too short bytes received")
+
+  lane_name = raw_packet[1 : 4].decode()
+  ext_bytes_len = raw_packet[4]
+  ext_bytes = raw_packet[5 : 5 + ext_bytes_len]
+  audio_pcm_raw = raw_packet[5 + ext_bytes_len :]
+  audio_pcm = AudioSegment(audio_pcm_raw,
+                           sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
+                           frame_rate=AUDIO_PARAM.SAMPLE_RATE,
+                           channels=AUDIO_PARAM.CHANNELS)
+
+  return (audio_pcm, lane_name, ext_bytes)
