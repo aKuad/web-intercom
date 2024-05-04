@@ -77,7 +77,7 @@ def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
     raw_packet(bytes): Audio data packet
 
   Return:
-    tuple[numpy.ndarray, str, bytes]: Audio PCM in ``numpy.ndarray`` and external bytes
+    tuple[numpy.ndarray, str, bytes]: Decoded data - Audio PCM in ``numpy.ndarray``, lane name and external bytes
 
   Raises:
     * TypeError: If ``raw_packet`` is not ``bytes``
