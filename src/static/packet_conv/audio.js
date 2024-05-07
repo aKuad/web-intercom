@@ -5,17 +5,57 @@
  */
 
 /**
+ * Packet type ID of audio packet
+ */
+const AUDIO_PACKET_TYPE_ID = 0x10;
+
+
+/**
  * Join audio data and external data into a audio packet (Uint8Array)
  *
- * @param {Float32Array} audio_data Raw audio data
- * @param {Uint8Array} ext_data User's custom external data
+ * @param {Float32Array} audio_pcm Audio PCM
+ * @param {string} lane_name Lane name of view in mixer-client
+ * @param {Uint8Array} ext_bytes User's custom external data
  * @returns {Uint8Array} Encoded packet
+ *
+ * @throws {TypeError} If `audio_pcm` is not `Float32Array`
+ * @throws {TypeError} If `lane_name` is not `string`
+ * @throws {TypeError} If `ext_bytes` is not `Uint8Array`
+ * @throws {RangeError} If ``lane_name`` has non ascii
+ * @throws {RangeError} If ``lane_name`` has over 3 characters
+ * @throws {RangeError} If ``ext_bytes`` has over 255 bytes
  */
-function packet_audio_enc(audio_data, ext_data = new Uint8Array(0)) {
-  const audio_data_int16t = Int16Array.from(audio_data, e => e*32767);
+function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0)) {
+  // Arguments type checking
+  if(!(audio_pcm instanceof Float32Array)) {
+    throw new TypeError("audio_pcm must be Float32Array");
+  }
+  if(typeof lane_name !== "string") {
+    throw new TypeError("lane_name must be string");
+  }
+  if(!(ext_bytes instanceof Uint8Array)) {
+    throw new TypeError("ext_bytes must be Uint8Array");
+  }
+
+  // Arguments range checking
+  if(!(/^[\x00-\x7F]*$/.test(lane_name))) {
+    throw new RangeError("For lane_name, non ascii characters are not allowed");
+  }
+  if(lane_name.length > 3) {
+    throw new RangeError("For lane_name, over 3 characters string is not allowed");
+  }
+  if(ext_bytes.length > 255) {
+    throw new RangeError("For ext_bytes, over 255 bytes data is not allowed");
+  }
+
+  const audio_data_int16t = Int16Array.from(audio_pcm, e => e*32767); // *32767: float32(-1, 1) to int16(-32768, 32767)
   const audio_data_uint8t = new Uint8Array(audio_data_int16t.buffer);
 
-  return Uint8Array.of(ext_data.length, ...ext_data, ...audio_data_uint8t);
+  const lane_name_adj3 = (lane_name + "   ").slice(0, 3);
+  const text_encoder = new TextEncoder();
+  const lane_name_uint8t = text_encoder.encode(lane_name_adj3);
+
+  return Uint8Array.of(AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes, ...audio_data_uint8t);
 }
 
 
@@ -23,16 +63,38 @@ function packet_audio_enc(audio_data, ext_data = new Uint8Array(0)) {
  * Divide a audio packet (Uint8Array) to audio data and external data
  *
  * @param {Uint8Array} raw_packet Encoded packet
- * @returns {Array<Uint8Array | Float32Array>} Audio data, external data
+ * @returns {Array<Float32Array | string | Uint8Array>} Decoded data - Audio PCM, lane name and external data
+ *
+ * @throws {TypeError} If `raw_packet` is not `Uint8Array`
+ * @throws {RangeError} If `raw_packet` type ID bytes is not audio packet type ID
+ * @throws {RangeError} If `raw_packet` is too short (external bytes info is missing)
  */
-function packet_audio_dec(raw_packet) {
-  const ext_data_len = raw_packet[0];
+function packet_audio_decode(raw_packet) {
+  // Arguments type checking
+  if(!(raw_packet instanceof Uint8Array)) {
+    throw new TypeError("raw_packet must be Uint8Array");
+  }
 
-  const ext_data = raw_packet.slice(1, ext_data_len + 1); // +1 for length byte
+  // Packet type ID checking
+  if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID) {
+    throw new RangeError("Invalid packet ID, it is not an audio packet");
+  }
 
-  const audio_data_uint8t = raw_packet.slice(ext_data_len + 1);
+  // Arguments range checking
+  if(raw_packet.length < 5) {
+    throw new RangeError("Invalid packet, too short bytes received");
+  }
+
+  const lane_name_uint8t = raw_packet.slice(1, 4);
+  const text_decoder = new TextDecoder();
+  const lane_name = text_decoder.decode(lane_name_uint8t);
+
+  const ext_data_len = raw_packet[4];
+  const ext_data = raw_packet.slice(5, 5 + ext_data_len); // +1 for length byte\
+
+  const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);
   const audio_data_int16t = new Int16Array(audio_data_uint8t.buffer);
-  const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767);
+  const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
 
-  return [audio_data_float32t, ext_data];
+  return [audio_data_float32t, lane_name, ext_data];
 }

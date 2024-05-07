@@ -28,10 +28,10 @@ if __name__ == "__main__":
   ws = connect(SERVER_URI)
 
   def callback(indata: np.ndarray, outdata: np.ndarray, frames, time, status):
-    packet_send = audio_ndarray.encode(indata, bytes())
+    packet_send = audio_ndarray.encode(indata, "MIN")
     ws.send(packet_send)
     packet_recv = ws.recv()
-    outdata[:], _ = audio_ndarray.decode(packet_recv)
+    outdata[:], _, _ = audio_ndarray.decode(packet_recv)
 
 
   try:
