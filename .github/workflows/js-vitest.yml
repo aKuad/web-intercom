@@ -9,7 +9,7 @@ on:
       - 'refactor/*'
 
 jobs:
-  python-unittest:
+  js-vitest:
     runs-on: ubuntu-latest
     defaults:
       run:
