@@ -25,7 +25,7 @@ const AUDIO_PACKET_TYPE_ID = 0x10;
  * @throws {RangeError} If ``lane_name`` has over 3 characters
  * @throws {RangeError} If ``ext_bytes`` has over 255 bytes
  */
-function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0)) {
+export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0)) {
   // Arguments type checking
   if(!(audio_pcm instanceof Float32Array)) {
     throw new TypeError("audio_pcm must be Float32Array");
@@ -69,7 +69,7 @@ function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0)
  * @throws {RangeError} If `raw_packet` type ID bytes is not audio packet type ID
  * @throws {RangeError} If `raw_packet` is too short (external bytes info is missing)
  */
-function packet_audio_decode(raw_packet) {
+export function packet_audio_decode(raw_packet) {
   // Arguments type checking
   if(!(raw_packet instanceof Uint8Array)) {
     throw new TypeError("raw_packet must be Uint8Array");
