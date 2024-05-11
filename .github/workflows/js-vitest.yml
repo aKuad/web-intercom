@@ -25,4 +25,4 @@ jobs:
     - name: Install node dependencies
       run: npm install
     - name: Run all tests
-      run: vitest --run
+      run: npm test
