@@ -1,0 +1,28 @@
+name: Run all JS unittests by vitest
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'feature/*'
+      - 'fix/*'
+      - 'refactor/*'
+
+jobs:
+  js-vitest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/tests
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Node 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - name: Install node dependencies
+      run: npm install
+    - name: Run all tests
+      run: npm test
