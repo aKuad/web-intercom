@@ -12,7 +12,7 @@
  * @author aKuad
  */
 
-import { packet_audio_encode, packet_audio_decode } from "../../static/packet_conv/audio.js"
+import { packet_audio_encode, packet_audio_decode } from "../../../static/packet_conv/audio.js"
 import { describe, test, expect } from "vitest"
 
 const ERR_INT16_AND_FLOAT32 = 1 / 32767;
