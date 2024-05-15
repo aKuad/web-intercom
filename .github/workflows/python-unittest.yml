@@ -11,6 +11,9 @@ on:
 jobs:
   python-unittest:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/tests/py_unittest
 
     steps:
     - name: Source checkout
@@ -24,4 +27,4 @@ jobs:
         pip3 install numpy pydub
     - name: Run all tests
       run: |
-        python3 -m unittest discover src/tests/ "Test_*.py" -v
+        python3 -m unittest discover ./ "Test_*.py" -v
