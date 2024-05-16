@@ -37,18 +37,18 @@ Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `f
 >
 > For test code, there are some different conventions. See: [src/tests/README.md](src/tests/README.md)
 
-### Functions and variables (etc.) naming
-
-Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md).
-
-But in JavaScript, constant variables can be written in lower_snake_case. Because there are many constant variables in JavaScript (const object members won't be protected from writing), then many UPPER CHARACTERS in the code is bad looks.
-
 ### Files naming
 
 | Item                        | Convention (also `.js` is) |
 | --------------------------- | -------------------------- |
 | Class definition module     | `UpperCamelCase.py`        |
 | Functions definition module | `snake_case.py`            |
+
+### Functions and variables (etc.) naming
+
+Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md).
+
+But in JavaScript, constant variables can be written in lower_snake_case. Because there are many constant variables in JavaScript (const object members won't be protected from writing), then many UPPER CHARACTERS in the code is bad looks.
 
 ## Messages syntax conventions
 
