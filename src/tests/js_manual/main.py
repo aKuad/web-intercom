@@ -26,6 +26,14 @@ app.mount("/static", StaticFiles(directory="../../static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 
+@app.get("/")
+def index(request: Request):
+  """
+  Test list for easy access to tests
+  """
+  return templates.TemplateResponse("index.html", {"request": request})
+
+
 @app.get("/raw_mic_capture")
 def RawMicCaptureProcessor(request: Request):
   """
