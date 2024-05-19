@@ -31,13 +31,11 @@ So do not create branches or PRs without issues.
 
 Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `feature/work-desc`)
 
-## Coding conventions (general)
+## Coding conventions
 
-### Functions and variables (etc.) naming
-
-Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md).
-
-But in JavaScript, constant variables can be written in lower_snake_case. Because there are many constant variables in JavaScript (const object members won't be protected from writing), then many UPPER CHARACTERS in the code is bad looks.
+> [!IMPORTANT]
+>
+> For test code, there are some different conventions. See: [src/tests/README.md](src/tests/README.md)
 
 ### Files naming
 
@@ -46,32 +44,11 @@ But in JavaScript, constant variables can be written in lower_snake_case. Becaus
 | Class definition module     | `UpperCamelCase.py`        |
 | Functions definition module | `snake_case.py`            |
 
-## Coding conventions (tests)
+### Functions and variables (etc.) naming
 
-As standard, follow [Coding conventions (general)](#coding-conventions-general). Then additionally, follow below.
+Follow [RFC 430](https://github.com/rust-lang/rfcs/blob/master/text/0430-finalizing-naming-conventions.md).
 
-### Files naming prefix
-
-| Item                                         | Prefix   |
-| -------------------------------------------- | -------- |
-| Automated unit test                          | `Test_*` |
-| Manual unit test                             | `Try_*`  |
-| Test support utility (e.g. temporary server) | `Util_*` |
-
-> [!NOTE]
->
-> 'Automated unit test' means tests what can check pass/fail automatically.
->
-> 'Manual unit test' means test what requires behavior checking by human (e.g. UI module, sound playing module).
-
-### Functions / methods naming prefix
-
-| Item                                               | Prefix        |
-| -------------------------------------------------- | ------------- |
-| Main of automated test (success expected)          | `test_true_*` |
-| Main of automated test (fail/error expected)       | `test_err_*`  |
-| Main of manual test                                | `try_*`       |
-| Test support function (e.g. dummy data generating) | `part_*`      |
+But in JavaScript, constant variables can be written in lower_snake_case. Because there are many constant variables in JavaScript (const object members won't be protected from writing), then many UPPER CHARACTERS in the code is bad looks.
 
 ## Messages syntax conventions
 
