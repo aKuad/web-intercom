@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src/tests
+        working-directory: src/tests/js_vitest
 
     steps:
     - name: Source checkout
