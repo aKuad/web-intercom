@@ -7,8 +7,7 @@ Test cases:
   * Raise ValueError if invalid argument is passed
 
 Test steps:
-  1. Set current here
-  2. Run this
+  * Run this script by unittest - ``python3 -m unittest discover "Test_*.py"``
 
 Author:
   aKuad
