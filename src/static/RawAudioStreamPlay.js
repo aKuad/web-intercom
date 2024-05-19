@@ -4,7 +4,7 @@
  * @author aKuad
  */
 
-class RawAudioStreamPlay {
+export class RawAudioStreamPlay {
   /**
    * Audio context instance (Web Audio API) for audio controlling
    *

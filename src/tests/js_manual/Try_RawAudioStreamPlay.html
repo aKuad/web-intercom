@@ -2,19 +2,22 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <script src="../../static/RawAudioStreamPlay.js"></script>
-    <script>
+    <script type="module">
       /**
        * Test for `RawAudioStreamPlay.js`
        *
        * Test steps:
-       *   1. Open this HTML with browser
-       *   2. Open JavaScript console
+       *   1. Execute `main.py` (in same directory) with python3 interrupter
+       *   2. Access to `http://localhost:8000/raw_mic_capture` with browser
+       *   3. Open JavaScript console
        *   3. Click try start button
        *   4. Check random sound (white noise) is playing
        *
        * @author aKuad
        */
+
+      import { RawAudioStreamPlay } from "/static/RawAudioStreamPlay.js";
+
 
       function try_PlayRandomWave() {
         console.log("-- try_PlayRandomWave");
@@ -32,10 +35,15 @@
       function part_GenRandomFloatArray(elem_count) {
         return Float32Array.from(new Array(elem_count), e => Math.random() - 0.5);
       }
+
+
+      window.addEventListener("load", () => {
+        document.getElementById("try_PlayRandomWave").addEventListener("click", try_PlayRandomWave);
+      });
     </script>
   </head>
 
   <body>
-    <button onclick="try_PlayRandomWave()">try_PlayRandomWave</button>
+    <button id="try_PlayRandomWave">try_PlayRandomWave</button>
   </body>
 </html>

@@ -22,7 +22,7 @@ from uvicorn import run
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="../../../static"), name="static")
+app.mount("/static", StaticFiles(directory="../../static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 
@@ -32,6 +32,14 @@ def RawMicCaptureProcessor(request: Request):
   URL: http://localhost:8000/raw_mic_capture
   """
   return templates.TemplateResponse("Test_raw_mic_capture.html", {"request": request})
+
+
+@app.get("/RawAudioStreamPlay")
+def RawMicCaptureProcessor(request: Request):
+  """
+  URL: http://localhost:8000/RawAudioStreamPlay
+  """
+  return templates.TemplateResponse("Try_RawAudioStreamPlay.html", {"request": request})
 
 
 if __name__ == "__main__":

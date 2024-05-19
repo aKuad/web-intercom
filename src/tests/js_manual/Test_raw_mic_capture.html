@@ -2,24 +2,22 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <script src="/static/raw_mic_capture.js"></script>
-    <script>
+    <script type="module">
       /**
        * Test for `RawMicCaptureProcessor.js`
        *
-       * Note:
-       *   This module using `audioWorklet.addModule`
-       *   So it requires HTTP connection.
-       *
        * Test steps:
-       *   1. Execute `main.py` (in same directory) with python3 interpreter
+       *   1. Execute `main.py` (in same directory) with python3 interrupter
        *   2. Access to `http://localhost:8000/raw_mic_capture` with browser
        *   3. Open JavaScript console
-       *   4. Click test buttons
-       *   5. Check console output
+       *   4. Click try start buttons
+       *   5. Check is audio PCM output in console
        *
        * @author aKuad
        */
+
+      import { raw_mic_capture } from "/static/raw_mic_capture.js";
+
 
       function Test_StartAudioCapture() {
         console.log("-- Test_StartAudioCapture");
@@ -28,10 +26,15 @@
         }, 0.1, "/static/RawMicCaptureProcessor.js");
         console.log("-- CHECK - Is PCM logged at each 0.1 second?");
       }
+
+
+      window.addEventListener("load", () => {
+        document.getElementById("Test_StartAudioCapture").addEventListener("click", Test_StartAudioCapture);
+      });
     </script>
   </head>
 
   <body>
-    <button onclick="Test_StartAudioCapture()">Test_StartAudioCapture</button>
+    <button id="Test_StartAudioCapture">Test_StartAudioCapture</button>
   </body>
 </html>
