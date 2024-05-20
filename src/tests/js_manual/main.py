@@ -39,7 +39,7 @@ def RawMicCaptureProcessor(request: Request):
   """
   URL: http://localhost:8000/raw_mic_capture
   """
-  return templates.TemplateResponse("Test_raw_mic_capture.html", {"request": request})
+  return templates.TemplateResponse("Try_raw_mic_capture.html", {"request": request})
 
 
 @app.get("/RawAudioStreamPlay")
