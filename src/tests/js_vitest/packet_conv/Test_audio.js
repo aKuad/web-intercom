@@ -7,7 +7,7 @@
  *   * Raise RangeError if invalid argument value is passed
  *
  * Test steps:
- *   * Run this script by vitest - `vitest --run`
+ *   * Run this script by vitest - `npm test`
  *
  * @author aKuad
  */

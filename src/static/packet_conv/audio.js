@@ -1,5 +1,9 @@
 /**
- * @file Conversion functions between raw packet and external bytes & raw audio bytes
+ * @file Encoding/decoding functions for audio packet
+ *
+ * More detail of packet protocol, see `designs/packet-protocol.md`
+*
+ * Note: It tested only for monaural audio, multi channels is unsupported.
  *
  * @author aKuad
  */
@@ -11,7 +15,7 @@ const AUDIO_PACKET_TYPE_ID = 0x10;
 
 
 /**
- * Join audio data and external data into a audio packet (Uint8Array)
+ * Create audio packet
  *
  * @param {Float32Array} audio_pcm Audio PCM
  * @param {string} lane_name Lane name of view in mixer-client
@@ -60,7 +64,7 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
 
 
 /**
- * Divide a audio packet (Uint8Array) to audio data and external data
+ * Unpack audio packet
  *
  * @param {Uint8Array} raw_packet Encoded packet
  * @returns {Array<Float32Array | string | Uint8Array>} Decoded data - Audio PCM, lane name and external data
