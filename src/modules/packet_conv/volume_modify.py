@@ -41,7 +41,7 @@ def encode(lane_id: int, modified_volume: int):
     raise ValueError("lane_id must be in 0~255")
   if(modified_volume < 0 or modified_volume > 255):
     raise ValueError("modified_volume_value must be in 0~255")
-  
+
   return bytes([VOLUME_MODIFY_PACKET_TYPE_ID, lane_id, modified_volume])
 
 
