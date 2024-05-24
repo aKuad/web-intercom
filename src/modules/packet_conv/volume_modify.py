@@ -74,4 +74,5 @@ def decode(raw_packet: bytes) -> tuple[int, int]:
 
   lane_id         = raw_packet[1]
   modified_volume = raw_packet[2]
+
   return (lane_id, modified_volume)
