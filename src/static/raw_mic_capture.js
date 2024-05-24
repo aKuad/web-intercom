@@ -18,7 +18,7 @@
  * @param {number} frame_dur_sec Frame duration of callback's argument
  * @param {string} processor_path File path of `RawMicCaptureProcessor` defined module
  */
-async function raw_mic_capture(frame_ready_callback, frame_dur_sec, processor_path) {
+export async function raw_mic_capture(frame_ready_callback, frame_dur_sec, processor_path) {
   const SAMPLE_RATE = 44100;
   const audio_ctx = new AudioContext({sampleRate: SAMPLE_RATE});
 

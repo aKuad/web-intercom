@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="module">
+      /**
+       * Test for `RawMicCaptureProcessor.js`
+       *
+       * Test steps:
+       *   1. Execute `main.py` (in same directory) with python3 interrupter
+       *   2. Access to `http://localhost:8000/raw_mic_capture` with browser
+       *   3. Open JavaScript console
+       *   4. Click try start buttons
+       *   5. Check is audio PCM output in console
+       *
+       * @author aKuad
+       */
+
+      import { raw_mic_capture } from "/static/raw_mic_capture.js";
+
+
+      function try_StartAudioCapture() {
+        console.log("-- try_StartAudioCapture");
+        raw_mic_capture(pcm => {
+          console.log(pcm);
+        }, 0.1, "/static/RawMicCaptureProcessor.js");
+        console.log("-- CHECK - Is PCM logged at each 0.1 second?");
+      }
+
+
+      window.addEventListener("load", () => {
+        document.getElementById("try_StartAudioCapture").addEventListener("click", try_StartAudioCapture);
+      });
+    </script>
+  </head>
+
+  <body>
+    <button id="try_StartAudioCapture">try_StartAudioCapture</button>
+  </body>
+</html>
