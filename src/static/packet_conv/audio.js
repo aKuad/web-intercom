@@ -11,7 +11,7 @@
 /**
  * Packet type ID of audio packet
  */
-const AUDIO_PACKET_TYPE_ID = 0x10;
+export const AUDIO_PACKET_TYPE_ID = 0x10;
 
 
 /**
