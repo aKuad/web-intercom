@@ -2,7 +2,7 @@
  * @file Encoding/decoding functions for audio packet
  *
  * More detail of packet protocol, see `designs/packet-protocol.md`
-*
+ *
  * Note: It tested only for monaural audio, multi channels is unsupported.
  *
  * @author aKuad
