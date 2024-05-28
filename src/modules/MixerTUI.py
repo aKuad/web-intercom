@@ -215,6 +215,6 @@ class MixerTUI:
     """
     if len(self.__lanes) >= 255:
       raise BufferError("Already reached to maximum lane count")
-    
+
     available_ids = set(range(255)) - set(self.__lanes.keys())
     return min(available_ids)
