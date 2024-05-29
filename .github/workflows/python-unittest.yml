@@ -27,7 +27,7 @@ jobs:
       uses: actions/cache@v4
       with:
         key: py-unittest-depend-${{ runner.os }}-${{ hashFiles('src/tests/py_unittest/requirements.txt') }}
-        path: src/tests/py_unittest/requirements.txt
+        path: src/tests/py_unittest/.venv
     - name: Install python dependencies
       if: steps.dependency-restore.outputs.cache-hit != 'true'
       run: |

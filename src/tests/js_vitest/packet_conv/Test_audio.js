@@ -12,7 +12,7 @@
  * @author aKuad
  */
 
-import { packet_audio_encode, packet_audio_decode } from "../../../static/packet_conv/audio.js"
+import { packet_audio_encode, packet_audio_decode, AUDIO_PACKET_TYPE_ID } from "../../../static/packet_conv/audio.js"
 import { describe, test, expect } from "vitest"
 
 const ERR_INT16_AND_FLOAT32 = 1 / 32767;
@@ -87,7 +87,7 @@ describe("err_cases", () => {
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
     //                                          as non 0x10 byte
-    const raw_packet_invalid_len = Uint8Array.of(0x10, 0x41, 0x42, 0x43);
+    const raw_packet_invalid_len = Uint8Array.of(AUDIO_PACKET_TYPE_ID, 0x41, 0x42, 0x43);
     // invalid len - means ext_bytes data missing packet
 
     expect(() => packet_audio_decode(raw_packet_invalid_id )).toThrowError(new RangeError("Invalid packet ID, it is not an audio packet"));
