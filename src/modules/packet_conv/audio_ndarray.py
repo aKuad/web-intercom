@@ -80,9 +80,9 @@ def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
     tuple[numpy.ndarray, str, bytes]: Decoded data - Audio PCM in ``numpy.ndarray``, lane name and external bytes
 
   Raises:
-    * TypeError: If ``raw_packet`` is not ``bytes``
-    * ValueError: If ``raw_packet`` type ID bytes is not audio packet type ID
-    * ValueError: If ``raw_packet`` is too short (external bytes info is missing)
+    TypeError: If ``raw_packet`` is not ``bytes``
+    ValueError: If ``raw_packet`` type ID bytes is not audio packet type ID
+    ValueError: If ``raw_packet`` is too short (external bytes info is missing)
 
   """
   # Arguments type checking
