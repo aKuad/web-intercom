@@ -10,7 +10,6 @@ Author:
 
 import curses
 from curses import window
-from uuid import uuid4
 from dataclasses import dataclass
 
 
@@ -73,7 +72,7 @@ class MixerTUI:
 
     """
     if lane_id == None:
-      lane_id = uuid4().int
+      lane_id = self.__lookup_available_lane_id()
 
     name_adj = (name + "   ")[:3] # Set 3 length, empty fill with spaces, over will cut
     self.__lanes[lane_id] = MixerTUILane(self.__FADER_WIDTH // 2, name_adj)
@@ -202,3 +201,20 @@ class MixerTUI:
     lane_index = self.__lane_id2index(lane_id)
     return (lane_index * 2) + 1
     # * 2 for meter view index, + 1 for console head offset
+
+
+  def __lookup_available_lane_id(self) -> int:
+    """Return available smallest lane ID
+
+    Returns:
+      int: Available smallest lane ID (0~255)
+
+    Raises:
+      BufferError: If lane count already reached to 256
+
+    """
+    if len(self.__lanes) >= 255:
+      raise BufferError("Already reached to maximum lane count")
+
+    available_ids = set(range(255)) - set(self.__lanes.keys())
+    return min(available_ids)

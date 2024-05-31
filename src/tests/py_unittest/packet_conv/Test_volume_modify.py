@@ -22,8 +22,6 @@ sys.path.append(Path(__file__).absolute().parent.parent.parent.__str__())
 
 import unittest
 
-from uuid import uuid4
-
 from modules.packet_conv import volume_modify
 
 
