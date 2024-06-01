@@ -81,7 +81,7 @@ class AudioMixer:
       mixed = mixed.overlay(self.__lanes[lane_id_i].segment)
 
     return mixed
-  
+
 
   def get_lane_dBFS(self, lane_id: int) -> float:
     """Fetch loudness (dBFS) of a lane
@@ -94,7 +94,7 @@ class AudioMixer:
 
     """
     return self.__lanes[lane_id].dbfs
-  
+
 
   def set_lane_gain(self, lane_id: int, gain_db: float):
     """Set gain of a lane
@@ -144,7 +144,7 @@ class AudioMixer:
     """
     if len(self.__lanes) >= self.__MAX_LANE_COUNT:
       raise BufferError("Already reached to maximum lane count")
-    
+
     available_ids = set(range(self.__MAX_LANE_COUNT - 1)) - set(self.__lanes.keys())
     return min(available_ids)
-  
+
