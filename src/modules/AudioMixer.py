@@ -25,10 +25,20 @@ class AudioMixerLane:
 
 
 class AudioMixer:
+  """Audio mixer module
+
+  Attributes:
+    __MAX_LANE_COUNT(int): Maximum number of lanes
+    __lanes(dict[int, AudioMixerLane]): Lanes data and properties, this dict key means ``lane_id``
+    __no_input_detect_sec(float): Over this seconds elapsed input will be ignored
+    __silent_threshold_dbfs(float): Under this dBFS input will be ignored
+
+  """
   __MAX_LANE_COUNT: int = 256
   __lanes: dict[int, AudioMixerLane] = {}
   __no_input_detect_sec: float
   __silent_threshold_dbfs: float
+
 
   def __init__(self, no_input_detect_sec: float = 0.3, silent_threshold_dbfs: float = -20.0):
     """Initialize
