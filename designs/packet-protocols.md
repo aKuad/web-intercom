@@ -24,6 +24,18 @@ audio client <--> server
 >
 > (\*5) Value should be little endian. Because JavaScript typed arrays and Python numpy's array are process in little endian in default.
 
+## Blank audio packet
+
+audio client -> server
+
+| Length [bytes] | Type  | Description           |
+| -------------- | ----- | --------------------- |
+| 1              | uint8 | Packet type ID (0x11) |
+
+It is an audio packet but no having audio data.
+
+It for audio client fetching mixed audio from server, without sending own (too small unnecessary) audio data. Then server's network traffic will be reduced.
+
 ## Volume modify packet
 
 mixer client -> serve
