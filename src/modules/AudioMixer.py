@@ -24,6 +24,15 @@ class AudioMixerLane:
   dbfs: float
 
 
+class MaxLaneReachedError(Exception):
+  """Exception for no more lanes can be created
+
+  It will be raised when tried to create over 256 lanes.
+
+  """
+  pass
+
+
 class AudioMixer:
   """Audio mixer module
 
@@ -153,7 +162,7 @@ class AudioMixer:
 
     """
     if len(self.__lanes) >= self.__MAX_LANE_COUNT:
-      raise BufferError("Already reached to maximum lane count")
+      raise MaxLaneReachedError("Already reached to maximum lane count")
 
     available_ids = set(range(self.__MAX_LANE_COUNT - 1)) - set(self.__lanes.keys())
     return min(available_ids)
