@@ -164,6 +164,5 @@ class AudioMixer:
     if len(self.__lanes) >= self.__MAX_LANE_COUNT:
       raise MaxLaneReachedError("Already reached to maximum lane count")
 
-    available_ids = set(range(self.__MAX_LANE_COUNT - 1)) - set(self.__lanes.keys())
+    available_ids = set(range(self.__MAX_LANE_COUNT)) - set(self.__lanes.keys())
     return min(available_ids)
-
