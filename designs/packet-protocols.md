@@ -24,7 +24,7 @@ audio client <--> server
 >
 > (\*5) Value should be little endian. Because JavaScript typed arrays and Python numpy's array are process in little endian in default.
 
-## Blank audio packet
+## Silent audio packet
 
 audio client -> server
 
