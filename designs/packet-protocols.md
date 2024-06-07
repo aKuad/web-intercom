@@ -26,15 +26,15 @@ audio client <--> server
 
 ## Silent audio packet
 
-audio client -> server
+audio client <--> server
 
 | Length [bytes] | Type  | Description           |
 | -------------- | ----- | --------------------- |
 | 1              | uint8 | Packet type ID (0x11) |
 
-It is an audio packet but no having audio data.
+It is an audio packet but no having audio data. It is same as an audio packet what has all 0x00 audio data.
 
-It for audio client fetching mixed audio from server, without sending own (too small unnecessary) audio data. Then server's network traffic will be reduced.
+Too small (unnecessary) audio data will be muted at mixing. It can reduce network traffic.
 
 ## Volume modify packet
 
