@@ -87,7 +87,7 @@ class AudioMixer:
     time_now = time()
     self.__lanes[lane_id].segment       = segment + self.__lanes[lane_id].gain
     self.__lanes[lane_id].last_input_ts = time_now
-    self.__lanes[lane_id].dbfs          = segment.dBFS
+    self.__lanes[lane_id].dbfs          = self.__lanes[lane_id].segment.dBFS
 
     mixed = self.__create_silent_segment()
     for lane_id_i in self.__lanes.keys():
