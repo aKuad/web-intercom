@@ -57,6 +57,7 @@ class AudioMixer:
       silent_threshold_dbfs(float): No mixing what under this dbfs audio
 
     """
+    self.__lanes = {}
     self.__no_input_detect_sec = no_input_detect_sec
     self.__silent_threshold_dbfs = silent_threshold_dbfs
 
