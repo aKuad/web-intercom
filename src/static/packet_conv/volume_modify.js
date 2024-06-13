@@ -52,18 +52,14 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
  * @returns {Array<number>} Decoded data - Lane ID and modified volume
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
+ * @throws {RangeError} If `raw_packet` is an empty array
  * @throws {RangeError} If `raw_packet` type ID is not volume_modify packet ID
  * @throws {RangeError} If `raw_packet` length is not 3
  */
 export function packet_volume_modify_decode(raw_packet) {
-  // Arguments type checking
-  if(!(raw_packet instanceof Uint8Array)) {
-    throw new TypeError("raw_packet must be Uint8Array");
-  }
-
-  // Packet type ID checking
-  if(raw_packet[0] !== VOLUME_MODIFY_PACKET_TYPE_ID) {
-    throw new RangeError("Invalid packet ID, it si not an volume_modify packet");
+  // Packet type
+  if(!packet_is_volume_modify(raw_packet)) {
+    throw new RangeError("Invalid packet, it is not an volume_modify packet");
   }
 
   // Arguments range checking
@@ -72,4 +68,33 @@ export function packet_volume_modify_decode(raw_packet) {
   }
 
   return [raw_packet[1], raw_packet[2]];
+}
+
+
+/**
+ * Verify the packet is volume_modify packet
+ * 
+ * Note: It verify only type and packet ID. Packet structure will not be verified.
+ * 
+ * @param {Uint8Array} raw_packet Packet to verify
+ * @returns {boolean} It is a volume_modify packet: true, otherwise: false
+ *
+ * @throws {TypeError} If `raw_packet` is not `Uint8Array`
+ * @throws {RangeError} If `raw_packet` is an empty array
+ */
+export function packet_is_volume_modify(raw_packet) {
+  // Arguments type checking
+  if(!(raw_packet instanceof Uint8Array)) {
+    throw new TypeError("raw_packet must be Uint8Array");
+  }
+
+  // Packet content availability checking
+  if(raw_packet.length === 0) {
+    throw new RangeError("Empty array passed");
+  }
+
+  if(raw_packet[0] === VOLUME_MODIFY_PACKET_TYPE_ID)
+    return true;
+  else
+    return false;
 }
