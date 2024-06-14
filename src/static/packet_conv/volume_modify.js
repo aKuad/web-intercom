@@ -57,7 +57,7 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
  * @throws {RangeError} If `raw_packet` length is not 3
  */
 export function packet_volume_modify_decode(raw_packet) {
-  // Packet type
+  // Packet type verification
   if(!packet_is_volume_modify(raw_packet)) {
     throw new RangeError("Invalid packet, it is not an volume_modify packet");
   }
