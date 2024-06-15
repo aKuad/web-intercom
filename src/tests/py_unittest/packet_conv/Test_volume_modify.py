@@ -32,7 +32,7 @@ class Test_packet_conv_volume_modify(unittest.TestCase):
     raw_packet = volume_modify.encode(lane_id_org, modified_volume_org)
     lane_id_prc, modified_volume_prc = volume_modify.decode(raw_packet)
 
-    self.assertTrue(volume_modify.is_audio_packet(raw_packet))
+    self.assertTrue(volume_modify.is_volume_modify_packet(raw_packet))
     self.assertEqual(lane_id_org, lane_id_prc)
     self.assertEqual(modified_volume_org, modified_volume_prc)
 
@@ -41,7 +41,7 @@ class Test_packet_conv_volume_modify(unittest.TestCase):
     raw_packet_invalid_id = b"A" + bytes([1, 2])
     #                       ~~~~ as non 0x20 byte
 
-    self.assertFalse(volume_modify.is_audio_packet(raw_packet_invalid_id))
+    self.assertFalse(volume_modify.is_volume_modify_packet(raw_packet_invalid_id))
 
 
   def test_err_enc_invalid_type(self):
@@ -71,14 +71,14 @@ class Test_packet_conv_volume_modify(unittest.TestCase):
 
 
   def test_err_verify_invalid_type(self):
-    self.assertRaises(TypeError, volume_modify.is_audio_packet, "")
+    self.assertRaises(TypeError, volume_modify.is_volume_modify_packet, "")
     # invalid type                                              ~~ as non bytes
 
 
   def test_err_verify_invalid_value(self):
     raw_packet_invalid_empty = bytes()
 
-    self.assertRaises(ValueError, volume_modify.is_audio_packet, raw_packet_invalid_empty)
+    self.assertRaises(ValueError, volume_modify.is_volume_modify_packet, raw_packet_invalid_empty)
 
 
 if __name__ == "__main__":

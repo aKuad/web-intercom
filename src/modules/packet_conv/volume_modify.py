@@ -62,8 +62,8 @@ def decode(raw_packet: bytes) -> tuple[int, int]:
 
   """
   # Packet type verification
-  if(not is_audio_packet(raw_packet)):
-    raise ValueError("Invalid packet type ID, it is not an volume_modify packet")
+  if(not is_volume_modify_packet(raw_packet)):
+    raise ValueError("Invalid packet, it is not an volume_modify packet")
 
   # Arguments range checking
   if(len(raw_packet) != 3):
@@ -75,7 +75,7 @@ def decode(raw_packet: bytes) -> tuple[int, int]:
   return (lane_id, modified_volume)
 
 
-def is_audio_packet(raw_packet: bytes):
+def is_volume_modify_packet(raw_packet: bytes):
   """Verify the packet is volume_modify packet
 
   Note: It verify only type and packet ID. Packet structure will not be verified.
@@ -93,7 +93,7 @@ def is_audio_packet(raw_packet: bytes):
   """
   # Arguments type checking
   if(type(raw_packet) != bytes):
-    raise TypeError("raw_packet must be bytes")
+    raise TypeError(f"raw_packet must be bytes, but got {type(raw_packet)}")
 
   # Packet content availability checking
   if(len(raw_packet) == 0):
