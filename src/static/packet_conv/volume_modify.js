@@ -58,7 +58,7 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
  */
 export function packet_volume_modify_decode(raw_packet) {
   // Packet type verification
-  if(!packet_is_volume_modify(raw_packet)) {
+  if(!is_volume_modify_packet(raw_packet)) {
     throw new RangeError("Invalid packet, it is not an volume_modify packet");
   }
 
@@ -82,7 +82,7 @@ export function packet_volume_modify_decode(raw_packet) {
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
  * @throws {RangeError} If `raw_packet` is an empty array
  */
-export function packet_is_volume_modify(raw_packet) {
+export function is_volume_modify_packet(raw_packet) {
   // Arguments type checking
   if(!(raw_packet instanceof Uint8Array)) {
     throw new TypeError("raw_packet must be Uint8Array");

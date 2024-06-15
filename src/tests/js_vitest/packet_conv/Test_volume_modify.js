@@ -12,7 +12,7 @@
  * @author aKuad
  */
 
-import { packet_volume_modify_encode, packet_volume_modify_decode, packet_is_volume_modify, VOLUME_MODIFY_PACKET_TYPE_ID } from "../../../static/packet_conv/volume_modify.js"
+import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_modify_packet, VOLUME_MODIFY_PACKET_TYPE_ID } from "../../../static/packet_conv/volume_modify.js"
 import { describe, test, expect } from "vitest"
 
 
@@ -23,7 +23,7 @@ describe("true_cases", () => {
     const raw_packet = packet_volume_modify_encode(lane_id_org, modified_volume_org);
     const [lane_id_prc, modified_volume_prc] = packet_volume_modify_decode(raw_packet);
 
-    expect(packet_is_volume_modify(raw_packet)).toBe(true);
+    expect(is_volume_modify_packet(raw_packet)).toBe(true);
     expect(lane_id_prc).toBe(lane_id_org);
     expect(modified_volume_prc).toBe(modified_volume_org);
   });
@@ -33,7 +33,7 @@ describe("true_cases", () => {
     const raw_packet_invalid_id = Uint8Array.of(0x21, 1, 100);
     //                                          ~~~~ as non 0x20 byte
 
-    expect(packet_is_volume_modify(raw_packet_invalid_id)).toBe(false);
+    expect(is_volume_modify_packet(raw_packet_invalid_id)).toBe(false);
   });
 });
 
@@ -87,6 +87,6 @@ describe("err_cases", () => {
   test("verify_invalid_value", () => {
     const raw_packet_invalid_empty = new Uint8Array();
 
-    expect(() => packet_is_volume_modify(raw_packet_invalid_empty)).toThrowError(new RangeError("Empty array passed"));
+    expect(() => is_volume_modify_packet(raw_packet_invalid_empty)).toThrowError(new RangeError("Empty array passed"));
   });
 });
