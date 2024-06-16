@@ -70,18 +70,14 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
  * @returns {Array<Float32Array | string | Uint8Array>} Decoded data - Audio PCM, lane name and external data
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
+ * @throws {RangeError} If `raw_packet` is an empty array
  * @throws {RangeError} If `raw_packet` type ID bytes is not audio packet type ID
  * @throws {RangeError} If `raw_packet` is too short (external bytes info is missing)
  */
 export function packet_audio_decode(raw_packet) {
-  // Arguments type checking
-  if(!(raw_packet instanceof Uint8Array)) {
-    throw new TypeError("raw_packet must be Uint8Array");
-  }
-
-  // Packet type ID checking
-  if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID) {
-    throw new RangeError("Invalid packet ID, it is not an audio packet");
+  // Packet type verification
+  if(!is_audio_packet(raw_packet)) {
+    throw new RangeError("Invalid packet, it is not an audio packet");
   }
 
   // Arguments range checking
@@ -101,4 +97,33 @@ export function packet_audio_decode(raw_packet) {
   const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
 
   return [audio_data_float32t, lane_name, ext_data];
+}
+
+
+/**
+ * Verify the packet is audio packet
+ *
+ * Note: It verify only type and packet ID. Packet structure will not be verified.
+ *
+ * @param {Uint8Array} raw_packet Packet to verify
+ * @returns {boolean} It is an audio packet: true, otherwise: false
+ *
+ * @throws {TypeError} If `raw_packet` is not `Uint8Array`
+ * @throws {RangeError} If `raw_packet` is an empty array
+ */
+export function is_audio_packet(raw_packet) {
+  // Arguments type checking
+  if(!(raw_packet instanceof Uint8Array)) {
+    throw new TypeError("raw_packet must be Uint8Array");
+  }
+
+  // Packet content availability checking
+  if(raw_packet.length === 0) {
+    throw new RangeError("Empty array passed");
+  }
+
+  if(raw_packet[0] === AUDIO_PACKET_TYPE_ID)
+    return true;
+  else
+    return false;
 }
