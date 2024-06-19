@@ -77,17 +77,14 @@ def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
 
   Raises:
     TypeError: If ``raw_packet`` is not ``bytes``
+    ValueError: If ``raw_packet`` is an empty bytes
     ValueError: If ``raw_packet`` type ID bytes is not audio packet type ID
     ValueError: If ``raw_packet`` is too short (external bytes info is missing)
 
   """
-  # Arguments type checking
-  if(type(raw_packet) != bytes):
-    raise TypeError(f"raw_packet must be bytes, but received {type(raw_packet)}")
-
-  # Packet type ID checking
-  if(raw_packet[0] != AUDIO_PACKET_TYPE_ID):
-    raise ValueError("Invalid packet type ID, it is not an audio packet")
+  # Packet type verification
+  if(not is_audio_packet(raw_packet)):
+    raise ValueError("Invalid packet, it is not an audio packet")
 
   # Arguments range checking
   if(len(raw_packet) < 5):
@@ -103,3 +100,33 @@ def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
                            channels=AUDIO_PARAM.CHANNELS)
 
   return (audio_pcm, lane_name, ext_bytes)
+
+
+def is_audio_packet(raw_packet):
+  """Verify the packet is audio packet
+
+  Note: It verify only type and packet ID. Packet structure will not be verified.
+
+  Args:
+    raw_packet(bytes): Packet to verify
+
+  Returns:
+    bool: It is an audio packet: true, otherwise: false
+
+  Raises:
+    TypeError: If ``raw_packet`` is not ``bytes``
+    ValueError: If ``raw_packet`` is an empty bytes
+
+  """
+  # Arguments type checking
+  if(type(raw_packet) != bytes):
+    raise TypeError(f"raw_packet must be bytes, but got {type(raw_packet)}")
+
+  # Packet content availability checking
+  if(len(raw_packet) == 0):
+    raise ValueError("Empty bytes passed")
+
+  if(raw_packet[0] == AUDIO_PACKET_TYPE_ID):
+    return True
+  else:
+    return False
