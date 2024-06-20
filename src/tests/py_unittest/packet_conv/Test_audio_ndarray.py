@@ -28,20 +28,21 @@ from modules.packet_conv import AUDIO_PARAM, audio_ndarray
 
 
 class Test_packet_conv_audio_ndarray(unittest.TestCase):
-  def test_true_enc_dec_ext(self):
+  def test_true_enc_dec_verify_ext(self):
     audio_pcm_org = part_create_random_ndarray()
     lane_name_org = "ABC"
     ext_bytes_org = bytes([1, 2, 3, 4])
 
-    packet = audio_ndarray.encode(audio_pcm_org, lane_name_org, ext_bytes_org)
-    audio_pcm_prc, lane_name_prc, ext_bytes_prc = audio_ndarray.decode(packet)
+    raw_packet = audio_ndarray.encode(audio_pcm_org, lane_name_org, ext_bytes_org)
+    audio_pcm_prc, lane_name_prc, ext_bytes_prc = audio_ndarray.decode(raw_packet)
 
+    self.assertTrue(audio_ndarray.is_audio_packet(raw_packet))
     self.assertTrue((audio_pcm_org == audio_pcm_prc).all())
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)
 
 
-  def test_true_enc_dec_noext(self):
+  def test_true_enc_dec_verify_noext(self):
     audio_pcm_org = part_create_random_ndarray()
     lane_name_org = "ABC"
     ext_bytes_org = bytes()
@@ -49,6 +50,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
     raw_packet = audio_ndarray.encode(audio_pcm_org, lane_name_org, ext_bytes_org)
     audio_pcm_prc, lane_name_prc, ext_bytes_prc = audio_ndarray.decode(raw_packet)
 
+    self.assertTrue(audio_ndarray.is_audio_packet(raw_packet))
     self.assertTrue((audio_pcm_org == audio_pcm_prc).all())
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)
@@ -80,8 +82,8 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
     self.assertRaises(ValueError, audio_ndarray.encode, audio_pcm, lane_name_over_len, ext_bytes)
 
 
-  def test_err_dec_invalid_type(self):
-    self.assertRaises(TypeError, audio_ndarray.decode, "")  # str "" as non bytes
+  # def test_err_dec_invalid_type(self):
+    # type checking will be tested in test_err_verify_invalid_type
 
 
   def test_err_dec_invalid_value(self):
@@ -92,6 +94,16 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 
     self.assertRaises(ValueError, audio_ndarray.decode, raw_packet_invalid_id)
     self.assertRaises(ValueError, audio_ndarray.decode, raw_packet_invalid_len)
+
+
+  def test_err_verify_invalid_type(self):
+    self.assertRaises(TypeError, audio_ndarray.decode, "")  # str "" as non bytes
+
+
+  def test_err_verify_invalid_value(self):
+    raw_packet_invalid_empty = bytes()
+
+    self.assertRaises(ValueError, audio_ndarray.is_audio_packet, raw_packet_invalid_empty)
 
 
 def part_create_random_ndarray() -> np.ndarray:

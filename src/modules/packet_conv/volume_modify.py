@@ -56,17 +56,14 @@ def decode(raw_packet: bytes) -> tuple[int, int]:
 
   Raises:
     TypeError: If ``raw_packet`` is not ``bytes``
+    ValueError: If ``raw_packet`` is an empty bytes
     ValueError: If ``raw_packet`` type ID is not volume_modify packet ID
     ValueError: If ``raw_packet`` length is not 3
 
   """
-  # Arguments type checking
-  if(type(raw_packet) != bytes):
-    raise TypeError("raw_packet must be bytes")
-
-  # Packet type ID checking
-  if(raw_packet[0] != VOLUME_MODIFY_PACKET_TYPE_ID):
-    raise ValueError("Invalid packet type ID, it is not an volume_modify packet")
+  # Packet type verification
+  if(not is_volume_modify_packet(raw_packet)):
+    raise ValueError("Invalid packet, it is not an volume_modify packet")
 
   # Arguments range checking
   if(len(raw_packet) != 3):
@@ -76,3 +73,33 @@ def decode(raw_packet: bytes) -> tuple[int, int]:
   modified_volume = raw_packet[2]
 
   return (lane_id, modified_volume)
+
+
+def is_volume_modify_packet(raw_packet: bytes):
+  """Verify the packet is volume_modify packet
+
+  Note: It verify only type and packet ID. Packet structure will not be verified.
+
+  Args:
+    raw_packet(bytes): Packet to verify
+
+  Returns:
+    bool: It is a volume_modify packet: true, otherwise: false
+
+  Raises:
+    TypeError: If ``raw_packet`` is not ``bytes``
+    ValueError: If ``raw_packet`` is an empty bytes
+
+  """
+  # Arguments type checking
+  if(type(raw_packet) != bytes):
+    raise TypeError(f"raw_packet must be bytes, but got {type(raw_packet)}")
+
+  # Packet content availability checking
+  if(len(raw_packet) == 0):
+    raise ValueError("Empty bytes passed")
+
+  if(raw_packet[0] == VOLUME_MODIFY_PACKET_TYPE_ID):
+    return True
+  else:
+    return False
