@@ -90,13 +90,9 @@ def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
     ValueError: If ``raw_packet`` is too short (external bytes info is missing)
 
   """
-  # Arguments type checking
-  if(type(raw_packet) != bytes):
-    raise TypeError(f"raw_packet must be bytes, but received {type(raw_packet)}")
-
-  # Packet type ID checking
-  if(raw_packet[0] != AUDIO_PACKET_TYPE_ID and raw_packet[0] != SILENT_AUDIO_PACKET_TYPE_ID):
-    raise ValueError("Invalid packet type ID, it is not an audio packet")
+  # Packet type verification
+  if(not is_audio_packet(raw_packet)):
+    raise ValueError("Invalid packet, it is not an audio packet")
 
   # Arguments range checking
   if(len(raw_packet) < 5):
