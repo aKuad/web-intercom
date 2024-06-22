@@ -38,7 +38,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
     audio_pcm_prc, lane_name_prc, ext_bytes_prc = audio_aseg.decode(raw_packet)
 
     self.assertTrue(audio_aseg.is_audio_packet(raw_packet))
-    self.assertTrue(audio_pcm_org == audio_pcm_prc)
+    self.assertEqual(audio_pcm_org, audio_pcm_prc)
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)
 
@@ -52,7 +52,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
     audio_pcm_prc, lane_name_prc, ext_bytes_prc = audio_aseg.decode(raw_packet)
 
     self.assertTrue(audio_aseg.is_audio_packet(raw_packet))
-    self.assertTrue(audio_pcm_org == audio_pcm_prc)
+    self.assertEqual(audio_pcm_org, audio_pcm_prc)
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)
 
