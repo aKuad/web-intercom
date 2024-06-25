@@ -1,0 +1,48 @@
+/**
+ * @file dBFS calculating function
+ *
+ * @author aKuad
+ */
+
+
+/**
+ * Calculate dBFS from float array
+ *
+ * Note: It supports -1.0 ~ 1.0 amplitude array. Out of this range will be thrown error.
+ *
+ * @param {Float32Array | Float64Array} frame_array
+ * @returns {number} dBFS value
+ *
+ * @throws {TypeError}
+ * @throws {RangeError}
+ * @throws {RangeError}
+ */
+export function dbfs_float(frame_array) {
+  // Arguments type checking
+  if(!(frame_array instanceof Float32Array) &&
+     !(frame_array instanceof Float64Array)) {
+    throw new TypeError("frame_array must be Float32Array or Float64Array");
+  }
+
+  // Content availability checking
+  if(frame_array.length === 0) {
+    throw new RangeError("Empty array passed");
+  }
+
+  // Arguments range checking
+  if(frame_array.filter(e => e <= -1.0 || e >= 1.0).length) {
+    throw new RangeError("Out of range elements included, must be -1.0 ~ 1.0");
+  }
+
+  const AMPLITUDE_HIGH = 1.0;
+
+  const sq_sum = frame_array.reduce((prev, current) => prev + current**2);
+  const rms = Math.sqrt(sq_sum / frame_array.length);
+
+  return 20 * Math.log10(rms / AMPLITUDE_HIGH);
+}
+
+
+// For int8, int16, int32 and int64 is unimplemented.
+// It will be implemented if it required.
+// export function dbfs_int(frame_array) {}
