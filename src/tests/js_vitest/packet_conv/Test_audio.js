@@ -20,7 +20,7 @@ const ERR_INT16_AND_FLOAT32 = 1 / 32767;
 
 describe("true_cases", () => {
   test("enc_dec_verify_with_ext", () => {
-    const audio_pcm_org = part_testdata_rand_int16array();
+    const audio_pcm_org = part_testdata_rand_float32array();
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array([1,2,3,4]);
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -34,7 +34,7 @@ describe("true_cases", () => {
 
 
   test("enc_dec_verify_without_ext", () => {
-    const audio_pcm_org = part_testdata_rand_int16array();
+    const audio_pcm_org = part_testdata_rand_float32array();
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -48,7 +48,7 @@ describe("true_cases", () => {
 
 
   test("verify_ng", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...part_testdata_rand_int16array());
+    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...part_testdata_rand_float32array());
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
     //                                          as non 0x10 byte
@@ -60,7 +60,7 @@ describe("true_cases", () => {
 
 describe("err_cases", () => {
   test("enc_invalid_type", () => {
-    const audio_pcm = part_testdata_rand_int16array();
+    const audio_pcm = part_testdata_rand_float32array();
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
@@ -74,7 +74,7 @@ describe("err_cases", () => {
 
 
   test("enc_invalid_value", () => {
-    const audio_pcm = part_testdata_rand_int16array();
+    const audio_pcm = part_testdata_rand_float32array();
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
@@ -94,7 +94,7 @@ describe("err_cases", () => {
 
 
   test("dec_invalid_value", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...part_testdata_rand_int16array());
+    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...part_testdata_rand_float32array());
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
     //                                          as non 0x10 byte
@@ -120,7 +120,7 @@ describe("err_cases", () => {
 });
 
 
-function part_testdata_rand_int16array() {
+function part_testdata_rand_float32array() {
   return Float32Array.from(new Array(4410), e => (Math.random() - 0.5) * 2);
   // - 0.5   --> Random number range is [ -0.5, 0.5)
   // * 2     -->                        [   -1,   1)
