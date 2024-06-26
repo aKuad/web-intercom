@@ -10,12 +10,12 @@
  *
  * Note: It supports -1.0 ~ 1.0 amplitude array. Out of this range will be thrown error.
  *
- * @param {Float32Array | Float64Array} frame_array
+ * @param {Float32Array | Float64Array} frame_array Audio PCM frame array
  * @returns {number} dBFS value
  *
- * @throws {TypeError}
- * @throws {RangeError}
- * @throws {RangeError}
+ * @throws {TypeError} If `frame_array` is not `Float32Array` or `Float64Array`
+ * @throws {RangeError} If `frame_array` is empty array
+ * @throws {RangeError} If `frame_array` has over 1.0 or under -1.0 elements
  */
 export function dbfs_float(frame_array) {
   // Arguments type checking
