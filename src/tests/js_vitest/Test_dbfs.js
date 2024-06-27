@@ -2,9 +2,10 @@
  * @file Tests for `dbfs.js` module
  *
  * Test cases:
- *   * Can encode/decode audio packet
- *   * Raise TypeError if invalid argument type is passed
- *   * Raise RangeError if invalid argument value is passed
+ *   * Can calculate dBFS from `Float32Array`, test by comparing loud pcm and quiet pcm
+ *   * Throw TypeError if invalid argument type is passed
+ *   * Throw RangeError if empty array is passed
+ *   * Throw RangeError if non -1.0~1.0 range array is passed
  *
  * Test steps:
  *   * Run this script by vitest - `npm test`
