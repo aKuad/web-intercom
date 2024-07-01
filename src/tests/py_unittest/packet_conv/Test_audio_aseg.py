@@ -3,6 +3,8 @@
 
 Test cases:
   * Can encode/decode audio packet from/to ``AudioSegment`` with[out] custom bytes to bytes
+  * Can encode/decode silent audio packet from/to ``AudioSegment`` with[out] custom bytes to bytes
+  * Can create silent audio packet when the audio dBFS is less than threshold
   * Raise TypeError if invalid argument is passed
   * Raise ValueError if invalid argument is passed
 
