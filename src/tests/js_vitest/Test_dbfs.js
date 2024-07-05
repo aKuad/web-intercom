@@ -13,13 +13,15 @@
  * @author aKuad
  */
 
-import { dbfs_float } from "../../static/dbfs.js"
 import { describe, test, expect } from "vitest"
+
+import { dbfs_float } from "../../static/dbfs.js"
+import { generate_rand_float32array } from "./util/rand_f32a.js"
 
 
 describe("true_cases", () => {
   test("float", () => {
-    const pcm_loud  = part_testdata_rand_float32array();
+    const pcm_loud  = generate_rand_float32array(4410);
     const pcm_quiet = pcm_loud.map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
 
     const dbfs_loud  = dbfs_float(pcm_loud);
@@ -48,17 +50,3 @@ describe("err_cases", () => {
     expect(() => dbfs_float(pcm_invalid_too_low_amp )).toThrowError(new RangeError("Out of range elements included, must be -1.0 ~ 1.0"));
   });
 });
-
-
-/**
- * Generate a random `Float32Array` 4410 length
- *
- * It can use for test data as random audio.
- *
- * @returns {Float32Array} Random array
- */
-function part_testdata_rand_float32array() {
-  return Float32Array.from(new Array(4410), e => (Math.random() - 0.5) * 2);
-  // - 0.5   --> Random number range is [ -0.5, 0.5)
-  // * 2     -->                        [   -1,   1)
-}
