@@ -16,6 +16,7 @@ import { describe, test, expect } from "vitest"
 
 import { packet_audio_encode, packet_audio_decode, is_audio_packet, AUDIO_PACKET_TYPE_ID } from "../../../static/packet_conv/audio.js"
 import { generate_rand_float32array } from "../util/rand_f32a.js"
+import { is_almost_equal_float32array } from "../util/almost_eq_f32a.js"
 
 
 const ERR_INT16_AND_FLOAT32 = 1 / 32767;
@@ -30,7 +31,7 @@ describe("true_cases", () => {
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     expect(is_audio_packet(raw_packet)).toBe(true);
-    expect(part_is_equal_f32a(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32)).toBe(true);
+    expect(is_almost_equal_float32array(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32)).toBe(true);
     expect(lane_name_prc).toBe(lane_name_org);
     expect(ext_bytes_prc).toStrictEqual(ext_bytes_org);
   });
@@ -44,7 +45,7 @@ describe("true_cases", () => {
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     expect(is_audio_packet(raw_packet)).toBe(true);
-    expect(part_is_equal_f32a(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32)).toBe(true);
+    expect(is_almost_equal_float32array(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32)).toBe(true);
     expect(lane_name_prc).toBe(lane_name_org);
     expect(ext_bytes_prc).toStrictEqual(ext_bytes_org);
   });
@@ -121,23 +122,3 @@ describe("err_cases", () => {
     expect(() => is_audio_packet(raw_packet_invalid_empty)).toThrowError(new RangeError("Empty array passed"));
   });
 });
-
-
-/**
- * Compare two Float32Array objects with allowing specified error
- *
- * Converting between float32 and int16, it includes error.
- *
- * @param {Float32Array} array1 Array to compare
- * @param {Float32Array} array2 Array to compare
- * @param {number} allow_diff Value difference to allow
- * @return {boolean} Equal: true, Otherwise: false
- */
-function part_is_equal_f32a(array1, array2, allow_diff) {
-  if(array1.length != array2.length) { return false; }
-
-  for(let i = 0; i < array1.length; i++) {
-    if(Math.abs(array1[i] - array2[i]) > allow_diff) { return false; }
-  }
-  return true;
-}
