@@ -19,8 +19,8 @@
       import { raw_mic_capture } from "/static/raw_mic_capture.js";
 
 
-      function try_StartAudioCapture() {
-        console.log("-- try_StartAudioCapture");
+      function try_start_audio_capture() {
+        console.log("-- try_start_audio_capture");
         raw_mic_capture(pcm => {
           console.log(pcm);
         }, 0.1, "/static/RawMicCaptureProcessor.js");
@@ -29,12 +29,12 @@
 
 
       window.addEventListener("load", () => {
-        document.getElementById("try_StartAudioCapture").addEventListener("click", try_StartAudioCapture);
+        document.getElementById("try_start_audio_capture").addEventListener("click", try_start_audio_capture);
       });
     </script>
   </head>
 
   <body>
-    <button id="try_StartAudioCapture">try_StartAudioCapture</button>
+    <button id="try_start_audio_capture">try_start_audio_capture</button>
   </body>
 </html>
