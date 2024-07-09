@@ -28,11 +28,20 @@ from random import randbytes
 from pydub import AudioSegment
 
 from modules.packet_conv import AUDIO_PARAM, audio_aseg
+from util.rand_aseg import generate_random_audioseg
 
 
 class Test_packet_conv_audio_aseg(unittest.TestCase):
+  @classmethod
+  def setUpClass(self):
+    self.TEST_AUDIO_PCM = generate_random_audioseg(AUDIO_PARAM.SAMPLE_RATE,
+                                                   AUDIO_PARAM.ONE_SAMPLE_BYTES,
+                                                   AUDIO_PARAM.CHANNELS,
+                                                   AUDIO_PARAM.FRAME_DURATION_SEC)
+
+
   def test_true_enc_dec_verify_ext(self):
-    audio_pcm_org = part_create_random_audioseg()
+    audio_pcm_org = self.TEST_AUDIO_PCM
     lane_name_org = "ABC"
     ext_bytes_org = bytes([1, 2, 3, 4])
 
@@ -47,7 +56,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_true_enc_dec_verify_noext(self):
-    audio_pcm_org = part_create_random_audioseg()
+    audio_pcm_org = self.TEST_AUDIO_PCM
     lane_name_org = "ABC"
     ext_bytes_org = bytes()
 
@@ -62,7 +71,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_true_enc_dec_verify_silent_ext(self):
-    audio_pcm_org = part_create_random_audioseg()
+    audio_pcm_org = self.TEST_AUDIO_PCM
     audio_pcm_org -= 20.0 # Make audio too silent
     lane_name_org = "ABC"
     ext_bytes_org = bytes([1, 2, 3, 4])
@@ -79,7 +88,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_true_enc_dec_verify_silent_noext(self):
-    audio_pcm_org = part_create_random_audioseg()
+    audio_pcm_org = self.TEST_AUDIO_PCM
     audio_pcm_org -= 20.0 # Make audio too silent
     lane_name_org = "ABC"
     ext_bytes_org = bytes()
@@ -96,14 +105,14 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_verify_ng(self):
-    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + part_create_random_audioseg().raw_data
+    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
     #                       ~~~~ as non 0x10 byte
 
     self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_id))
 
 
   def test_err_enc_invalid_type(self):
-    audio_pcm = part_create_random_audioseg()
+    audio_pcm = self.TEST_AUDIO_PCM
     lane_name = "ABC"
     ext_bytes = bytes([1,2,3])
 
@@ -113,7 +122,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_err_enc_invalid_value(self):
-    audio_pcm = part_create_random_audioseg()
+    audio_pcm = self.TEST_AUDIO_PCM
     lane_name = "ABC"
     ext_bytes = bytes([1,2,3])
 
@@ -131,7 +140,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_err_dec_invalid_value(self):
-    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + part_create_random_audioseg().raw_data
+    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
     #                       ~~~~ as non 0x10 byte
     raw_packet_invalid_len = audio_aseg.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
     # ext_bytes data missing packet
@@ -148,14 +157,6 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
     raw_packet_invalid_empty = bytes()
 
     self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_empty)
-
-
-def part_create_random_audioseg() -> AudioSegment:
-  raw = randbytes(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.FRAME_DURATION_SEC)) # Random bytes as random audio data
-  return AudioSegment(raw,
-                      sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
-                      frame_rate=AUDIO_PARAM.SAMPLE_RATE,
-                      channels=AUDIO_PARAM.CHANNELS)
 
 
 def part_create_silent_audioseg() -> AudioSegment:
