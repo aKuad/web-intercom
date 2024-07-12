@@ -35,6 +35,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
   def setUpClass(self):
     self.TEST_AUDIO_SHAPE = (int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS)
     self.TEST_AUDIO_PCM = generate_rand_ndarray_int(self.TEST_AUDIO_SHAPE, AUDIO_PARAM.DTYPE)
+    self.SILENT_AUDIO_PCM = np.zeros(self.TEST_AUDIO_SHAPE, AUDIO_PARAM.DTYPE)
 
 
   def test_true_enc_dec_verify_ext(self):
@@ -79,7 +80,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 
     self.assertEqual(raw_packet[0], audio_ndarray.SILENT_AUDIO_PACKET_TYPE_ID)
     self.assertTrue(audio_ndarray.is_audio_packet(raw_packet))
-    self.assertTrue((part_create_silent_ndarray() == audio_pcm_prc).all())
+    self.assertTrue((self.SILENT_AUDIO_PCM == audio_pcm_prc).all())
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)#
 
@@ -96,7 +97,7 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 
     self.assertEqual(raw_packet[0], audio_ndarray.SILENT_AUDIO_PACKET_TYPE_ID)
     self.assertTrue(audio_ndarray.is_audio_packet(raw_packet))
-    self.assertTrue((part_create_silent_ndarray() == audio_pcm_prc).all())
+    self.assertTrue((self.SILENT_AUDIO_PCM == audio_pcm_prc).all())
     self.assertEqual(lane_name_org, lane_name_prc)
     self.assertEqual(ext_bytes_org, ext_bytes_prc)#
 
@@ -149,10 +150,6 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
     raw_packet_invalid_empty = bytes()
 
     self.assertRaises(ValueError, audio_ndarray.is_audio_packet, raw_packet_invalid_empty)
-
-
-def part_create_silent_ndarray() -> np.ndarray:
-  return np.zeros(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC * AUDIO_PARAM.CHANNELS), dtype=AUDIO_PARAM.DTYPE)
 
 
 if __name__ == "__main__":
