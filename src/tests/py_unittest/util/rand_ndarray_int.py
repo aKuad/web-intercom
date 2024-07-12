@@ -1,5 +1,5 @@
 # coding: UTF-8
-"""Generate a random ``ndarray[int16]``
+"""Generate a random ``ndarray[int*]``
 
 Author:
   aKuad
@@ -10,7 +10,7 @@ import numpy as np
 
 
 def generate_rand_ndarray_int(shape: tuple[int, int], dtype) -> np.ndarray:
-  """Generate a random ``ndarray[int16]``
+  """Generate a random ``ndarray[int*]``
 
   Note:
     It's for only int array, not for float array.
