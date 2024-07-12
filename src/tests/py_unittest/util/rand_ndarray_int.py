@@ -20,7 +20,7 @@ def generate_rand_ndarray_int(shape: tuple[int, int], dtype) -> np.ndarray:
     dtype: Type of array
 
   Returns:
-    numpy.dtype: Generated random array
+    numpy.ndarray: Generated random array
 
   """
   return np.random.randint(np.iinfo(dtype).min, np.iinfo(dtype).max, size=shape, dtype=dtype)
