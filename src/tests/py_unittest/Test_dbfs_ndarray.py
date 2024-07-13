@@ -25,11 +25,15 @@ import numpy as np
 
 from modules.dbfs_ndarray import dbfs_ndarray_int
 from modules.packet_conv import AUDIO_PARAM
+from util.rand_ndarray_int import generate_rand_ndarray_int
 
 
 class Test_dbfs_ndarray(unittest.TestCase):
+  test_audio_shape = (int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS)
+
+
   def test_true_float(self):
-    pcm_loud  = part_create_random_ndarray()
+    pcm_loud  = generate_rand_ndarray_int(self.test_audio_shape, AUDIO_PARAM.DTYPE)
     pcm_quiet = (pcm_loud * 0.1).astype(AUDIO_PARAM.DTYPE)  # Apply gain -20[dB] = 10 ** (-20/20) = 0.1
 
     dbfs_loud  = dbfs_ndarray_int(pcm_loud)
@@ -42,7 +46,7 @@ class Test_dbfs_ndarray(unittest.TestCase):
 
 
   def test_err_float_invalid_type(self):
-    pcm_invalid_dtype = part_create_random_ndarray().astype(np.float32)
+    pcm_invalid_dtype = generate_rand_ndarray_int(self.test_audio_shape, AUDIO_PARAM.DTYPE).astype(np.float32)
 
     self.assertRaises(TypeError, dbfs_ndarray_int, "")  # str "" as non ndarray
     self.assertRaises(TypeError, dbfs_ndarray_int, pcm_invalid_dtype)
@@ -52,13 +56,6 @@ class Test_dbfs_ndarray(unittest.TestCase):
     pcm_invalid_empty = np.array([], dtype=AUDIO_PARAM.DTYPE)
 
     self.assertRaises(ValueError, dbfs_ndarray_int, pcm_invalid_empty)
-
-
-def part_create_random_ndarray() -> np.ndarray:
-  # Random bytes as random audio data
-  return np.random.randint(-(2**15), (2**15)-1,
-                           size=(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS),
-                           dtype=AUDIO_PARAM.DTYPE)
 
 
 if __name__ == "__main__":
