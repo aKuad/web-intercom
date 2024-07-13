@@ -8,10 +8,19 @@
  * @author aKuad
  */
 
+import { dbfs_float } from "../dbfs.js"
+
+
 /**
  * Packet type ID of audio packet
  */
 export const AUDIO_PACKET_TYPE_ID = 0x10;
+
+
+/**
+ * Packet type ID of silent audio packet
+ */
+export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
 
 
 /**
@@ -29,7 +38,7 @@ export const AUDIO_PACKET_TYPE_ID = 0x10;
  * @throws {RangeError} If ``lane_name`` has over 3 characters
  * @throws {RangeError} If ``ext_bytes`` has over 255 bytes
  */
-export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0)) {
+export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0), silent_threshold_dbfs = -20.0) {
   // Arguments type checking
   if(!(audio_pcm instanceof Float32Array)) {
     throw new TypeError("audio_pcm must be Float32Array");
@@ -59,7 +68,11 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   const text_encoder = new TextEncoder();
   const lane_name_uint8t = text_encoder.encode(lane_name_adj3);
 
-  return Uint8Array.of(AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes, ...audio_data_uint8t);
+  if(dbfs_float(audio_pcm) < silent_threshold_dbfs) {
+    return Uint8Array.of(SILENT_AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes);
+  } else {
+    return Uint8Array.of(AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes, ...audio_data_uint8t);
+  }
 }
 
 
@@ -92,11 +105,15 @@ export function packet_audio_decode(raw_packet) {
   const ext_data_len = raw_packet[4];
   const ext_data = raw_packet.slice(5, 5 + ext_data_len); // +1 for length byte\
 
-  const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);
-  const audio_data_int16t = new Int16Array(audio_data_uint8t.buffer);
-  const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
-
-  return [audio_data_float32t, lane_name, ext_data];
+  if(raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID) {
+    const audio_data_float32t = new Float32Array(4410);
+    return [audio_data_float32t, lane_name, ext_data];
+  } else {
+    const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);
+    const audio_data_int16t = new Int16Array(audio_data_uint8t.buffer);
+    const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
+    return [audio_data_float32t, lane_name, ext_data];
+  }
 }
 
 
@@ -122,7 +139,7 @@ export function is_audio_packet(raw_packet) {
     throw new RangeError("Empty array passed");
   }
 
-  if(raw_packet[0] === AUDIO_PACKET_TYPE_ID)
+  if(raw_packet[0] === AUDIO_PACKET_TYPE_ID || raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID)
     return true;
   else
     return false;

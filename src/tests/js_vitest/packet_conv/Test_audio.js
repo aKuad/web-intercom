@@ -23,7 +23,7 @@ const ERR_INT16_AND_FLOAT32 = 1 / 32767;
 
 
 describe("true_cases", () => {
-  test("enc_dec_verify_with_ext", () => {
+  test("enc_dec_verify_ext", () => {
     const audio_pcm_org = generate_rand_float32array(4410);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array([1,2,3,4]);
@@ -37,7 +37,7 @@ describe("true_cases", () => {
   });
 
 
-  test("enc_dec_verify_without_ext", () => {
+  test("enc_dec_verify_noext", () => {
     const audio_pcm_org = generate_rand_float32array(4410);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
@@ -51,8 +51,38 @@ describe("true_cases", () => {
   });
 
 
+  test("enc_dec_verify_silent_ext", () => {
+    const audio_pcm_org = generate_rand_float32array(4410).map(e => e * 0.1); // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
+    const silent_pcm = new Float32Array(4410);  // Zeros array
+    const lane_name_org = "ABC";
+    const ext_bytes_org = new Uint8Array([1,2,3,4]);
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+    const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
+
+    expect(is_audio_packet(raw_packet)).toBe(true);
+    expect(audio_pcm_prc).toStrictEqual(silent_pcm);
+    expect(lane_name_prc).toBe(lane_name_org);
+    expect(ext_bytes_prc).toStrictEqual(ext_bytes_org);
+  });
+
+
+  test("enc_dec_verify_silent_noext", () => {
+    const audio_pcm_org = generate_rand_float32array(4410).map(e => e * 0.1); // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
+    const silent_pcm = new Float32Array(4410);  // Zeros array
+    const lane_name_org = "ABC";
+    const ext_bytes_org = new Uint8Array();
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+    const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
+
+    expect(is_audio_packet(raw_packet)).toBe(true);
+    expect(audio_pcm_prc).toStrictEqual(silent_pcm);
+    expect(lane_name_prc).toBe(lane_name_org);
+    expect(ext_bytes_prc).toStrictEqual(ext_bytes_org);
+  });
+
+
   test("verify_ng", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
+    const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
     //                                          as non 0x10 byte
@@ -98,7 +128,7 @@ describe("err_cases", () => {
 
 
   test("dec_invalid_value", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x11, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
+    const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
     //                                          as non 0x10 byte
