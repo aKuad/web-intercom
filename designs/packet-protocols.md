@@ -59,7 +59,6 @@ server -> mixer client
 |             1 | uint8  | Lane ID                           |
 |             3 | string | Lane name (\*1)                   |
 |             1 | uint8  | Current volume value              |
-|             1 | uint8  | Current meter value               |
 |               |        | Repeat them for all audio clients |
 
 ## Loudness monitor packet
