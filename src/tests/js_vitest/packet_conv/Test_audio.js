@@ -85,7 +85,7 @@ describe("true_cases", () => {
     const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
-    //                                          as non 0x10 byte
+    //                                          as non 0x10 or 0x11 byte
 
     expect(is_audio_packet(raw_packet_invalid_id)).toBe(false);
   });
@@ -131,7 +131,7 @@ describe("err_cases", () => {
     const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
     //                                          ~~~~  ~~~~~~~~~~~~~~~~
     //                                           |     as string "ABC"
-    //                                          as non 0x10 byte
+    //                                          as non 0x10 or 0x11 byte
     const raw_packet_invalid_len = Uint8Array.of(AUDIO_PACKET_TYPE_ID, 0x41, 0x42, 0x43);
     // invalid len - means ext_bytes data missing packet
 
