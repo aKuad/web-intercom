@@ -23,9 +23,6 @@ sys.path.append(Path(__file__).absolute().parent.parent.parent.parent.__str__())
 
 
 import unittest
-from random import randbytes
-
-from pydub import AudioSegment
 
 from modules.packet_conv import AUDIO_PARAM, audio_aseg
 from util.rand_aseg import generate_random_audioseg
