@@ -53,22 +53,21 @@ mixer client -> serve
 
 server -> mixer client
 
-| Length [byte] | type   | Description                       |
-| ------------: | ------ | --------------------------------- |
-|             1 | uint8  | Packet type ID (0x30)             |
-|             1 | uint8  | Lane ID                           |
-|             3 | string | Lane name (\*1)                   |
-|             1 | uint8  | Current volume value              |
-|             1 | uint8  | Current meter value               |
-|               |        | Repeat them for all audio clients |
+| Length [byte] | type   | Description                                    |
+| ------------: | ------ | ---------------------------------------------- |
+|             1 | uint8  | Packet type ID (0x30)                          |
+|             1 | uint8  | Lane ID                                        |
+|             3 | string | Lane name (\*1)                                |
+|             1 | uint8  | Current volume value                           |
+|               |        | Repeat them (without ID) for all audio clients |
 
 ## Loudness monitor packet
 
 server -> mixer client
 
-| Length [byte] | Type  | Description                       |
-| ------------: | ----- | --------------------------------- |
-|             1 | uint8 | Packet type ID (0x40)             |
-|             1 | uint8 | Lane ID                           |
-|             1 | uint8 | Current loudness                  |
-|               |       | Repeat them for all audio clients |
+| Length [byte] | Type  | Description                                    |
+| ------------: | ----- | ---------------------------------------------- |
+|             1 | uint8 | Packet type ID (0x40)                          |
+|             1 | uint8 | Lane ID                                        |
+|             1 | uint8 | Current loudness                               |
+|               |       | Repeat them (without ID) for all audio clients |
