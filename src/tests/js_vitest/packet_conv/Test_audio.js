@@ -82,9 +82,13 @@ describe("true_cases", () => {
 
 
   test("verify_ng", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
-    //                                          ~~~~  ~~~~~~~~~~~~~~~~
-    //                                           |     as string "ABC"
+    const audio_pcm_org = generate_rand_float32array(4410);
+    const lane_name_org = "ABC";
+    const ext_bytes_org = new Uint8Array();
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+
+    const raw_packet_invalid_id = Uint8Array.of(0x20, raw_packet.slice(1));
+    //                                          ~~~~
     //                                          as non 0x10 or 0x11 byte
 
     expect(is_audio_packet(raw_packet_invalid_id)).toBe(false);
@@ -128,9 +132,13 @@ describe("err_cases", () => {
 
 
   test("dec_invalid_value", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x20, 0x41, 0x42, 0x43, 0x00, ...generate_rand_float32array(4410));
-    //                                          ~~~~  ~~~~~~~~~~~~~~~~
-    //                                           |     as string "ABC"
+    const audio_pcm_org = generate_rand_float32array(4410);
+    const lane_name_org = "ABC";
+    const ext_bytes_org = new Uint8Array();
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+
+    const raw_packet_invalid_id = Uint8Array.of(0x20, raw_packet.slice(1));
+    //                                          ~~~~
     //                                          as non 0x10 or 0x11 byte
     const raw_packet_invalid_len = Uint8Array.of(AUDIO_PACKET_TYPE_ID, 0x41, 0x42, 0x43);
     // invalid len - means ext_bytes data missing packet
