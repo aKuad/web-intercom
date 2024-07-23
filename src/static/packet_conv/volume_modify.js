@@ -93,8 +93,5 @@ export function is_volume_modify_packet(raw_packet) {
     throw new RangeError("Empty array passed");
   }
 
-  if(raw_packet[0] === VOLUME_MODIFY_PACKET_TYPE_ID)
-    return true;
-  else
-    return false;
+  return raw_packet[0] === VOLUME_MODIFY_PACKET_TYPE_ID;
 }
