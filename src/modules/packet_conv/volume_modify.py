@@ -99,7 +99,4 @@ def is_volume_modify_packet(raw_packet: bytes):
   if(len(raw_packet) == 0):
     raise ValueError("Empty bytes passed")
 
-  if(raw_packet[0] == VOLUME_MODIFY_PACKET_TYPE_ID):
-    return True
-  else:
-    return False
+  return raw_packet[0] == VOLUME_MODIFY_PACKET_TYPE_ID

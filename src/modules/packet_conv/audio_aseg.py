@@ -142,7 +142,4 @@ def is_audio_packet(raw_packet):
   if(len(raw_packet) == 0):
     raise ValueError("Empty bytes passed")
 
-  if(raw_packet[0] == AUDIO_PACKET_TYPE_ID or raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID):
-    return True
-  else:
-    return False
+  return raw_packet[0] == AUDIO_PACKET_TYPE_ID or raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID

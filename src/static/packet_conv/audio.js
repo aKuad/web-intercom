@@ -139,5 +139,5 @@ export function is_audio_packet(raw_packet) {
     throw new RangeError("Empty array passed");
   }
 
-  return (raw_packet[0] === AUDIO_PACKET_TYPE_ID || raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID);
+  return raw_packet[0] === AUDIO_PACKET_TYPE_ID || raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID;
 }
