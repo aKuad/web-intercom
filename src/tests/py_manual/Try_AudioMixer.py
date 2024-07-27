@@ -24,6 +24,7 @@ from pydub import AudioSegment
 import sounddevice
 
 from modules.AudioMixer import AudioMixer
+from modules.packet_conv import AUDIO_PARAM
 
 
 # Global variables (for callback function)
@@ -47,7 +48,7 @@ def part_callback(indata, outdata, frames, time, status):
     audio_mixer.lane_io(lane_2, in_unstable_as)
 
   lane_out_aseg = audio_mixer.lane_io(lane_3, in_silent_as)
-  outdata[:] = frombuffer(lane_out_aseg.raw_data, dtype="int16").reshape(-1, 1)
+  outdata[:] = frombuffer(lane_out_aseg.raw_data, dtype=AUDIO_PARAM.DTYPE).reshape(-1, AUDIO_PARAM.CHANNELS)
 
   i += 1
   if i >= 20:
@@ -58,17 +59,31 @@ if __name__ == "__main__":
   # Test data preparation
   print("Continuous input data recording...")
   sleep(1)
-  in_continuous_nd = sounddevice.rec(4410, 44100, 1, "int16", blocking=True)
-  in_continuous_as = AudioSegment(in_continuous_nd.tobytes(), sample_width=2, frame_rate=44100, channels=1)
+  in_continuous_nd = sounddevice.rec(AUDIO_PARAM.ONE_FRAME_SAMPLES,
+                                     AUDIO_PARAM.SAMPLE_RATE,
+                                     AUDIO_PARAM.CHANNELS,
+                                     AUDIO_PARAM.DTYPE,
+                                     blocking=True)
+  in_continuous_as = AudioSegment(in_continuous_nd.tobytes(),
+                                  sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
+                                  frame_rate=AUDIO_PARAM.SAMPLE_RATE,
+                                  channels=AUDIO_PARAM.CHANNELS)
   print(f"{in_continuous_as.dBFS} dBFS")
 
   print("Unstable input data recording...")
   sleep(1)
-  in_unstable_nd = sounddevice.rec(4410, 44100, 1, "int16", blocking=True)
-  in_unstable_as = AudioSegment(in_unstable_nd.tobytes(), sample_width=2, frame_rate=44100, channels=1)
+  in_unstable_nd = sounddevice.rec(AUDIO_PARAM.ONE_FRAME_SAMPLES,
+                                   AUDIO_PARAM.SAMPLE_RATE,
+                                   AUDIO_PARAM.CHANNELS,
+                                   AUDIO_PARAM.DTYPE,
+                                   blocking=True)
+  in_unstable_as = AudioSegment(in_unstable_nd.tobytes(),
+                                sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
+                                frame_rate=AUDIO_PARAM.SAMPLE_RATE,
+                                channels=AUDIO_PARAM.CHANNELS)
   print(f"{in_unstable_as.dBFS} dBFS")
 
-  in_silent_as = AudioSegment.silent(100, 44100)
+  in_silent_as = AudioSegment.silent(int(AUDIO_PARAM.FRAME_DURATION_SEC * 1000), AUDIO_PARAM.SAMPLE_RATE)
 
 
   # AudioMixer preparation
@@ -82,7 +97,11 @@ if __name__ == "__main__":
   i = 0
 
   try:
-    with sounddevice.Stream(44100, 4410, channels=1, dtype="int16", callback=part_callback):
+    with sounddevice.Stream(AUDIO_PARAM.SAMPLE_RATE,
+                            AUDIO_PARAM.ONE_FRAME_SAMPLES,
+                            channels=AUDIO_PARAM.CHANNELS,
+                            dtype=AUDIO_PARAM.DTYPE,
+                            callback=part_callback):
       while True:
         sounddevice.sleep(1)
   except KeyboardInterrupt:
