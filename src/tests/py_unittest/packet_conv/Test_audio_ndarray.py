@@ -33,7 +33,7 @@ from util.rand_ndarray_int import generate_rand_ndarray_int
 class Test_packet_conv_audio_ndarray(unittest.TestCase):
   @classmethod
   def setUpClass(self):
-    self.TEST_AUDIO_SHAPE = (int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS)
+    self.TEST_AUDIO_SHAPE = (AUDIO_PARAM.ONE_FRAME_SAMPLES, AUDIO_PARAM.CHANNELS)
     self.TEST_AUDIO_PCM = generate_rand_ndarray_int(self.TEST_AUDIO_SHAPE, AUDIO_PARAM.DTYPE)
     self.SILENT_AUDIO_PCM = np.zeros(self.TEST_AUDIO_SHAPE, AUDIO_PARAM.DTYPE)
 

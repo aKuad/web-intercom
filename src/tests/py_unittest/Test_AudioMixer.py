@@ -71,7 +71,7 @@ class Test_AudioMixer(unittest.TestCase):
 
     self.assertRaises(TypeError, audio_mixer.lane_io, lane_id, "str")
 
-    segment_raw_len = int(AUDIO_PARAM.FRAME_DURATION_SEC * AUDIO_PARAM.SAMPLE_RATE) * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS
+    segment_raw_len = AUDIO_PARAM.ONE_FRAME_SAMPLES * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS
 
     segment_invalid_duration     = AudioSegment(randbytes(segment_raw_len * 2), sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
     segment_invalid_sample_width = AudioSegment(randbytes(segment_raw_len)    , sample_width=1                           , frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
@@ -89,7 +89,7 @@ class Test_AudioMixer(unittest.TestCase):
     lane_id_in = audio_mixer.create_lane()
     lane_id_out = audio_mixer.create_lane()
 
-    segment_raw_len = int(AUDIO_PARAM.FRAME_DURATION_SEC * AUDIO_PARAM.SAMPLE_RATE) * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS
+    segment_raw_len = AUDIO_PARAM.ONE_FRAME_SAMPLES * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS
     segment_in = AudioSegment(randbytes(segment_raw_len), sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES, frame_rate=AUDIO_PARAM.SAMPLE_RATE, channels=AUDIO_PARAM.CHANNELS)
 
     audio_mixer.lane_io(lane_id_in, segment_in)

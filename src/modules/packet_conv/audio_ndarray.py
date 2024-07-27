@@ -113,7 +113,7 @@ def decode(raw_packet: bytes) -> tuple[np.ndarray, str, bytes]:
   ext_bytes = raw_packet[5 : 5 + ext_bytes_len]
 
   if(raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID):
-    audio_pcm = np.zeros(int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC * AUDIO_PARAM.CHANNELS), dtype=AUDIO_PARAM.DTYPE)
+    audio_pcm = np.zeros(int(AUDIO_PARAM.ONE_FRAME_SAMPLES * AUDIO_PARAM.CHANNELS), dtype=AUDIO_PARAM.DTYPE)
     audio_pcm = audio_pcm.reshape(-1, AUDIO_PARAM.CHANNELS)
   else:
     audio_pcm_raw = raw_packet[5 + ext_bytes_len :]
