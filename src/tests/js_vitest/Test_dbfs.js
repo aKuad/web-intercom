@@ -15,13 +15,14 @@
 
 import { describe, test, expect } from "vitest"
 
+import { ONE_FRAME_SAMPLES } from "../../static/packet_conv/AUDIO_PARAM.js";
 import { dbfs_float } from "../../static/dbfs.js"
 import { generate_rand_float32array } from "./util/rand_f32a.js"
 
 
 describe("true_cases", () => {
   test("float", () => {
-    const pcm_loud  = generate_rand_float32array(4410);
+    const pcm_loud  = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const pcm_quiet = pcm_loud.map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
 
     const dbfs_loud  = dbfs_float(pcm_loud);

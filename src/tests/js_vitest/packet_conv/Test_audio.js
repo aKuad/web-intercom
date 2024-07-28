@@ -14,6 +14,7 @@
 
 import { describe, test, expect } from "vitest"
 
+import { ONE_FRAME_SAMPLES } from "../../../static/packet_conv/AUDIO_PARAM.js"
 import { packet_audio_encode, packet_audio_decode, is_audio_packet, AUDIO_PACKET_TYPE_ID } from "../../../static/packet_conv/audio.js"
 import { generate_rand_float32array } from "../util/rand_f32a.js"
 import { is_almost_equal_float32array } from "../util/almost_eq_f32a.js"
@@ -24,7 +25,7 @@ const ERR_INT16_AND_FLOAT32 = 1 / 32767;
 
 describe("true_cases", () => {
   test("enc_dec_verify_ext", () => {
-    const audio_pcm_org = generate_rand_float32array(4410);
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array([1,2,3,4]);
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -38,7 +39,7 @@ describe("true_cases", () => {
 
 
   test("enc_dec_verify_noext", () => {
-    const audio_pcm_org = generate_rand_float32array(4410);
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -52,8 +53,8 @@ describe("true_cases", () => {
 
 
   test("enc_dec_verify_silent_ext", () => {
-    const audio_pcm_org = generate_rand_float32array(4410).map(e => e * 0.1); // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
-    const silent_pcm = new Float32Array(4410);  // Zeros array
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES).map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
+    const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array([1,2,3,4]);
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -67,8 +68,8 @@ describe("true_cases", () => {
 
 
   test("enc_dec_verify_silent_noext", () => {
-    const audio_pcm_org = generate_rand_float32array(4410).map(e => e * 0.1); // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
-    const silent_pcm = new Float32Array(4410);  // Zeros array
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES).map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
+    const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -82,7 +83,7 @@ describe("true_cases", () => {
 
 
   test("verify_ng", () => {
-    const audio_pcm_org = generate_rand_float32array(4410);
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
@@ -98,7 +99,7 @@ describe("true_cases", () => {
 
 describe("err_cases", () => {
   test("enc_invalid_type", () => {
-    const audio_pcm = generate_rand_float32array(4410);
+    const audio_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
@@ -112,7 +113,7 @@ describe("err_cases", () => {
 
 
   test("enc_invalid_value", () => {
-    const audio_pcm = generate_rand_float32array(4410);
+    const audio_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
@@ -132,7 +133,7 @@ describe("err_cases", () => {
 
 
   test("dec_invalid_value", () => {
-    const audio_pcm_org = generate_rand_float32array(4410);
+    const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
     const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
