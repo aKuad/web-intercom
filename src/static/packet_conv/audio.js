@@ -8,6 +8,7 @@
  * @author aKuad
  */
 
+import { ONE_FRAME_SAMPLES } from "./AUDIO_PARAM.js";
 import { dbfs_float } from "../dbfs.js"
 
 
@@ -106,7 +107,7 @@ export function packet_audio_decode(raw_packet) {
   const ext_data = raw_packet.slice(5, 5 + ext_data_len); // +1 for length byte\
 
   if(raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID) {
-    const audio_data_float32t = new Float32Array(4410);
+    const audio_data_float32t = new Float32Array(ONE_FRAME_SAMPLES);
     return [audio_data_float32t, lane_name, ext_data];
   } else {
     const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);

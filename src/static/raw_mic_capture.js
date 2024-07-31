@@ -6,6 +6,9 @@
  * @author aKuad
  */
 
+import { SAMPLE_RATE } from "./packet_conv/AUDIO_PARAM.js"
+
+
 /**
  * @callback on_frame_ready Callback when sample buffer reached to specified frame length
  * @param {Array<number>} pcm Fetched PCM array at float
@@ -19,7 +22,6 @@
  * @param {string} processor_path File path of `RawMicCaptureProcessor` defined module
  */
 export async function raw_mic_capture(frame_ready_callback, frame_dur_sec, processor_path) {
-  const SAMPLE_RATE = 44100;
   const audio_ctx = new AudioContext({sampleRate: SAMPLE_RATE});
 
   const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});

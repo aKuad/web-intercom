@@ -4,6 +4,9 @@
  * @author aKuad
  */
 
+import { SAMPLE_RATE, ONE_FRAME_SAMPLES } from "./packet_conv/AUDIO_PARAM.js";
+
+
 /**
  * WebAudioAPI processor definition of exporting PCM (raw audio array) from node input to node message port
  *
@@ -16,9 +19,9 @@ class RawMicCaptureProcessor extends AudioWorkletProcessor {
     return [
       {
         name: 'frame_sample_len',
-        defaultValue: 4410,
+        defaultValue: ONE_FRAME_SAMPLES,
         minValue: 0,
-        maxValue: 44100,
+        maxValue: SAMPLE_RATE,
       },
     ]
   }
