@@ -103,7 +103,7 @@ def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
   ext_bytes = raw_packet[5 : 5 + ext_bytes_len]
 
   if(raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID):
-    audio_pcm_len = int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS)
+    audio_pcm_len = int(AUDIO_PARAM.ONE_FRAME_SAMPLES * AUDIO_PARAM.ONE_SAMPLE_BYTES * AUDIO_PARAM.CHANNELS)
     audio_pcm = AudioSegment(bytes(audio_pcm_len),
                              sample_width=AUDIO_PARAM.ONE_SAMPLE_BYTES,
                              frame_rate=AUDIO_PARAM.SAMPLE_RATE,

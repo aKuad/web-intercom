@@ -29,7 +29,7 @@ from util.rand_ndarray_int import generate_rand_ndarray_int
 
 
 class Test_dbfs_ndarray(unittest.TestCase):
-  test_audio_shape = (int(AUDIO_PARAM.SAMPLE_RATE * AUDIO_PARAM.FRAME_DURATION_SEC), AUDIO_PARAM.CHANNELS)
+  test_audio_shape = (AUDIO_PARAM.ONE_FRAME_SAMPLES, AUDIO_PARAM.CHANNELS)
 
 
   def test_true_float(self):
