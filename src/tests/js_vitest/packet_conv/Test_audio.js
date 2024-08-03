@@ -90,13 +90,13 @@ describe("true_cases", () => {
     const audio_pcm_silent_org = new Float32Array(ONE_FRAME_SAMPLES);
     const raw_packet_silent_correct = packet_audio_encode(audio_pcm_silent_org, lane_name_org, ext_bytes_org);
 
-    const raw_packet_invalid_empty = new Uint8Array();
-    const raw_packet_invalid_id = Uint8Array.of(0x20, raw_packet_correct.slice(1)); // 0x20 as non 0x10 or 0x11 byte
-    const raw_packet_invalid_no_extlen = raw_packet_correct.slice(0, 4);
-    const raw_packet_invalid_audio_too_short = raw_packet_correct.slice(0, -1);
-    const raw_packet_invalid_audio_too_long = Uint8Array.of(...raw_packet_correct, 0);  // 0 as an over length byte
+    const raw_packet_invalid_empty                  = new Uint8Array();
+    const raw_packet_invalid_id                     = Uint8Array.of(0x20, raw_packet_correct.slice(1)); // 0x20 as non 0x10 or 0x11 byte
+    const raw_packet_invalid_no_extlen              = raw_packet_correct.slice(0, 4);
+    const raw_packet_invalid_audio_too_short        = raw_packet_correct.slice(0, -1);
+    const raw_packet_invalid_audio_too_long         = Uint8Array.of(...raw_packet_correct, 0);  // 0 as an over length byte
     const raw_packet_invalid_silent_audio_too_short = raw_packet_silent_correct.slice(0, -1);
-    const raw_packet_invalid_silent_audio_too_long = Uint8Array.of(...raw_packet_silent_correct, 0);  // 0 as an over length byte
+    const raw_packet_invalid_silent_audio_too_long  = Uint8Array.of(...raw_packet_silent_correct, 0); // 0 as an over length byte
 
     expect(is_audio_packet("")                                       ).toBe(false); // string "" as non Uint8Array
     expect(is_audio_packet(raw_packet_invalid_empty)                 ).toBe(false);
