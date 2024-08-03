@@ -111,7 +111,7 @@ export function packet_audio_decode(raw_packet) {
  * Verify the packet is audio packet
  *
  * @param {Uint8Array} raw_packet Packet to verify
- * @param {boolean} throw_on_invalid Toggle behavior if packet is invalid, true: raise exception false: return false
+ * @param {boolean} throw_on_invalid Toggle behavior if packet is invalid, true: raise exception, false: return false
  * @returns {boolean} It is an audio packet: true, otherwise: false (if throw_on_invalid === true, error will be thrown)
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
