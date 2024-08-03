@@ -107,10 +107,36 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   def test_verify_ng(self):
-    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
-    #                       ~~~~ as non 0x10 byte
+    lane_name_org = "ABC"
+    ext_bytes_org = bytes()
+    raw_packet_correct = audio_aseg.encode(self.TEST_AUDIO_PCM, lane_name_org, ext_bytes_org)
+    raw_packet_silent_correct = audio_aseg.encode(self.SILENT_AUDIO_PCM, lane_name_org, ext_bytes_org)
 
+    raw_packet_invalid_empty                  = bytes()
+    raw_packet_invalid_id                     = bytes([0x20]) + raw_packet_correct[1:]  # 0x20 as non 0x10 or 0x11 byte
+    raw_packet_invalid_no_extlen              = raw_packet_correct[0:4]
+    raw_packet_invalid_audio_too_short        = raw_packet_correct[0:-1]
+    raw_packet_invalid_audio_too_long         = raw_packet_correct + bytes([0]) # 0 as an over length byte
+    raw_packet_invalid_silent_audio_too_short = raw_packet_silent_correct[0:-1]
+    raw_packet_invalid_silent_audio_too_long  = raw_packet_silent_correct + bytes([0]) # 0 as an over length byte
+
+    self.assertFalse(audio_aseg.is_audio_packet(""))  # string "" as non bytes
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_empty))
     self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_id))
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_no_extlen))
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_audio_too_short))
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_audio_too_long))
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_silent_audio_too_short))
+    self.assertFalse(audio_aseg.is_audio_packet(raw_packet_invalid_silent_audio_too_long))
+
+    self.assertRaises(TypeError , audio_aseg.is_audio_packet, ""                                       , True)  # string "" as non bytes
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_empty                 , True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_id                    , True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_no_extlen             , True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_audio_too_short       , True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_audio_too_long        , True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_silent_audio_too_short, True)
+    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_silent_audio_too_long , True)
 
 
   def test_err_enc_invalid_type(self):
@@ -138,27 +164,34 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
 
 
   # def test_err_dec_invalid_type(self):
-    # type checking will be tested in test_err_verify_invalid_type
+  #   # packet verification integrated to `is_audio_packet` tests
+  #   pass
 
 
-  def test_err_dec_invalid_value(self):
-    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
-    #                       ~~~~ as non 0x10 byte
-    raw_packet_invalid_len = audio_aseg.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
-    # ext_bytes data missing packet
+  # def test_err_dec_invalid_value(self):
+  #   # packet verification integrated to `is_audio_packet` tests
+  #   pass
+    # raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
+    # #                       ~~~~ as non 0x10 byte
+    # raw_packet_invalid_len = audio_aseg.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
+    # # ext_bytes data missing packet
 
-    self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_id)
-    self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_len)
-
-
-  def test_err_verify_invalid_type(self):
-    self.assertRaises(TypeError, audio_aseg.decode, "")  # str "" as non bytes
+    # self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_id)
+    # self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_len)
 
 
-  def test_err_verify_invalid_value(self):
-    raw_packet_invalid_empty = bytes()
+  # def test_err_verify_invalid_type(self):
+  #   # no error cases of `is_audio_packet`
+  #   pass
+  #   self.assertRaises(TypeError, audio_aseg.decode, "")  # str "" as non bytes
 
-    self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_empty)
+
+  # def test_err_verify_invalid_value(self):
+  #   # no error cases of `is_audio_packet`
+  #   pass
+  #   raw_packet_invalid_empty = bytes()
+
+  #   self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_empty)
 
 
 if __name__ == "__main__":
