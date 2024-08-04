@@ -7,6 +7,8 @@ Test cases:
   * Can create silent audio packet when the audio dBFS is less than threshold
   * Raise TypeError if invalid argument is passed
   * Raise ValueError if invalid argument is passed
+  * Can check an bytes is correct audio/silent-audio packet
+  * Raise TypeError or ValueError if non audio/silent-audio packet is passed to decode function
 
 Test steps:
   * Run this script by unittest - ``python3 -m unittest discover "Test_*.py"``
