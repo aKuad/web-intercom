@@ -102,6 +102,11 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
     self.assertEqual(ext_bytes_org, ext_bytes_prc)#
 
 
+  # def test_true_verify_ng(self):
+  #   # is_audio_packet() implemented in `audio_aseg`, so this test omitted
+  #   pass
+
+
   def test_err_enc_invalid_type(self):
     audio_pcm = self.TEST_AUDIO_PCM
     audio_pcm_invalid = audio_pcm.astype(np.float32)  # float32 as non int16  type
@@ -129,27 +134,23 @@ class Test_packet_conv_audio_ndarray(unittest.TestCase):
 
 
   # def test_err_dec_invalid_type(self):
-    # type checking will be tested in test_err_verify_invalid_type
+  #   # packet verification integrated to `is_audio_packet` tests
+  #   pass
 
 
-  def test_err_dec_invalid_value(self):
-    raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.tobytes()
-    #                       ~~~~ as non 0x10 byte
-    raw_packet_invalid_len = audio_ndarray.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
-    # ext_bytes data missing packet
-
-    self.assertRaises(ValueError, audio_ndarray.decode, raw_packet_invalid_id)
-    self.assertRaises(ValueError, audio_ndarray.decode, raw_packet_invalid_len)
+  # def test_err_dec_invalid_value(self):
+  #   # packet verification integrated to `is_audio_packet` tests
+  #   pass
 
 
-  def test_err_verify_invalid_type(self):
-    self.assertRaises(TypeError, audio_ndarray.decode, "")  # str "" as non bytes
+  # def test_err_verify_invalid_type(self):
+  #   # no error cases of `is_audio_packet`
+  #   pass
 
 
-  def test_err_verify_invalid_value(self):
-    raw_packet_invalid_empty = bytes()
-
-    self.assertRaises(ValueError, audio_ndarray.is_audio_packet, raw_packet_invalid_empty)
+  # def test_err_verify_invalid_value(self):
+  #   # no error cases of `is_audio_packet`
+  #   pass
 
 
 if __name__ == "__main__":
