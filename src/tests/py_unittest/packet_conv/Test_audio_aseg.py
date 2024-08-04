@@ -108,7 +108,7 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
     self.assertEqual(ext_bytes_org, ext_bytes_prc)
 
 
-  def test_verify_ng(self):
+  def test_true_verify_ng(self):
     lane_name_org = "ABC"
     ext_bytes_org = bytes()
     raw_packet_correct = audio_aseg.encode(self.TEST_AUDIO_PCM, lane_name_org, ext_bytes_org)
