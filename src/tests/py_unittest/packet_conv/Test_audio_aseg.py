@@ -171,27 +171,16 @@ class Test_packet_conv_audio_aseg(unittest.TestCase):
   # def test_err_dec_invalid_value(self):
   #   # packet verification integrated to `is_audio_packet` tests
   #   pass
-    # raw_packet_invalid_id = b"A" + b"ABC" + bytes([0]) + self.TEST_AUDIO_PCM.raw_data
-    # #                       ~~~~ as non 0x10 byte
-    # raw_packet_invalid_len = audio_aseg.AUDIO_PACKET_TYPE_ID.to_bytes(1, "little") + b"ABC"
-    # # ext_bytes data missing packet
-
-    # self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_id)
-    # self.assertRaises(ValueError, audio_aseg.decode, raw_packet_invalid_len)
 
 
   # def test_err_verify_invalid_type(self):
   #   # no error cases of `is_audio_packet`
   #   pass
-  #   self.assertRaises(TypeError, audio_aseg.decode, "")  # str "" as non bytes
 
 
   # def test_err_verify_invalid_value(self):
   #   # no error cases of `is_audio_packet`
   #   pass
-  #   raw_packet_invalid_empty = bytes()
-
-  #   self.assertRaises(ValueError, audio_aseg.is_audio_packet, raw_packet_invalid_empty)
 
 
 if __name__ == "__main__":
