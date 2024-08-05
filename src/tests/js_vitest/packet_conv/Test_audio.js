@@ -15,7 +15,7 @@
 import { describe, test, expect } from "vitest"
 
 import { ONE_FRAME_SAMPLES } from "../../../static/packet_conv/AUDIO_PARAM.js"
-import { packet_audio_encode, packet_audio_decode, is_audio_packet, AUDIO_PACKET_TYPE_ID } from "../../../static/packet_conv/audio.js"
+import { packet_audio_encode, packet_audio_decode, is_audio_packet } from "../../../static/packet_conv/audio.js"
 import { generate_rand_float32array } from "../util/rand_f32a.js"
 import { is_almost_equal_float32array } from "../util/almost_eq_f32a.js"
 

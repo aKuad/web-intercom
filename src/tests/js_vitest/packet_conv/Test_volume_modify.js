@@ -12,7 +12,7 @@
  * @author aKuad
  */
 
-import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_modify_packet, VOLUME_MODIFY_PACKET_TYPE_ID } from "../../../static/packet_conv/volume_modify.js"
+import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_modify_packet } from "../../../static/packet_conv/volume_modify.js"
 import { describe, test, expect } from "vitest"
 
 
