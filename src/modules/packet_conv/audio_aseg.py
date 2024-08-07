@@ -113,7 +113,7 @@ def decode(raw_packet: bytes) -> tuple[AudioSegment, str, bytes]:
   return (audio_pcm, lane_name, ext_bytes)
 
 
-def is_audio_packet(raw_packet, raise_on_invalid = False):
+def is_audio_packet(raw_packet: bytes, raise_on_invalid: bool = False):
   """Verify the packet is audio packet or silent audio packet
 
   Args:
