@@ -65,14 +65,15 @@ describe("err_cases", () => {
 
 
   test("dec_invalid_value", () => {
-    const raw_packet_invalid_id = Uint8Array.of(0x21, 1, 100);
-    //                                          ~~~~ as non 0x20 byte
-    const raw_packet_invalid_short_len = Uint8Array.of(VOLUME_MODIFY_PACKET_TYPE_ID, 1);
-    // No modified_volume data packet
-    const raw_packet_invalid_long_len = Uint8Array.of(VOLUME_MODIFY_PACKET_TYPE_ID, 1, 100, 1);
-    // Too long packet
+    const lane_id = 1;
+    const modified_volume = 100;
+    const raw_packet_correct = packet_volume_modify_encode(lane_id, modified_volume);
 
-    expect(() => packet_volume_modify_decode(raw_packet_invalid_id)).toThrowError(new RangeError("Invalid packet, it is not an volume_modify packet"));
+    const raw_packet_invalid_id        = Uint8Array.of(0x21, raw_packet_correct.slice(1));  // 0x21 non 0x20 byte
+    const raw_packet_invalid_short_len = raw_packet_correct.slice(0, 2);  // No modified_volume data packet
+    const raw_packet_invalid_long_len  = Uint8Array.of(...raw_packet_correct, 1); // 1 as an over length byte
+
+    expect(() => packet_volume_modify_decode(raw_packet_invalid_id       )).toThrowError(new RangeError("Invalid packet, it is not an volume_modify packet"));
     expect(() => packet_volume_modify_decode(raw_packet_invalid_short_len)).toThrowError(new RangeError("Invalid packet, length must be 3"));
     expect(() => packet_volume_modify_decode(raw_packet_invalid_long_len )).toThrowError(new RangeError("Invalid packet, length must be 3"));
   });
