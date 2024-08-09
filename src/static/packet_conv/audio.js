@@ -122,51 +122,51 @@ export function packet_audio_decode(raw_packet) {
  * @throws {RangeError} If `raw_packet` is too long bytes as silent audio packet
  */
 export function is_audio_packet(raw_packet, throw_on_invalid = false) {
-  // Arguments type checking
-  if(!(raw_packet instanceof Uint8Array)) {
-    if(!throw_on_invalid) { return false; }
-    throw new TypeError("raw_packet must be Uint8Array");
-  }
-
-  // Packet content availability checking
-  if(raw_packet.length === 0) {
-    if(!throw_on_invalid) { return false; }
-    throw new RangeError("Empty array passed");
-  }
-
-  // Packet type ID checking
-  if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID && raw_packet[0] !== SILENT_AUDIO_PACKET_TYPE_ID) {
-    if(!throw_on_invalid) { return false; }
-    throw new RangeError("It is not an audio packet or silent audio packet");
-  }
-
-  // Packet length checking
-  if(raw_packet.length < 5) {
-    if(!throw_on_invalid) { return false; }
-    throw new RangeError("Too short bytes received, external bytes length missing");
-  }
-
-  // Packet length checking (for [non]silent pattern)
-  if(raw_packet[0] === AUDIO_PACKET_TYPE_ID) {
-    const EXPECTED_LENGTH = 5 + raw_packet[4] + ONE_FRAME_SAMPLES * ONE_SAMPLE_BYTES;
-    if       (raw_packet.length < EXPECTED_LENGTH) {
-      if(!throw_on_invalid) { return false; }
-      throw new RangeError("Too short bytes as audio packet");
-    } else if(raw_packet.length > EXPECTED_LENGTH) {
-      if(!throw_on_invalid) { return false; }
-      throw new RangeError("Too long bytes as audio packet");
+  try {
+    // Arguments type checking
+    if(!(raw_packet instanceof Uint8Array)) {
+      throw new TypeError("raw_packet must be Uint8Array");
     }
-  } else if(raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID) {
-    const EXPECTED_LENGTH = 5 + raw_packet[4];
-    // // Error of RangeError("Too short bytes as silent audio packet") will be matched as
-    // //          RangeError("Too short bytes received, external bytes length missing")
-    // if        (raw_packet.length < EXPECTED_LENGTH) {
-    //   if(!throw_on_invalid) { return false; }
-    //   throw new RangeError("Too short bytes as silent audio packet");
-    // }
-    if (raw_packet.length > EXPECTED_LENGTH) {
-      if(!throw_on_invalid) { return false; }
-      throw new RangeError("Too long bytes as silent audio packet");
+
+    // Packet content availability checking
+    if(raw_packet.length === 0) {
+      throw new RangeError("Empty array passed");
+    }
+
+    // Packet type ID checking
+    if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID && raw_packet[0] !== SILENT_AUDIO_PACKET_TYPE_ID) {
+      throw new RangeError("It is not an audio packet or silent audio packet");
+    }
+
+    // Packet length checking
+    if(raw_packet.length < 5) {
+      throw new RangeError("Too short bytes received, external bytes length missing");
+    }
+
+    // Packet length checking (for [non]silent pattern)
+    if(raw_packet[0] === AUDIO_PACKET_TYPE_ID) {
+      const EXPECTED_LENGTH = 5 + raw_packet[4] + ONE_FRAME_SAMPLES * ONE_SAMPLE_BYTES;
+      if       (raw_packet.length < EXPECTED_LENGTH) {
+        throw new RangeError("Too short bytes as audio packet");
+      } else if(raw_packet.length > EXPECTED_LENGTH) {
+        throw new RangeError("Too long bytes as audio packet");
+      }
+    } else if(raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID) {
+      const EXPECTED_LENGTH = 5 + raw_packet[4];
+      // // Error of RangeError("Too short bytes as silent audio packet") will be matched as
+      // //          RangeError("Too short bytes received, external bytes length missing")
+      // if        (raw_packet.length < EXPECTED_LENGTH) {
+      //   throw new RangeError("Too short bytes as silent audio packet");
+      // }
+      if (raw_packet.length > EXPECTED_LENGTH) {
+        throw new RangeError("Too long bytes as silent audio packet");
+      }
+    }
+  } catch(e) {
+    if(throw_on_invalid) {
+      throw e;
+    } else {
+      return false;
     }
   }
 
