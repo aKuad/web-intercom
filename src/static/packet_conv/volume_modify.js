@@ -75,7 +75,8 @@ export function packet_volume_modify_decode(raw_packet) {
  * Verify the packet is volume_modify packet
  *
  * @param {Uint8Array} raw_packet Packet to verify
- * @returns {boolean} It is a volume_modify packet: true, otherwise: false
+ * @param {boolean} throw_on_invalid Toggle behavior when packet is invalid, true: raise exception, false: return false
+ * @returns {boolean} It is a volume_modify packet: true, otherwise: false (if throw_on_invalid === true, error will be thrown)
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
  * @throws {RangeError} If `raw_packet` is an empty array
