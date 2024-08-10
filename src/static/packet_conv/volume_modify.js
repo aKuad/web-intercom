@@ -74,13 +74,14 @@ export function packet_volume_modify_decode(raw_packet) {
 /**
  * Verify the packet is volume_modify packet
  *
- * Note: It verify only type and packet ID. Packet structure will not be verified.
- *
  * @param {Uint8Array} raw_packet Packet to verify
  * @returns {boolean} It is a volume_modify packet: true, otherwise: false
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
  * @throws {RangeError} If `raw_packet` is an empty array
+ * @throws {RangeError} If `raw_packet` is not a volume_modify packet
+ * @throws {RangeError} If `raw_packet` is too short bytes as volume_modify packet
+ * @throws {RangeError} If `raw_packet` is too short long as volume_modify packet
  */
 export function is_volume_modify_packet(raw_packet, throw_on_invalid = false) {
   try {
