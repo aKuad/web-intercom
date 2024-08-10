@@ -74,24 +74,45 @@ export function packet_volume_modify_decode(raw_packet) {
 /**
  * Verify the packet is volume_modify packet
  *
- * Note: It verify only type and packet ID. Packet structure will not be verified.
- *
  * @param {Uint8Array} raw_packet Packet to verify
- * @returns {boolean} It is a volume_modify packet: true, otherwise: false
+ * @param {boolean} throw_on_invalid Toggle behavior when packet is invalid, true: raise exception, false: return false
+ * @returns {boolean} It is a volume_modify packet: true, otherwise: false (if throw_on_invalid === true, error will be thrown)
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
  * @throws {RangeError} If `raw_packet` is an empty array
+ * @throws {RangeError} If `raw_packet` is not a volume_modify packet
+ * @throws {RangeError} If `raw_packet` is too short bytes as volume_modify packet
+ * @throws {RangeError} If `raw_packet` is too short long as volume_modify packet
  */
-export function is_volume_modify_packet(raw_packet) {
-  // Arguments type checking
-  if(!(raw_packet instanceof Uint8Array)) {
-    throw new TypeError("raw_packet must be Uint8Array");
+export function is_volume_modify_packet(raw_packet, throw_on_invalid = false) {
+  try {
+    // Arguments type checking
+    if(!(raw_packet instanceof Uint8Array)) {
+      throw new TypeError("raw_packet must be Uint8Array");
+    }
+
+    // Packet content availability checking
+    if(raw_packet.length === 0) {
+      throw new RangeError("Empty array passed");
+    }
+
+    if(raw_packet[0] !== VOLUME_MODIFY_PACKET_TYPE_ID) {
+      throw new RangeError("It is not a volume_modify packet");
+    }
+
+    if(raw_packet.length < 3) {
+      throw new RangeError("Too short bytes as volume modify packet");
+    }
+    if(raw_packet.length > 3) {
+      throw new RangeError("Too long bytes as volume modify packet");
+    }
+  } catch(e) {
+    if(throw_on_invalid) {
+      throw e;
+    } else {
+      return false;
+    }
   }
 
-  // Packet content availability checking
-  if(raw_packet.length === 0) {
-    throw new RangeError("Empty array passed");
-  }
-
-  return raw_packet[0] === VOLUME_MODIFY_PACKET_TYPE_ID;
+  return true;
 }
