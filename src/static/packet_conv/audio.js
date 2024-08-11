@@ -9,7 +9,7 @@
  */
 
 import { ONE_FRAME_SAMPLES, ONE_FRAME_SAMPLES, ONE_SAMPLE_BYTES } from "./AUDIO_PARAM.js";
-import { dbfs_float } from "../dbfs.js"
+import { dbfs_float } from "../dbfs.js";
 
 
 /**

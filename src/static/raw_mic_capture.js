@@ -6,7 +6,7 @@
  * @author aKuad
  */
 
-import { SAMPLE_RATE } from "./packet_conv/AUDIO_PARAM.js"
+import { SAMPLE_RATE } from "./packet_conv/AUDIO_PARAM.js";
 
 
 /**
