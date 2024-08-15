@@ -7,7 +7,7 @@
  *   * Raise RangeError if invalid argument value is passed
  *
  * Test steps:
- *   * Run this script by vitest - `npm test`
+ *   * Run this script by deno test - `deno test **Test*.js`
  *
  * @author aKuad
  */
