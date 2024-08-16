@@ -13,7 +13,7 @@
  * @author aKuad
  */
 
-import { assertEquals, assertThrows, assertGreater } from "jsr:@std/assert@1";
+import { assertThrows, assertGreater } from "jsr:@std/assert@1";
 
 import { ONE_FRAME_SAMPLES } from "../../static/packet_conv/AUDIO_PARAM.js";
 import { dbfs_float } from "../../static/dbfs.js";
