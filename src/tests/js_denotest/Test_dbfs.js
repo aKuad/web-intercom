@@ -13,7 +13,7 @@
  * @author aKuad
  */
 
-import { assertThrows, assertGreater } from "jsr:@std/assert@1";
+import { assertThrows, assertAlmostEquals } from "jsr:@std/assert@1";
 
 import { ONE_FRAME_SAMPLES } from "../../static/packet_conv/AUDIO_PARAM.js";
 import { dbfs_float } from "../../static/dbfs.js";
@@ -30,7 +30,7 @@ Deno.test(async function true_cases(t) {
 
     console.log(`Loud : ${dbfs_loud} dBFS`);
     console.log(`Quiet: ${dbfs_quiet} dBFS`);
-    assertGreater(dbfs_loud, dbfs_quiet);
+    assertAlmostEquals(dbfs_loud - 20.0, dbfs_quiet, 0.1);  // During calculation, error includes about 0.02
   });
 });
 
