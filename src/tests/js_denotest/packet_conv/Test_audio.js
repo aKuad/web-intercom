@@ -17,7 +17,7 @@ import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 import { ONE_FRAME_SAMPLES } from "../../../static/packet_conv/AUDIO_PARAM.js";
 import { packet_audio_encode, packet_audio_decode, is_audio_packet } from "../../../static/packet_conv/audio.js";
 import { generate_rand_float32array } from "../util/rand_f32a.js";
-import { is_almost_equal_float32array } from "../util/almost_eq_f32a.js";
+import { assertAlmostEqualsArray } from "../util/assertAlmostEqualsArray.js";
 
 
 const ERR_INT16_AND_FLOAT32 = 1 / 32767;
@@ -32,7 +32,7 @@ Deno.test(async function true_cases(t) {
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     assertEquals(is_audio_packet(raw_packet), true);
-    assertEquals(is_almost_equal_float32array(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32), true);
+    assertAlmostEqualsArray(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32);
     assertEquals(lane_name_prc, lane_name_org);
     assertEquals(ext_bytes_prc, ext_bytes_org);
   });
@@ -46,7 +46,7 @@ Deno.test(async function true_cases(t) {
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     assertEquals(is_audio_packet(raw_packet), true);
-    assertEquals(is_almost_equal_float32array(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32), true);
+    assertAlmostEqualsArray(audio_pcm_org, audio_pcm_prc, ERR_INT16_AND_FLOAT32);
     assertEquals(lane_name_prc, lane_name_org);
     assertEquals(ext_bytes_prc, ext_bytes_org);
   });
