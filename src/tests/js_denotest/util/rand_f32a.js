@@ -14,7 +14,7 @@
  * @returns {Float32Array} Random array
  */
 export function generate_rand_float32array(elem_count) {
-  return Float32Array.from(new Array(elem_count), e => (Math.random() - 0.5) * 2);
+  return Float32Array.from(new Array(elem_count), () => (Math.random() - 0.5) * 2);
   // - 0.5   --> Random number range is [ -0.5, 0.5)
   // * 2     -->                        [   -1,   1)
 }
