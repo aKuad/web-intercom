@@ -8,20 +8,20 @@
  *   * Throw RangeError if non -1.0~1.0 range array is passed
  *
  * Test steps:
- *   * Run this script by vitest - `npm test`
+ *   * Run this script by deno test - `deno test **Test*.js`
  *
  * @author aKuad
  */
 
-import { describe, test, expect } from "vitest";
+import { assertThrows, assertAlmostEquals } from "jsr:@std/assert@1";
 
 import { ONE_FRAME_SAMPLES } from "../../static/packet_conv/AUDIO_PARAM.js";
 import { dbfs_float } from "../../static/dbfs.js";
 import { generate_rand_float32array } from "./util/rand_f32a.js";
 
 
-describe("true_cases", () => {
-  test("float", () => {
+Deno.test(async function true_cases(t) {
+  await t.step(function float() {
     const pcm_loud  = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const pcm_quiet = pcm_loud.map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
 
@@ -30,24 +30,24 @@ describe("true_cases", () => {
 
     console.log(`Loud : ${dbfs_loud} dBFS`);
     console.log(`Quiet: ${dbfs_quiet} dBFS`);
-    expect(dbfs_loud).toBeGreaterThan(dbfs_quiet);
+    assertAlmostEquals(dbfs_loud - 20.0, dbfs_quiet, 0.1);  // During calculation, error includes about 0.02
   });
 });
 
 
-describe("err_cases", () => {
-  test("float_invalid_type", () => {
-    expect(() => dbfs_float()).toThrowError(new TypeError("frame_array must be Float32Array or Float64Array"));
+Deno.test(async function err_cases(t) {
+  await t.step(function float_invalid_type() {
+    assertThrows(() => dbfs_float(), TypeError, "frame_array must be Float32Array or Float64Array");
   });
 
 
-  test("float_invalid_value", () => {
+  await t.step(function float_invalid_value() {
     const pcm_invalid_empty = new Float32Array();
     const pcm_invalid_too_high_amp = new Float32Array([0.0,  1.1, 0.0]);
     const pcm_invalid_too_low_amp  = new Float32Array([0.0, -1.1, 0.0]);
 
-    expect(() => dbfs_float(pcm_invalid_empty)).toThrowError(new RangeError("Empty array passed"));
-    expect(() => dbfs_float(pcm_invalid_too_high_amp)).toThrowError(new RangeError("Out of range elements included, must be -1.0 ~ 1.0"));
-    expect(() => dbfs_float(pcm_invalid_too_low_amp )).toThrowError(new RangeError("Out of range elements included, must be -1.0 ~ 1.0"));
+    assertThrows(() => dbfs_float(pcm_invalid_empty)       , RangeError, "Empty array passed");
+    assertThrows(() => dbfs_float(pcm_invalid_too_high_amp), RangeError, "Out of range elements included, must be -1.0 ~ 1.0");
+    assertThrows(() => dbfs_float(pcm_invalid_too_low_amp ), RangeError, "Out of range elements included, must be -1.0 ~ 1.0");
   });
 });
