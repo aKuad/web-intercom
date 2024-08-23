@@ -48,19 +48,14 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
 /**
  * Unpack volume_modify packet
  *
+ * Note: About raises, see reference of `is_audio_packet`.
+ *
  * @param {Uint8Array} raw_packet Encoded packet
  * @returns {Array<number>} Decoded data - Lane ID and modified volume
- *
- * @throws {TypeError} If `raw_packet` is not `Uint8Array`
- * @throws {RangeError} If `raw_packet` is an empty array
- * @throws {RangeError} If `raw_packet` type ID is not volume_modify packet ID
- * @throws {RangeError} If `raw_packet` length is not 3
  */
 export function packet_volume_modify_decode(raw_packet) {
   // Packet type verification
-  if(!is_volume_modify_packet(raw_packet)) {
-    throw new RangeError("Invalid packet, it is not an volume_modify packet");
-  }
+  is_volume_modify_packet(raw_packet);
 
   // Arguments range checking
   if(raw_packet.length !== 3) {
