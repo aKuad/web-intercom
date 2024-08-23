@@ -109,7 +109,7 @@ Deno.test(async function true_cases(t) {
 
     assertThrows(() => is_audio_packet(""                                       , true), TypeError , "raw_packet must be Uint8Array");  // string "" as non Uint8Array
     assertThrows(() => is_audio_packet(raw_packet_invalid_empty                 , true), RangeError, "Empty array passed");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_id                    , true), RangeError, "It is not an audio packet or silent audio packet");
+    assertThrows(() => is_audio_packet(raw_packet_invalid_id                    , true), RangeError, "It has not an audio packet or silent audio packet type ID");
     assertThrows(() => is_audio_packet(raw_packet_invalid_no_extlen             , true), RangeError, "Too short bytes received, external bytes length missing");
     assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_short       , true), RangeError, "Too short bytes as audio packet");
     assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_long        , true), RangeError, "Too long bytes as audio packet");

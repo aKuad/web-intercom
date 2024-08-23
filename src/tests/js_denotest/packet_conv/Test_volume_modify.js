@@ -48,7 +48,7 @@ Deno.test(async function true_cases(t) {
 
     assertThrows(() => is_volume_modify_packet(""                          , true), TypeError , "raw_packet must be Uint8Array");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_empty    , true), RangeError, "Empty array passed");
-    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_id       , true), RangeError, "It is not a volume_modify packet");
+    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_id       , true), RangeError, "It has not a volume_modify packet type ID");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_short, true), RangeError, "Too short bytes as volume modify packet");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_long , true), RangeError, "Too long bytes as volume modify packet");
   });

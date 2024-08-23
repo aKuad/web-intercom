@@ -116,7 +116,7 @@ export function packet_audio_decode(raw_packet) {
  *
  * @throws {TypeError} If `raw_packet` is not `Uint8Array`
  * @throws {RangeError} If `raw_packet` is an empty array
- * @throws {RangeError} If `raw_packet` is not an audio packet or silent audio packet
+ * @throws {RangeError} If `raw_packet` has not an audio packet or silent audio packet type ID
  * @throws {RangeError} If `raw_packet` is too short bytes as audio packet
  * @throws {RangeError} If `raw_packet` is too long bytes as audio packet
  * @throws {RangeError} If `raw_packet` is too long bytes as silent audio packet
@@ -135,7 +135,7 @@ export function is_audio_packet(raw_packet, throw_on_invalid = false) {
 
     // Packet type ID checking
     if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID && raw_packet[0] !== SILENT_AUDIO_PACKET_TYPE_ID) {
-      throw new RangeError("It is not an audio packet or silent audio packet");
+      throw new RangeError("It has not an audio packet or silent audio packet type ID");
     }
 
     // Packet length checking
