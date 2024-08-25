@@ -10,6 +10,7 @@
 
 import { ONE_FRAME_SAMPLES, ONE_SAMPLE_BYTES } from "./AUDIO_PARAM.js";
 import { dbfs_float } from "../dbfs.js";
+import { typeof_detail } from "../typeof_detail.js";
 
 
 /**
@@ -42,13 +43,13 @@ export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
 export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0), silent_threshold_dbfs = -20.0) {
   // Arguments type checking
   if(!(audio_pcm instanceof Float32Array)) {
-    throw new TypeError("audio_pcm must be Float32Array");
+    throw new TypeError(`audio_pcm must be Float32Array, but got ${typeof_detail(audio_pcm)}`);
   }
   if(typeof lane_name !== "string") {
-    throw new TypeError("lane_name must be string");
+    throw new TypeError(`lane_name must be string, but got ${typeof_detail(lane_name)}`);
   }
   if(!(ext_bytes instanceof Uint8Array)) {
-    throw new TypeError("ext_bytes must be Uint8Array");
+    throw new TypeError(`ext_bytes must be Uint8Array, but got ${typeof_detail(ext_bytes)}`);
   }
 
   // Arguments range checking
@@ -125,7 +126,7 @@ export function is_audio_packet(raw_packet, throw_on_invalid = false) {
   try {
     // Arguments type checking
     if(!(raw_packet instanceof Uint8Array)) {
-      throw new TypeError("raw_packet must be Uint8Array");
+      throw new TypeError(`raw_packet must be Uint8Array, but got ${typeof_detail(raw_packet)}`);
     }
 
     // Packet content availability checking

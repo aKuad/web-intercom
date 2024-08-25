@@ -107,7 +107,7 @@ Deno.test(async function true_cases(t) {
     assertEquals(is_audio_packet(raw_packet_invalid_silent_audio_too_short), false);
     assertEquals(is_audio_packet(raw_packet_invalid_silent_audio_too_long) , false);
 
-    assertThrows(() => is_audio_packet(""                                       , true), TypeError , "raw_packet must be Uint8Array");  // string "" as non Uint8Array
+    assertThrows(() => is_audio_packet(""                                       , true), TypeError , "raw_packet must be Uint8Array, but got string");  // string "" as non Uint8Array
     assertThrows(() => is_audio_packet(raw_packet_invalid_empty                 , true), RangeError, "Empty array passed");
     assertThrows(() => is_audio_packet(raw_packet_invalid_id                    , true), RangeError, "It has not an audio packet or silent audio packet type ID");
     assertThrows(() => is_audio_packet(raw_packet_invalid_no_extlen             , true), RangeError, "Too short bytes received, external bytes length missing");
@@ -125,11 +125,11 @@ Deno.test(async function err_cases(t) {
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
-    assertThrows(() => packet_audio_encode("", lane_name, ext_bytes), TypeError, "audio_pcm must be Float32Array");
+    assertThrows(() => packet_audio_encode("", lane_name, ext_bytes), TypeError, "audio_pcm must be Float32Array, but got string");
     //                                     ~~ as non Float32Array
-    assertThrows(() => packet_audio_encode(audio_pcm,  1, ext_bytes), TypeError, "lane_name must be string");
+    assertThrows(() => packet_audio_encode(audio_pcm,  1, ext_bytes), TypeError, "lane_name must be string, but got number");
     //                                                 ~ as non string
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""),  TypeError, "ext_bytes must be Uint8Array");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""),  TypeError, "ext_bytes must be Uint8Array, but got string");
     //                                                           ~~ as non Uint8Array
   });
 
