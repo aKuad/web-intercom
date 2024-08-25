@@ -46,7 +46,7 @@ Deno.test(async function true_cases(t) {
     assertEquals(is_volume_modify_packet(raw_packet_invalid_too_short), false);
     assertEquals(is_volume_modify_packet(raw_packet_invalid_too_long) , false);
 
-    assertThrows(() => is_volume_modify_packet(""                          , true), TypeError , "raw_packet must be Uint8Array");
+    assertThrows(() => is_volume_modify_packet(""                          , true), TypeError , "raw_packet must be Uint8Array, but got string");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_empty    , true), RangeError, "Empty array passed");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_id       , true), RangeError, "It has not a volume_modify packet type ID");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_short, true), RangeError, "Too short bytes as volume modify packet");
@@ -60,8 +60,8 @@ Deno.test(async function err_cases(t) {
     const lane_id = 1;
     const modified_volume = 100;
 
-    assertThrows(() => packet_volume_modify_encode("", modified_volume), TypeError, "lane_id must be number");
-    assertThrows(() => packet_volume_modify_encode(lane_id, ""        ), TypeError, "modified_volume must be number");
+    assertThrows(() => packet_volume_modify_encode("", modified_volume), TypeError, "lane_id must be number, but got string");
+    assertThrows(() => packet_volume_modify_encode(lane_id, ""        ), TypeError, "modified_volume must be number, but got string");
   });
 
 

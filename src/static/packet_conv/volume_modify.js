@@ -6,6 +6,9 @@
  * @author aKuad
  */
 
+import { typeof_detail } from "../typeof_detail.js";
+
+
 /**
  * Packet type ID of volume modify packet
  */
@@ -27,10 +30,10 @@ export const VOLUME_MODIFY_PACKET_TYPE_ID = 0x20;
 export function packet_volume_modify_encode(lane_id, modified_volume) {
   // Arguments type checking
   if(typeof lane_id !== "number") {
-    throw new TypeError("lane_id must be number");
+    throw new TypeError(`lane_id must be number, but got ${typeof_detail(lane_id)}`);
   }
   if(typeof modified_volume !== "number") {
-    throw new TypeError("modified_volume must be number");
+    throw new TypeError(`modified_volume must be number, but got ${typeof_detail(modified_volume)}`);
   }
 
   // Arguments range checking
@@ -83,7 +86,7 @@ export function is_volume_modify_packet(raw_packet, throw_on_invalid = false) {
   try {
     // Arguments type checking
     if(!(raw_packet instanceof Uint8Array)) {
-      throw new TypeError("raw_packet must be Uint8Array");
+      throw new TypeError(`raw_packet must be Uint8Array, but got ${typeof_detail(raw_packet)}`);
     }
 
     // Packet content availability checking
