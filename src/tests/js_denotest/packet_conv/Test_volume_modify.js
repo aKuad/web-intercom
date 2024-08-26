@@ -2,7 +2,7 @@
  * @file Tests for `packet_conv/volume_modify.js`
  *
  * Test cases:
- *   * Can encode/decode audio packet
+ *   * Can encode/decode volume-modify packet
  *   * Raise TypeError if invalid argument type is passed
  *   * Raise RangeError if invalid argument value is passed
  *
