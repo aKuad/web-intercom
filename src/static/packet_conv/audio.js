@@ -57,10 +57,10 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
     throw new RangeError("For lane_name, non ascii characters are not allowed");
   }
   if(lane_name.length > 3) {
-    throw new RangeError("For lane_name, over 3 characters string is not allowed");
+    throw new RangeError(`For lane_name, over 3 characters string is not allowed, but got ${lane_name.length} characters`);
   }
   if(ext_bytes.length > 255) {
-    throw new RangeError("For ext_bytes, over 255 bytes data is not allowed");
+    throw new RangeError(`For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes.length} bytes`);
   }
 
   const audio_data_int16t = Int16Array.from(audio_pcm, e => e*32767); // *32767: float32(-1, 1) to int16(-32768, 32767)
@@ -136,21 +136,21 @@ export function is_audio_packet(raw_packet, throw_on_invalid = false) {
 
     // Packet type ID checking
     if(raw_packet[0] !== AUDIO_PACKET_TYPE_ID && raw_packet[0] !== SILENT_AUDIO_PACKET_TYPE_ID) {
-      throw new RangeError("It has not an audio packet or silent audio packet type ID");
+      throw new RangeError(`It has not an audio packet or silent audio packet type ID - should be ${AUDIO_PACKET_TYPE_ID} or ${SILENT_AUDIO_PACKET_TYPE_ID}, but got ${raw_packet[0]}`);
     }
 
     // Packet length checking
     if(raw_packet.length < 5) {
-      throw new RangeError("Too short bytes received, external bytes length missing");
+      throw new RangeError("Too short bytes received, external bytes length field missing");
     }
 
     // Packet length checking (for [non]silent pattern)
     if(raw_packet[0] === AUDIO_PACKET_TYPE_ID) {
       const EXPECTED_LENGTH = 5 + raw_packet[4] + ONE_FRAME_SAMPLES * ONE_SAMPLE_BYTES;
       if       (raw_packet.length < EXPECTED_LENGTH) {
-        throw new RangeError("Too short bytes as audio packet");
+        throw new RangeError(`Too short bytes as audio packet - expected ${EXPECTED_LENGTH}, but got ${raw_packet.length}`);
       } else if(raw_packet.length > EXPECTED_LENGTH) {
-        throw new RangeError("Too long bytes as audio packet");
+        throw new RangeError(`Too long bytes as audio packet - expected ${EXPECTED_LENGTH}, but got ${raw_packet.length}`);
       }
     } else if(raw_packet[0] === SILENT_AUDIO_PACKET_TYPE_ID) {
       const EXPECTED_LENGTH = 5 + raw_packet[4];
@@ -160,7 +160,7 @@ export function is_audio_packet(raw_packet, throw_on_invalid = false) {
       //   throw new RangeError("Too short bytes as silent audio packet");
       // }
       if (raw_packet.length > EXPECTED_LENGTH) {
-        throw new RangeError("Too long bytes as silent audio packet");
+        throw new RangeError(`Too long bytes as silent audio packet - expected ${EXPECTED_LENGTH}, but got ${raw_packet.length}`);
       }
     }
   } catch(e) {

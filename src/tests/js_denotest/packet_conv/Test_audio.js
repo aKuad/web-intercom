@@ -15,7 +15,7 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 
 import { ONE_FRAME_SAMPLES } from "../../../static/packet_conv/AUDIO_PARAM.js";
-import { packet_audio_encode, packet_audio_decode, is_audio_packet } from "../../../static/packet_conv/audio.js";
+import { packet_audio_encode, packet_audio_decode, is_audio_packet, AUDIO_PACKET_TYPE_ID, SILENT_AUDIO_PACKET_TYPE_ID } from "../../../static/packet_conv/audio.js";
 import { generate_rand_float32array } from "../util/rand_f32a.js";
 import { assertAlmostEqualsArray } from "../util/assertAlmostEqualsArray.js";
 
@@ -109,12 +109,12 @@ Deno.test(async function true_cases(t) {
 
     assertThrows(() => is_audio_packet(""                                       , true), TypeError , "raw_packet must be Uint8Array, but got string");  // string "" as non Uint8Array
     assertThrows(() => is_audio_packet(raw_packet_invalid_empty                 , true), RangeError, "Empty array passed");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_id                    , true), RangeError, "It has not an audio packet or silent audio packet type ID");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_no_extlen             , true), RangeError, "Too short bytes received, external bytes length missing");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_short       , true), RangeError, "Too short bytes as audio packet");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_long        , true), RangeError, "Too long bytes as audio packet");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_silent_audio_too_short, true), RangeError, "Too short bytes received, external bytes length missing");
-    assertThrows(() => is_audio_packet(raw_packet_invalid_silent_audio_too_long , true), RangeError, "Too long bytes as silent audio packet");
+    assertThrows(() => is_audio_packet(raw_packet_invalid_id                    , true), RangeError, `It has not an audio packet or silent audio packet type ID - should be ${AUDIO_PACKET_TYPE_ID} or ${SILENT_AUDIO_PACKET_TYPE_ID}, but got 32`);  // 32 = 0x20
+    assertThrows(() => is_audio_packet(raw_packet_invalid_no_extlen             , true), RangeError, "Too short bytes received, external bytes length field missing");
+    assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_short       , true), RangeError, `Too short bytes as audio packet - expected ${raw_packet_correct.length}, but got ${raw_packet_invalid_audio_too_short.length}`);
+    assertThrows(() => is_audio_packet(raw_packet_invalid_audio_too_long        , true), RangeError, `Too long bytes as audio packet - expected ${raw_packet_correct.length}, but got ${raw_packet_invalid_audio_too_long.length}`);
+    assertThrows(() => is_audio_packet(raw_packet_invalid_silent_audio_too_short, true), RangeError, "Too short bytes received, external bytes length field missing");
+    assertThrows(() => is_audio_packet(raw_packet_invalid_silent_audio_too_long , true), RangeError, `Too long bytes as silent audio packet - expected ${raw_packet_silent_correct.length}, but got ${raw_packet_invalid_silent_audio_too_long.length}`);
   });
 });
 
@@ -144,8 +144,8 @@ Deno.test(async function err_cases(t) {
     const ext_bytes_over_len = new Uint8Array(256);
 
     assertThrows(() => packet_audio_encode(audio_pcm, lane_name_non_ascii, ext_bytes), RangeError, "For lane_name, non ascii characters are not allowed");
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_over_len , ext_bytes), RangeError, "For lane_name, over 3 characters string is not allowed");
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes_over_len ), RangeError, "For ext_bytes, over 255 bytes data is not allowed");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_over_len , ext_bytes), RangeError, `For lane_name, over 3 characters string is not allowed, but got ${lane_name_over_len.length} characters`);
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes_over_len ), RangeError, `For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes_over_len.length} bytes`);
   });
 
 
