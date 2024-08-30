@@ -38,10 +38,10 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
 
   // Arguments range checking
   if(lane_id < 0 || lane_id > 255) {
-    throw new RangeError("lane_id must be in 0~255");
+    throw new RangeError(`lane_id must be in 0~255, but got ${lane_id}`);
   }
   if(modified_volume < 0 || modified_volume > 255) {
-    throw new RangeError("modified_volume must be in 0~255");
+    throw new RangeError(`modified_volume must be in 0~255, but got ${modified_volume}`);
   }
 
   return Uint8Array.of(VOLUME_MODIFY_PACKET_TYPE_ID, lane_id, modified_volume);
@@ -89,14 +89,14 @@ export function is_volume_modify_packet(raw_packet, throw_on_invalid = false) {
     }
 
     if(raw_packet[0] !== VOLUME_MODIFY_PACKET_TYPE_ID) {
-      throw new RangeError("It has not a volume_modify packet type ID");
+      throw new RangeError(`It has not a volume_modify packet type ID - should be ${VOLUME_MODIFY_PACKET_TYPE_ID}, but got ${raw_packet[0]}`);
     }
 
     if(raw_packet.length < 3) {
-      throw new RangeError("Too short bytes as volume modify packet");
+      throw new RangeError(`Too short bytes as volume modify packet - expected 3, but got ${raw_packet.length}`);
     }
     if(raw_packet.length > 3) {
-      throw new RangeError("Too long bytes as volume modify packet");
+      throw new RangeError(`Too long bytes as volume modify packet - expected 3, but got ${raw_packet.length}`);
     }
   } catch(e) {
     if(throw_on_invalid) {

@@ -14,7 +14,7 @@
 
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 
-import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_modify_packet } from "../../../static/packet_conv/volume_modify.js";
+import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_modify_packet, VOLUME_MODIFY_PACKET_TYPE_ID } from "../../../static/packet_conv/volume_modify.js";
 
 
 Deno.test(async function true_cases(t) {
@@ -48,9 +48,9 @@ Deno.test(async function true_cases(t) {
 
     assertThrows(() => is_volume_modify_packet(""                          , true), TypeError , "raw_packet must be Uint8Array, but got string");
     assertThrows(() => is_volume_modify_packet(raw_packet_invalid_empty    , true), RangeError, "Empty array passed");
-    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_id       , true), RangeError, "It has not a volume_modify packet type ID");
-    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_short, true), RangeError, "Too short bytes as volume modify packet");
-    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_long , true), RangeError, "Too long bytes as volume modify packet");
+    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_id       , true), RangeError, `It has not a volume_modify packet type ID - should be ${VOLUME_MODIFY_PACKET_TYPE_ID}, but got ${0x30}`);
+    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_short, true), RangeError, `Too short bytes as volume modify packet - expected 3, but got ${raw_packet_invalid_too_short.length}`);
+    assertThrows(() => is_volume_modify_packet(raw_packet_invalid_too_long , true), RangeError, `Too long bytes as volume modify packet - expected 3, but got ${raw_packet_invalid_too_long.length}`);
   });
 });
 
@@ -69,10 +69,10 @@ Deno.test(async function err_cases(t) {
     const lane_id = 1;
     const modified_volume = 100;
 
-    assertThrows(() => packet_volume_modify_encode(256, modified_volume), RangeError, "lane_id must be in 0~255");
-    assertThrows(() => packet_volume_modify_encode(-1 , modified_volume), RangeError, "lane_id must be in 0~255");
-    assertThrows(() => packet_volume_modify_encode(lane_id, 256        ), RangeError, "modified_volume must be in 0~255");
-    assertThrows(() => packet_volume_modify_encode(lane_id, -1         ), RangeError, "modified_volume must be in 0~255");
+    assertThrows(() => packet_volume_modify_encode(256, modified_volume), RangeError, "lane_id must be in 0~255, but got 256");
+    assertThrows(() => packet_volume_modify_encode(-1 , modified_volume), RangeError, "lane_id must be in 0~255, but got -1");
+    assertThrows(() => packet_volume_modify_encode(lane_id, 256        ), RangeError, "modified_volume must be in 0~255, but got 256");
+    assertThrows(() => packet_volume_modify_encode(lane_id, -1         ), RangeError, "modified_volume must be in 0~255, but got -1");
   });
 
 
