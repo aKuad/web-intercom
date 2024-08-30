@@ -57,13 +57,7 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
  * @returns {Array<number>} Decoded data - Lane ID and modified volume
  */
 export function packet_volume_modify_decode(raw_packet) {
-  // Packet type verification
-  is_volume_modify_packet(raw_packet);
-
-  // Arguments range checking
-  if(raw_packet.length !== 3) {
-    throw new RangeError("Invalid packet, length must be 3");
-  }
+  is_volume_modify_packet(raw_packet, true);
 
   return [raw_packet[1], raw_packet[2]];
 }
