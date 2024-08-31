@@ -53,6 +53,9 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   }
 
   // Arguments range checking
+  if(lane_name.length === 0) {
+    throw new RangeError("lane_name can't be empty string");
+  }
   if(!(/^[\x00-\x7F]*$/.test(lane_name))) {
     throw new RangeError("For lane_name, non ascii characters are not allowed");
   }

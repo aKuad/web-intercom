@@ -143,6 +143,7 @@ Deno.test(async function err_cases(t) {
     const lane_name_over_len = "ABCD";
     const ext_bytes_over_len = new Uint8Array(256);
 
+    assertThrows(() => packet_audio_encode(audio_pcm, ""                 , ext_bytes), RangeError, "lane_name can't be empty string");
     assertThrows(() => packet_audio_encode(audio_pcm, lane_name_non_ascii, ext_bytes), RangeError, "For lane_name, non ascii characters are not allowed");
     assertThrows(() => packet_audio_encode(audio_pcm, lane_name_over_len , ext_bytes), RangeError, `For lane_name, over 3 characters string is not allowed, but got ${lane_name_over_len.length} characters`);
     assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes_over_len ), RangeError, `For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes_over_len.length} bytes`);
