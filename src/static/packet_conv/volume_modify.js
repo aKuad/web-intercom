@@ -51,7 +51,7 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
 /**
  * Unpack volume_modify packet
  *
- * Note: About raises, see reference of `is_audio_packet`.
+ * Note: About raises, see reference of `is_volume_modify_packet`.
  *
  * @param {Uint8Array} raw_packet Encoded packet
  * @returns {Array<number>} Decoded data - Lane ID and modified volume
