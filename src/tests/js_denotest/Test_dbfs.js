@@ -37,7 +37,7 @@ Deno.test(async function true_cases(t) {
 
 Deno.test(async function err_cases(t) {
   await t.step(function float_invalid_type() {
-    assertThrows(() => dbfs_float(), TypeError, "frame_array must be Float32Array or Float64Array");
+    assertThrows(() => dbfs_float(""), TypeError, "frame_array must be Float32Array or Float64Array, but got string");
   });
 
 

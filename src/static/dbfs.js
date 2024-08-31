@@ -4,6 +4,8 @@
  * @author aKuad
  */
 
+import { typeof_detail } from "./typeof_detail.js";
+
 
 /**
  * Calculate dBFS from float array
@@ -21,7 +23,7 @@ export function dbfs_float(frame_array) {
   // Arguments type checking
   if(!(frame_array instanceof Float32Array) &&
      !(frame_array instanceof Float64Array)) {
-    throw new TypeError("frame_array must be Float32Array or Float64Array");
+    throw new TypeError(`frame_array must be Float32Array or Float64Array, but got ${typeof_detail(frame_array)}`);
   }
 
   // Content availability checking
