@@ -76,7 +76,8 @@ Deno.test(async function err_cases(t) {
 
     assertThrows(() => new LaneInfo(256, "ABC" , 127), RangeError, "lane_id must be 0~255, but got 256");
     assertThrows(() => new LaneInfo( -1, "ABC" , 127), RangeError, "lane_id must be 0~255, but got -1");
-    assertThrows(() => new LaneInfo(  0, "🗒" , 127), RangeError, "For lane_name, non ascii characters are not allowed");
+    assertThrows(() => new LaneInfo(  0, "🗒" , 127), RangeError, "For lane_name, non ascii characters are not allowed");   // 🗒 as non ascii characters are not allowed
+    assertThrows(() => new LaneInfo(  0, "a\rb", 127), RangeError, "For lane_name, non ascii characters are not allowed");  // \n as control ascii characters are not allowed
     assertThrows(() => new LaneInfo(  0, ""    , 127), RangeError, "lane_name can't be empty string");
     assertThrows(() => new LaneInfo(  0, "ABCD", 127), RangeError, "For lane_name, over 3 characters string is not allowed, but got 4 characters");
     assertThrows(() => new LaneInfo(  0, "ABC" , 256), RangeError, "current_volume must be 0~255, but got 256");
