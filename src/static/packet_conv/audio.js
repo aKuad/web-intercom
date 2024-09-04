@@ -36,7 +36,7 @@ export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
  * @throws {TypeError} If `audio_pcm` is not `Float32Array`
  * @throws {TypeError} If `lane_name` is not `string`
  * @throws {TypeError} If `ext_bytes` is not `Uint8Array`
- * @throws {RangeError} If ``lane_name`` has non ascii
+ * @throws {RangeError} If ``lane_name`` has non ascii or control ascii characters
  * @throws {RangeError} If ``lane_name`` has over 3 characters
  * @throws {RangeError} If ``ext_bytes`` has over 255 bytes
  */
@@ -56,8 +56,8 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   if(lane_name.length === 0) {
     throw new RangeError("lane_name can't be empty string");
   }
-  if(!(/^[\x00-\x7F]*$/.test(lane_name))) {
-    throw new RangeError("For lane_name, non ascii characters are not allowed");
+  if(!(/^[\x20-\x7F]*$/.test(lane_name))) {
+    throw new RangeError("For lane_name, non ascii or control ascii characters are not allowed");
   }
   if(lane_name.length > 3) {
     throw new RangeError(`For lane_name, over 3 characters string is not allowed, but got ${lane_name.length} characters`);
