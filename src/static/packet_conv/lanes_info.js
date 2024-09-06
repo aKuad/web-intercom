@@ -113,6 +113,10 @@ export class LaneInfo {
  *
  * @param {Array<LaneInfo>} lanes_info LaneInfo array to encode
  * @returns {Uint8Array} Encoded packet
+ *
+ * @throws {TypeError} If `lanes_info` is not `Array`
+ * @throws {RangeError} If `lanes_info` is empty array
+ * @throws {TypeError} If `lanes_info` has non `LaneInfo` elements
  */
 export function packet_lanes_info_encode(lanes_info) {
   // Arguments type checking
