@@ -169,7 +169,6 @@ export function packet_lanes_info_decode(raw_packet) {
  * @throws {RangeError} If `raw_packet` is an empty array
  * @throws {RangeError} If `raw_packet` has not an lanes_info packet type ID
  * @throws {RangeError} If `raw_packet` is invalid length as lanes_info
- * @throws {RangeError} If `raw_packet` has non ascii or control ascii characters in lane name field
  */
 export function is_lanes_info_packet(raw_packet, throw_on_invalid = false) {
   try {
