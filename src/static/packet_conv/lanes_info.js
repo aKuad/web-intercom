@@ -159,7 +159,7 @@ export function packet_lanes_info_decode(raw_packet) {
 /**
  * Verify the packet is lanes_info packet
  *
- * Note: It won't check lane_name field has not non ascii or control ascii characters
+ * Note: It won't check lane_name field contain non-ascii or control-ascii characters
  *
  * @param {Uint8Array} raw_packet Packet to verify
  * @param {boolean} throw_on_invalid Toggle behavior when packet is invalid, true: raise exception, false: return false
