@@ -1,6 +1,3 @@
 # Python environment files
 __pycache__
 .venv*
-
-# Node.js environment files
-node_modules
