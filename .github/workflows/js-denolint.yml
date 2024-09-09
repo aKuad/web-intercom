@@ -11,6 +11,9 @@ on:
 jobs:
   js-denotest:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
 
     steps:
     - name: Source checkout
