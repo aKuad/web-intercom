@@ -34,6 +34,8 @@ class RawMicCaptureProcessor extends AudioWorkletProcessor {
    * @param {Array<AudioParam>} parameters Parameters input - not used
    * @returns Continue node processing or not
    */
+  // Argument outputs is unused, but need to pass as AudioWorkletProcessor
+  // deno-lint-ignore no-unused-vars
   process(inputs, outputs, parameters) {
     // Length 0 means disabled
     const frame_len = parameters.frame_sample_len[0];
