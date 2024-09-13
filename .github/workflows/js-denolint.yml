@@ -9,7 +9,7 @@ on:
       - 'refactor/*'
 
 jobs:
-  js-denotest:
+  js-denolint:
     runs-on: ubuntu-latest
     defaults:
       run:
