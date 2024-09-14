@@ -1,10 +1,7 @@
 /**
  * @file Tests for `packet_conv/audio.js` module
  *
- * Test cases:
- *   * Can encode/decode audio packet
- *   * Raise TypeError if invalid argument type is passed
- *   * Raise RangeError if invalid argument value is passed
+ * About test cases, see each test step function comment
  *
  * Test steps:
  *   * Run this script by deno test - `deno test **Test*.js`
@@ -24,6 +21,12 @@ const ERR_INT16_AND_FLOAT32 = 1 / 32767;
 
 
 Deno.test(async function true_cases(t) {
+  /**
+   * - Can encode/decode audio packet (with external bytes)
+   *   - Original data and decoded data must be equal
+   *   - For audio PCM, error between int16 and float32 allowed
+   * - Can verify the packet is valid as audio packet
+   */
   await t.step(function enc_dec_verify_ext() {
     const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
@@ -38,6 +41,9 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Without external bytes version of `enc_dec_verify_ext`
+   */
   await t.step(function enc_dec_verify_noext() {
     const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
@@ -52,6 +58,9 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - In silent audio packet version of `enc_dec_verify_ext`
+   */
   await t.step(function enc_dec_verify_silent_ext() {
     const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES).map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
     const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
@@ -67,6 +76,9 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Without external bytes in silent audio packet version of `enc_dec_verify_ext`
+   */
   await t.step(function enc_dec_verify_silent_noext() {
     const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES).map(e => e * 0.1);  // Apply gain -20[dB] = 10 ** (-20/20) = 0.1
     const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
@@ -82,6 +94,13 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Verify function must be return false if non `Uint8Array` passed
+   * - Verify function must be return false if non audio packet passed
+   * - Verify function must be return false if too short bytes as [silent]audio packet passed
+   * - Verify function must be return false if too long bytes as [silent]audio packet passed
+   * - Verify function must throws for these cases with suitable message when throwing enabled
+   */
   await t.step(function verify_ng() {
     const audio_pcm_org = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name_org = "ABC";
@@ -120,6 +139,11 @@ Deno.test(async function true_cases(t) {
 
 
 Deno.test(async function err_cases(t) {
+  /**
+   * - At encoding function, `Float32Array` must be `audio_pcm`
+   * - At encoding function, `string` must be `lane_name`
+   * - At encoding function, `Uint8Array` must be `ext_bytes`
+   */
   await t.step(function enc_invalid_type() {
     const audio_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name = "ABC";
@@ -129,11 +153,18 @@ Deno.test(async function err_cases(t) {
     //                                     ~~ as non Float32Array
     assertThrows(() => packet_audio_encode(audio_pcm,  1, ext_bytes), TypeError, "lane_name must be string, but got number");
     //                                                 ~ as non string
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""),  TypeError, "ext_bytes must be Uint8Array, but got string");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""), TypeError, "ext_bytes must be Uint8Array, but got string");
     //                                                           ~~ as non Uint8Array
   });
 
 
+  /**
+   * - At encoding function, `lane_name` must not be empty string
+   * - At encoding function, `lane_name` must be only ascii characters
+   * - At encoding function, `lane_name` must not be including control ascii characters
+   * - At encoding function, `lane_name` must not be over or equal 4 length
+   * - At encoding function, `ext_bytes` must not be over or equal 256 length
+   */
   await t.step(function enc_invalid_value() {
     const audio_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES);
     const lane_name = "ABC";
