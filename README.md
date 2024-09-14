@@ -18,26 +18,7 @@ Inter-communication system on browser via LAN. Powered by python.
 
 ## Client usage
 
-### Minimum client (.py)
-
-First, install dependencies.
-
-> [!TIP]
->
-> If you need, work on virtual environment.
-
-```sh
-pip install -r assets/requirements-min_client.txt
-# or
-pip install websockets numpy sounddevice
-```
-
-Then, run `min_client.py`.
-
-```sh
-cd src  # Working directory must be `src`
-python3 min_client.py
-```
+*Work in progress*
 
 ## Server deployment
 
