@@ -19,23 +19,9 @@ npm install
 npm test
 ```
 
-### Python automated tests
-
-```sh
-# Set current directory
-cd py_unittest
-
-# Run tests
-python3 -m unittest discover ./ "Test_*.py" -v
-```
-
 ### JavaScript manual tests
 
 Work in progress
-
-### Python manual tests
-
-Run a script in `py_manual`. Then check test cases what written in the source docstring.
 
 ## Coding conversions
 
