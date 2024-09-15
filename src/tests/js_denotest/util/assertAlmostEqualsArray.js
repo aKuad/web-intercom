@@ -13,6 +13,9 @@ import { assertAlmostEquals, AssertionError } from "jsr:@std/assert@1";
  * @param {Array} actual The actual array to compare
  * @param {Array} expected The expected array to compare
  * @param {number} tolerance The tolerance to consider the values almost equal
+ *
+ * @throws {AssertionError} If length of `actual` and `expected` is not equal
+ * @throws {AssertionError} If any element has error over than `tolerance`
  */
 export function assertAlmostEqualsArray(actual, expected, tolerance) {
   if(actual.length !== expected.length) {

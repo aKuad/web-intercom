@@ -1,6 +1,8 @@
 /**
  * @file Generate a random `Float32Array`
  *
+ * Note: It has no tests. Because it's very simple code (so test unnecessary), and testing for random is difficult.
+ *
  * @author aKuad
  */
 
