@@ -6,17 +6,17 @@
 
 ```sh
 # Set current directory
-cd js_vitest
-
-# Requires node version >= v18.0.0
-nvm install 18
-nvm use 18
-
-# Install dependencies
-npm install
+cd js_denotest
 
 # Run tests
-npm test
+deno test **Test*.js
+
+# For parallel run
+deno test --parallel **Test*.js
+
+# For report coverage
+deno test --coverage **Test*.js
+deno coverage
 ```
 
 ### JavaScript manual tests
