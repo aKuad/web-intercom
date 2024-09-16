@@ -24,14 +24,6 @@ Inter-communication system on browser via LAN. Powered by python.
 
 *Work in progress*
 
-## Using libraries
-
-websockets - Copyright (c) Aymeric Augustin and contributors
-
-numpy - Copyright (c) NumPy Developers
-
-sounddevice - Copyright (c) 2015-2023 Matthias Geier
-
 ## License
 
 [CC0-1.0](https://github.com/aKuad/py-web-intercom/blob/main/LICENSE)
