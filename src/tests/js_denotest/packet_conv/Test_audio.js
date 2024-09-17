@@ -96,6 +96,7 @@ Deno.test(async function true_cases(t) {
 
   /**
    * - Verify function must be return false if non `Uint8Array` passed
+   * - Verify function must be return false if empty `Uint8Array` passed
    * - Verify function must be return false if non audio packet passed
    * - Verify function must be return false if too short bytes as [silent]audio packet passed
    * - Verify function must be return false if too long bytes as [silent]audio packet passed
