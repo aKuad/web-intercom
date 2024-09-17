@@ -1,4 +1,4 @@
-# py-web-intercom
+# web-intercom
 
 [![Version](https://img.shields.io/github/v/release/aKuad/py-web-intercom?label=version)](https://github.com/aKuad/py-web-intercom/releases) [![License](https://img.shields.io/github/license/aKuad/py-web-intercom)](https://github.com/aKuad/py-web-intercom/blob/main/LICENSE)
 
