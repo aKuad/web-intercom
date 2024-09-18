@@ -141,9 +141,9 @@ Deno.test(async function true_cases(t) {
 
 Deno.test(async function err_cases(t) {
   /**
-   * - At encoding function, `Float32Array` must be `audio_pcm`
-   * - At encoding function, `string` must be `lane_name`
-   * - At encoding function, `Uint8Array` must be `ext_bytes`
+   * - At encoding function, `audio_pcm` must be `Float32Array`
+   * - At encoding function, `lane_name` must be `string`
+   * - At encoding function, `ext_bytes` must be `Uint8Array`
    */
   await t.step(function enc_invalid_type() {
     const audio_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES);
