@@ -6,36 +6,22 @@
 
 ```sh
 # Set current directory
-cd js_vitest
-
-# Requires node version >= v18.0.0
-nvm install 18
-nvm use 18
-
-# Install dependencies
-npm install
+cd js_denotest
 
 # Run tests
-npm test
-```
+deno test **Test*.js
 
-### Python automated tests
+# For parallel run
+deno test --parallel **Test*.js
 
-```sh
-# Set current directory
-cd py_unittest
-
-# Run tests
-python3 -m unittest discover ./ "Test_*.py" -v
+# For report coverage
+deno test --coverage **Test*.js
+deno coverage
 ```
 
 ### JavaScript manual tests
 
 Work in progress
-
-### Python manual tests
-
-Run a script in `py_manual`. Then check test cases what written in the source docstring.
 
 ## Coding conversions
 
@@ -55,18 +41,18 @@ As standard, follow [Coding conventions](../../CONTRIBUTING.md#coding-convention
 >
 > 'Manual unit test' means test what requires behavior checking by human (e.g. UI module, sound playing module).
 
-### Functions / methods naming prefix
+### Automated test functions naming
 
-| Item                                               | Prefix        |
-| -------------------------------------------------- | ------------- |
-| Main of automated test (success expected)          | `test_true_*` |
-| Main of automated test (fail/error expected)       | `test_err_*`  |
-| Main of manual test                                | `try_*`       |
-| Test support function (e.g. dummy data generating) | `part_*`      |
+| Item                      | Test function name |
+| ------------------------- | ------------------ |
+| Success expected case     | `true_cases`       |
+| Fail/error expected cases | `err_cases`        |
 
-For `js_vitest`, there are no main functions (`test_true_*` and `test_err_*`). Alternatively, apply `describe()` naming convention.
+No specially conventions for test step function name.
 
-| Item                      | `describe()` name |
-| ------------------------- | ----------------- |
-| Success expected case     | `true_cases`      |
-| Fail/error expected cases | `err_cases`       |
+### Manual test functions naming prefix
+
+| Item                                               | Prefix   |
+| -------------------------------------------------- | -------- |
+| Main of manual test                                | `try_*`  |
+| Test support function (e.g. dummy data generating) | `part_*` |

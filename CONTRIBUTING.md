@@ -39,10 +39,10 @@ Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `f
 
 ### Files naming
 
-| Item                        | Convention (also `.js` is) |
-| --------------------------- | -------------------------- |
-| Class definition module     | `UpperCamelCase.py`        |
-| Functions definition module | `snake_case.py`            |
+| Item                        | Convention          |
+| --------------------------- | ------------------- |
+| Class definition module     | `UpperCamelCase.js` |
+| Functions definition module | `snake_case.js`     |
 
 ### Functions and variables (etc.) naming
 
