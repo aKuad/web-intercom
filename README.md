@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/github/v/release/aKuad/py-web-intercom?label=version)](https://github.com/aKuad/py-web-intercom/releases) [![License](https://img.shields.io/github/license/aKuad/py-web-intercom)](https://github.com/aKuad/py-web-intercom/blob/main/LICENSE)
 
-Inter-communication system on browser via LAN. Powered by python.
+Inter-communication system on browser via LAN. Powered by Deno.
 
 <!-- Screen shots here -->
 
@@ -14,7 +14,7 @@ Inter-communication system on browser via LAN. Powered by python.
 - Each user's input volume controlling
   - Also works on browsers
 - Easy to setup the server
-  - Required only python3 with pip
+  - Required only Deno
 
 ## Client usage
 
