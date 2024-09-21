@@ -1,10 +1,7 @@
 /**
  * @file Tests for `packet_conv/lanes_info.js` module
  *
- * Test cases:
- *   * Can encode/decode lanes-info packet
- *   * Raise TypeError if invalid argument type is passed (all arguments)
- *   * Raise RangeError if invalid argument value is passed (more detail, see test code below)
+ * About test cases, see each test step function comment
  *
  * Test steps:
  *   * Run this script by deno test - `deno test **Test*.js`
@@ -18,6 +15,11 @@ import { LaneInfo, packet_lanes_info_encode, packet_lanes_info_decode, is_lanes_
 
 
 Deno.test(async function true_cases(t) {
+  /**
+   * - Can encode/decode lanes-info packet
+   *   - Original data and decoded data must be equal
+   * - Can verify the packet is valid as lanes-info packet
+   */
   await t.step(function enc_dec_verify() {
     const lanes_info_org = [
       new LaneInfo(0, "ABC", 127),
@@ -33,6 +35,10 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Can be convert between `LaneInfo` and bytes (`Uint8Array`)
+   *   - Original object and after conversion data must be equal
+   */
   await t.step(function LaneInfo_convert_bytes() {
     const lane_info_org = new LaneInfo(0, "ABC", 127);
     const lane_info_bytes = lane_info_org.to_bytes();
@@ -42,6 +48,14 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Verify function must be return false if non `Uint8Array` passed
+   * - Verify function must be return false if empty `Uint8Array` passed
+   * - Verify function must be return false if non lanes-info packet passed
+   * - Verify function must be return false if too short bytes as lanes-info packet passed
+   * - Verify function must be return false if too long bytes as lanes-info packet passed
+   * - Verify function must throws for these cases with suitable message when throwing enabled
+   */
   await t.step(function verify_ng() {
     const lanes_info_org = [
       new LaneInfo(0, "ABC", 127)
@@ -69,6 +83,17 @@ Deno.test(async function true_cases(t) {
 
 
 Deno.test(async function err_cases(t) {
+  /**
+   * - At `LaneInfo` constructor, `lane_id` must be `number`
+   * - At `LaneInfo` constructor, `lane_name` must be `string`
+   * - At `LaneInfo` constructor, `current_volume` must be `number`
+   * - At `LaneInfo` constructor, `lane_id` must be in 0~255
+   * - At `LaneInfo` constructor, `lane_name` must be only ascii characters
+   * - At `LaneInfo` constructor, `lane_name` must not be including control ascii characters
+   * - At `LaneInfo` constructor, `lane_name` must not be empty `string`
+   * - At `LaneInfo` constructor, `lane_name` must not be over or equal 4 length
+   * - At `LaneInfo` constructor, `current_volume` must be in 0~255
+   */
   await t.step(function LaneInfo_instance() {
     assertThrows(() => new LaneInfo("", "ABC", 127), TypeError, "lane_id must be number, but got string");  // string "" as non number
     assertThrows(() => new LaneInfo(0 ,     1, 127), TypeError, "lane_name must be string, but got number");  // number 1 as non string
@@ -85,6 +110,10 @@ Deno.test(async function err_cases(t) {
   });
 
 
+  /**
+   * - At bytes to `LaneInfo` convert method, `bytes` must be `Uint8Array`
+   * - At bytes to `LaneInfo` convert method, `bytes` must be 5 length
+   */
   await t.step(function LaneInfo_from_bytes() {
     const lane_info_org = new LaneInfo(0, "ABC", 127);
     const lane_info_bytes_correct = lane_info_org.to_bytes();
@@ -97,12 +126,19 @@ Deno.test(async function err_cases(t) {
   });
 
 
+  /**
+   * - At encoding function, `lanes_info` must be `Array[LaneInfo]`
+   * - At encoding function, `lanes_info` must be including only `LaneInfo`
+   */
   await t.step(function enc_invalid_type() {
     assertThrows(() => packet_lanes_info_encode(""),   TypeError , "lanes_info must be Array, but got string");  // string "" as non Array
     assertThrows(() => packet_lanes_info_encode([""]), TypeError , "Non LaneInfo elements detected"); // string "" as non LaneInfo element
   });
 
 
+  /**
+   * - At encoding function, `lanes_info` must not be empty `Array`
+   */
   await t.step(function enc_invalid_value() {
     assertThrows(() => packet_lanes_info_encode([]), RangeError, "Empty array passed");
   });
