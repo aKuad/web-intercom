@@ -1,10 +1,7 @@
 /**
  * @file Tests for `typeof_detail.js` module
  *
- * Test cases:
- *   * Can return primitive types
- *   * Can return builtin object name
- *   * Can return custom object name
+ * About test cases, see each test step function comment
  *
  * Test steps:
  *   * Run this script by deno test - `deno test **Test*.js`
@@ -18,6 +15,10 @@ import { typeof_detail } from "../../static/typeof_detail.js";
 
 
 Deno.test(async function true_cases(t) {
+  /**
+   * - Can return primitive object type name
+   *   - For null, must return "null", is not same behavior as `typeof`
+   */
   await t.step(function primitive_types() {
     assertEquals(typeof_detail()            , "undefined");
     assertEquals(typeof_detail(null)        , "null");
@@ -30,6 +31,9 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Can return builtin object name
+   */
   await t.step(function builtin_objects() {
     assertEquals(typeof_detail([])              , "Array");
     assertEquals(typeof_detail(new Uint8Array()), "Uint8Array");
@@ -37,6 +41,10 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Can return custom class name
+   * - Can return "Object" for basic object (is not builtin, not custom class)
+   */
   await t.step(function custom_objects() {
     class CustomClass {
       constructor() {};
