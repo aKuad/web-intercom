@@ -1,10 +1,7 @@
 /**
  * @file Tests for `packet_conv/volume_modify.js`
  *
- * Test cases:
- *   * Can encode/decode volume-modify packet
- *   * Raise TypeError if invalid argument type is passed
- *   * Raise RangeError if invalid argument value is passed
+ * About test cases, see each test step function comment
  *
  * Test steps:
  *   * Run this script by deno test - `deno test **Test*.js`
@@ -18,6 +15,11 @@ import { packet_volume_modify_encode, packet_volume_modify_decode, is_volume_mod
 
 
 Deno.test(async function true_cases(t) {
+  /**
+   * - Can encode/decode volume-modify packet
+   *   - Original data and decoded data must be equal
+   * - Can verify the packet is valid as volume-modify packet
+   */
   await t.step(function enc_dec_verify() {
     const lane_id_org = 1;
     const modified_volume_org = 100;
@@ -30,6 +32,14 @@ Deno.test(async function true_cases(t) {
   });
 
 
+  /**
+   * - Verify function must be return false if non `Uint8Array` passed
+   * - Verify function must be return false if empty `Uint8Array` passed
+   * - Verify function must be return false if non volume-modify packet passed
+   * - Verify function must be return false if too short bytes as volume-modify packet passed
+   * - Verify function must be return false if too long bytes as volume-modify packet passed
+   * - Verify function must throws for these cases with suitable message when throwing enabled
+   */
   await t.step(function verify_ng() {
     const lane_id_org = 1;
     const modified_volume_org = 100;
@@ -56,6 +66,10 @@ Deno.test(async function true_cases(t) {
 
 
 Deno.test(async function err_cases(t) {
+  /**
+   * - At encoding function, `lane_id` must be `number`
+   * - At encoding function, `modified_volume` must be `number`
+   */
   await t.step(function enc_invalid_type() {
     const lane_id = 1;
     const modified_volume = 100;
@@ -65,6 +79,10 @@ Deno.test(async function err_cases(t) {
   });
 
 
+  /**
+   * - At encoding function, `lane_id` must be in 0~255
+   * - At encoding function, `modified_volume` must be in 0~255
+   */
   await t.step(function enc_invalid_value() {
     const lane_id = 1;
     const modified_volume = 100;
