@@ -36,6 +36,7 @@ export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
  * @throws {TypeError} If `audio_pcm` is not `Float32Array`
  * @throws {TypeError} If `lane_name` is not `string`
  * @throws {TypeError} If `ext_bytes` is not `Uint8Array`
+ * @throws {RangeError} If `lane_name` is empty `string`
  * @throws {RangeError} If ``lane_name`` has non ascii or control ascii characters
  * @throws {RangeError} If ``lane_name`` has over 3 characters
  * @throws {RangeError} If ``ext_bytes`` has over 255 bytes
