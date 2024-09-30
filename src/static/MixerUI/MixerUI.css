@@ -1,10 +1,20 @@
 @charset "UTF-8";
 
+/* Variables declaration */
+:root {
+  --MixerUI-space-name-fader: 20px;
+  --MixerUI-space-fader-meter: 20px;
+  --MixerUI-space-left-name: 20px;
+  --MixerUI-space-fader-right: 20px;
+  --MixerUI-height-fader-meter-area: 2em;
+}
+
+
 /* Base */
 .MixerUI-base {
   width: 700px;
   background-color: hsl(0, 0%, 10%);
-  min-height: 3em;
+  min-height: calc(var(--MixerUI-height-fader-meter-area) * 2);
 
   font-size: 24px;
   font-family: sans-serif;
@@ -26,10 +36,10 @@
 /* Container */
 .MixerUI-container {
   display: grid;
-  grid-template-columns: calc(20px + 4rem) 1fr;
-  grid-template-rows: 2em 2em;
-  column-gap: 20px;
-  row-gap: 20px;
+  grid-template-columns: calc(var(--MixerUI-space-left-name) + 4rem) 1fr;
+  grid-template-rows: var(--MixerUI-height-fader-meter-area) var(--MixerUI-height-fader-meter-area);
+  column-gap: var(--MixerUI-space-name-fader);
+  row-gap: var(--MixerUI-space-fader-meter);
 
   border-top: 2px solid hsl(0, 0%, 70%);
 }
@@ -45,7 +55,7 @@
 .MixerUI-lane-name {
   grid-column: 1;
   grid-row: 1 / span 2;
-  margin-left: 20px;
+  margin-left: var(--MixerUI-space-left-name);
   align-self: center;
 
   text-align: center;
@@ -57,7 +67,7 @@
 .MixerUI-lane-fader {
   grid-column: 2;
   grid-row: 1;
-  margin-right: 20px;
+  margin-right: var(--MixerUI-space-fader-right);
   align-self: end;
 }
 
@@ -73,7 +83,7 @@
 .MixerUI-lane-meter {
   grid-column: 2;
   grid-row: 2;
-  margin-right: 20px;
+  margin-right: var(--MixerUI-space-fader-right);
   align-self: start;
 
   height: 0.5em;
