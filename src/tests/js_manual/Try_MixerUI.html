@@ -37,18 +37,12 @@
 
         mixer_ui.set_callback_on_fader_moved((lane_id, moved_value) => console.log(`$lane_id: {lane_id}, moved_value: ${moved_value}`));
 
-        document.getElementById("button-create-lane-0" ).addEventListener("click", () => mixer_ui.create_lane("LA0", 0));
-        document.getElementById("button-delete-lane-0" ).addEventListener("click", () => mixer_ui.delete_lane(0));
-        document.getElementById("button-random-fader-0").addEventListener("click", () => mixer_ui.set_fader_value(0, part_random_255()));
-        document.getElementById("button-random-meter-0").addEventListener("click", () => mixer_ui.set_meter_value(0, part_random_255()));
-        document.getElementById("button-create-lane-1" ).addEventListener("click", () => mixer_ui.create_lane("LA1", 1));
-        document.getElementById("button-delete-lane-1" ).addEventListener("click", () => mixer_ui.delete_lane(1));
-        document.getElementById("button-random-fader-1").addEventListener("click", () => mixer_ui.set_fader_value(1, part_random_255()));
-        document.getElementById("button-random-meter-1").addEventListener("click", () => mixer_ui.set_meter_value(1, part_random_255()));
-        document.getElementById("button-create-lane-2" ).addEventListener("click", () => mixer_ui.create_lane("LA2", 2));
-        document.getElementById("button-delete-lane-2" ).addEventListener("click", () => mixer_ui.delete_lane(2));
-        document.getElementById("button-random-fader-2").addEventListener("click", () => mixer_ui.set_fader_value(2, part_random_255()));
-        document.getElementById("button-random-meter-2").addEventListener("click", () => mixer_ui.set_meter_value(2, part_random_255()));
+        for(let i = 0; i < 3; i++) {
+          document.getElementById(`button-create-lane-${i}` ).addEventListener("click", () => mixer_ui.create_lane(`LA${i}`, i));
+          document.getElementById(`button-delete-lane-${i}` ).addEventListener("click", () => mixer_ui.delete_lane(i));
+          document.getElementById(`button-random-fader-${i}`).addEventListener("click", () => mixer_ui.set_fader_value(i, part_random_255()));
+          document.getElementById(`button-random-meter-${i}`).addEventListener("click", () => mixer_ui.set_meter_value(i, part_random_255()));
+        }
       });
 
       function part_random_255() {
