@@ -83,10 +83,9 @@ export class MixerUI {
     }
 
     const lane = this.#create_lane_element(lane_name, lane_id);
-    const moved_callback = this.#callback_on_fader_moved;
-    lane.getElementsByClassName("MixerUI-lane-fader-input")[0].addEventListener("input", e => {
-      if(moved_callback !== null) moved_callback(lane_id, e.target.value);
-    });
+    lane.getElementsByClassName("MixerUI-lane-fader-input")[0].addEventListener("input", (e => {
+      if(this.#callback_on_fader_moved !== null) this.#callback_on_fader_moved(lane_id, e.target.value);
+    }).bind(this));
 
     this.#base_container.appendChild(lane);
   }
