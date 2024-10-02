@@ -111,12 +111,12 @@ export class MixerUI {
   /**
    * Set callback function of fader moved
    *
-   * @param {callback_on_fader_moved} callback_on_fader_moved Callback function of fader moved
+   * @param {callback_on_fader_moved | null} callback_on_fader_moved Callback function of fader moved
    */
   set_callback_on_fader_moved(callback_on_fader_moved) {
     // Argument type checking
-    if(typeof(callback_on_fader_moved) !== "function") {
-      throw new TypeError(`callback_on_fader_moved must be function, but got ${typeof_detail(callback_on_fader_moved)}`);
+    if(callback_on_fader_moved !== null && typeof(callback_on_fader_moved) !== "function") {
+      throw new TypeError(`callback_on_fader_moved must be function or null, but got ${typeof_detail(callback_on_fader_moved)}`);
     }
 
     this.#callback_on_fader_moved = callback_on_fader_moved;
