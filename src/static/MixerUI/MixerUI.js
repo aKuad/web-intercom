@@ -31,8 +31,15 @@ export class MixerUI {
    * Constructor of MixerUI
    *
    * @param {HTMLElement} base_container HTML element to view UI
+   *
+   * @throws {TypeError} If `base_container` is not `HTMLElement`
    */
   constructor(base_container) {
+    // Argument type checking
+    if(!(base_container instanceof HTMLElement)) {
+      throw TypeError(`base_container must be HTMLElement, but got ${typeof_detail(base_container)}`);
+    }
+
     this.#base_container = base_container;
     this.#callback_on_fader_moved = null;
 
