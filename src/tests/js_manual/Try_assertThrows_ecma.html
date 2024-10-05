@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="module">
+      /**
+       * Test for `assertThrows_ecma.js`
+       *
+       * It can run on Deno.
+       * But console output checking is manual.
+       * So implemented it as manual test.
+       *
+       * Test steps:
+       *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
+       *   2. Access to `http://localhost:8000/Try_assertThrows_ecma.html` with browser
+       *   3. Open JavaScript console
+       *   4. Click test control buttons
+       *   5. Check display view or console
+       *
+       * Test cases:
+       *   - Can print OK to console when actual error message is equal to expected error message
+       *   - Can print OK to console when actual error message includes expected error message
+       *   - Can print NG to console when actual error type is different from expected error type
+       *   - Can print NG to console when actual error message is different from expected error message
+       *
+       * @author aKuad
+       */
+      import { assertThrows_ecma } from "/test-util/assertThrows_ecma.js";
+
+      window.addEventListener("load", () => {
+        document.getElementById("button-run-all-tests").addEventListener("click", () => {
+          function sample_target_fn() {
+            throw new TypeError("correct message");
+          }
+
+          console.log("- It must be OK");
+          assertThrows_ecma(() => sample_target_fn(), TypeError, "correct message");
+
+          console.log("- It must be OK");
+          assertThrows_ecma(() => sample_target_fn(), TypeError, "correct");
+
+          console.log("- It must be NG - Unexpected error type");
+          assertThrows_ecma(() => sample_target_fn(), RangeError, "correct message");
+
+          console.log("- It must be NG - Unexpected error message");
+          assertThrows_ecma(() => sample_target_fn(), TypeError, "wrong message");
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <p>
+      <button id="button-run-all-tests">Run all tests</button>
+    </p>
+  </body>
+</html>
