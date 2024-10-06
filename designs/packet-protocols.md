@@ -61,7 +61,7 @@ server -> mixer client
 |             1 | uint8  | Current volume value                           |
 |               |        | Repeat them (without ID) for all audio clients |
 
-## Loudness monitor packet
+## Lanes loudness packet
 
 server -> mixer client
 
