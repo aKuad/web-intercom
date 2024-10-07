@@ -30,10 +30,17 @@
        *   - Can set/unset callback function of fader moved
        *   - Can move lane fader by left/right key
        *   - Can move active lane (to move fader) by up/down key
+       *   - Throw TypeError if unexpected type argument passed at all methods
+       *   - Throw RangeError if empty string passed as `lane_name` at `create_lane`
+       *   - Throw RangeError if control ascii included string passed as `lane_name` at `create_lane`
+       *   - Throw RangeError if over or equal 4 characters passed as `lane_name` at `create_lane`
+       *   - Throw RangeError if `lane_id` not in 0~255 at all methods
+       *   - Throw RangeError if `value` not in 0~255 at `set_fader_value` and `set_meter_value`
        *
        * @author aKuad
        */
       import { MixerUI } from "/static/MixerUI/MixerUI.js";
+      import { assertThrows_ecma } from "/test-util/assertThrows_ecma.js";
 
       window.addEventListener("load", () => {
         const mixer_ui = new MixerUI(document.getElementById("mixer-view"));
@@ -49,6 +56,9 @@
 
         document.getElementById("button-callback-enable" ).addEventListener("click", () => mixer_ui.set_callback_on_fader_moved(part_print_id_value));
         document.getElementById("button-callback-disable").addEventListener("click", () => mixer_ui.set_callback_on_fader_moved(null));
+
+        document.getElementById("button-type-error-test" ).addEventListener("click", () => try_type_error_test(mixer_ui));
+        document.getElementById("button-range-error-test").addEventListener("click", () => try_range_error_test(mixer_ui));
       });
 
       function part_random_255() {
@@ -57,6 +67,44 @@
 
       function part_print_id_value(lane_id, moved_value) {
         console.log(`$lane_id: ${lane_id}, moved_value: ${moved_value}`);
+      }
+
+      function try_type_error_test(mixer_ui) {
+        assertThrows_ecma(() => new MixerUI("")                         , TypeError, "base_container must be HTMLElement, but got string"); // string "" as non HTMLElement
+
+        assertThrows_ecma(() => mixer_ui.create_lane( 0,  1)            , TypeError, "lane_name must be string, but got number"); // number 0 as non string
+        assertThrows_ecma(() => mixer_ui.create_lane("A", "")           , TypeError, "lane_id must be number, but got string"); // string "" as non number
+
+        assertThrows_ecma(() => mixer_ui.delete_lane("")                , TypeError, "lane_id must be number, but got string"); // string "" as non number
+
+        assertThrows_ecma(() => mixer_ui.set_fader_value("", 0)         , TypeError, "lane_id must be number, but got string"); // string "" as non number
+        assertThrows_ecma(() => mixer_ui.set_fader_value(0, "")         , TypeError, "value must be number, but got string"); // string "" as non number
+
+        assertThrows_ecma(() => mixer_ui.set_meter_value("", 0)         , TypeError, "lane_id must be number, but got string"); // string "" as non number
+        assertThrows_ecma(() => mixer_ui.set_meter_value(0, "")         , TypeError, "value must be number, but got string"); // string "" as non number
+
+        assertThrows_ecma(() => mixer_ui.set_callback_on_fader_moved(""), TypeError, "callback_on_fader_moved must be function or null, but got string"); // string "" as non function
+      }
+
+      function try_range_error_test(mixer_ui) {
+        assertThrows_ecma(() => mixer_ui.create_lane(""    ,   0)    , RangeError, "lane_name can't be empty string");  // lane_name empty
+        assertThrows_ecma(() => mixer_ui.create_lane("A\n" ,   0)    , RangeError, "For lane_name, non ascii or control ascii characters are not allowed"); // lane_name includes control ascii
+        assertThrows_ecma(() => mixer_ui.create_lane("ABCD",   0)    , RangeError, "For lane_name, over 3 characters string is not allowed, but got 4 characters"); // lane_name has over or equal 4 characters
+        assertThrows_ecma(() => mixer_ui.create_lane("A"   , 256)    , RangeError, "lane_id must be in 0~255, but got 256");  // lane_id over range
+        assertThrows_ecma(() => mixer_ui.create_lane("A"   ,  -1)    , RangeError, "lane_id must be in 0~255, but got -1");   // lane_id lower range
+
+        assertThrows_ecma(() => mixer_ui.delete_lane(256)         , RangeError, "lane_id must be in 0~255, but got 256"); // lane_id over range
+        assertThrows_ecma(() => mixer_ui.delete_lane( -1)         , RangeError, "lane_id must be in 0~255, but got -1");  // lane_id lower range
+
+        assertThrows_ecma(() => mixer_ui.set_fader_value(256,   0), RangeError, "lane_id must be in 0~255, but got 256"); // lane_id over range
+        assertThrows_ecma(() => mixer_ui.set_fader_value( -1,   0), RangeError, "lane_id must be in 0~255, but got -1");  // lane_id lower range
+        assertThrows_ecma(() => mixer_ui.set_fader_value(  0, 256), RangeError, "value must be in 0~255, but got 256"); // value over range
+        assertThrows_ecma(() => mixer_ui.set_fader_value(  0,  -1), RangeError, "value must be in 0~255, but got -1");  // value lower range
+
+        assertThrows_ecma(() => mixer_ui.set_meter_value(256,   0), RangeError, "lane_id must be in 0~255, but got 256"); // lane_id over range
+        assertThrows_ecma(() => mixer_ui.set_meter_value( -1,   0), RangeError, "lane_id must be in 0~255, but got -1");  // lane_id lower range
+        assertThrows_ecma(() => mixer_ui.set_meter_value(  0, 256), RangeError, "value must be in 0~255, but got 256"); // value over range
+        assertThrows_ecma(() => mixer_ui.set_meter_value(  0,  -1), RangeError, "value must be in 0~255, but got -1");  // value lower range
       }
     </script>
   </head>
@@ -84,6 +132,11 @@
     <p>
       <button id="button-callback-enable">Enable callback</button>
       <button id="button-callback-disable">Disable callback</button>
+    </p>
+    <hr>
+    <p>
+      <button id="button-type-error-test">Run type error checking</button>
+      <button id="button-range-error-test">Run range error checking</button>
     </p>
     <hr>
     <div id="mixer-view"></div>
