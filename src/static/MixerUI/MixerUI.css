@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/* Variables declaration */
+:root {
+  --MixerUI-space-name-fader: 20px;
+  --MixerUI-space-fader-meter: 20px;
+  --MixerUI-space-left-name: 20px;
+  --MixerUI-space-fader-right: 20px;
+  --MixerUI-height-fader-meter-area: 2em;
+}
+
+
+/* Base */
+.MixerUI-base {
+  width: 700px;
+  background-color: hsl(0, 0%, 10%);
+  min-height: calc(var(--MixerUI-height-fader-meter-area) * 2);
+
+  font-size: 24px;
+  font-family: sans-serif;
+}
+.MixerUI-base:empty {
+  /* For viewing in center */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.MixerUI-base:empty::before {
+  display: block;
+  content: "No lanes available";
+  color: hsl(0, 0%, 70%);
+  font-style: italic;
+}
+
+
+/* Container */
+.MixerUI-container {
+  display: grid;
+  grid-template-columns: calc(var(--MixerUI-space-left-name) + 4rem) 1fr;
+  grid-template-rows: var(--MixerUI-height-fader-meter-area) var(--MixerUI-height-fader-meter-area);
+  column-gap: var(--MixerUI-space-name-fader);
+  row-gap: var(--MixerUI-space-fader-meter);
+
+  border-top: 2px solid hsl(0, 0%, 70%);
+}
+.MixerUI-container:last-child {
+  border-bottom: 2px solid hsl(0, 0%, 70%);
+}
+.MixerUI-container:has(.MixerUI-lane-fader-input:focus) {
+  background-color: hsl(0, 0%, 20%);
+}
+
+
+/* Lane name */
+.MixerUI-lane-name {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  margin-left: var(--MixerUI-space-left-name);
+  align-self: center;
+
+  text-align: center;
+  color: hsl(0, 0%, 90%);
+}
+
+
+/* Fader */
+.MixerUI-lane-fader {
+  grid-column: 2;
+  grid-row: 1;
+  margin-right: var(--MixerUI-space-fader-right);
+  align-self: end;
+}
+
+.MixerUI-lane-fader-input {
+  width: 100%;
+  height: 2em;
+  margin: 0;
+  outline: none;
+}
+
+
+/* Meter */
+.MixerUI-lane-meter {
+  grid-column: 2;
+  grid-row: 2;
+  margin-right: var(--MixerUI-space-fader-right);
+  align-self: start;
+
+  height: 0.5em;
+  background-color: hsl(0, 0%, 70%);
+}
+
+.MixerUI-lane-meter-value {
+  width: 0%;
+  height: 100%;
+  margin: 0;
+  background-color: hsl(0, 80%, 50%);
+}
