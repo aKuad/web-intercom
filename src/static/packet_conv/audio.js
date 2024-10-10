@@ -9,6 +9,7 @@
  */
 
 import { ONE_FRAME_SAMPLES, ONE_SAMPLE_BYTES } from "./AUDIO_PARAM.js";
+import { int16_to_uint8_little_endian, uint8_to_int16_little_endian } from "../int16bytes_conv.js";
 import { dbfs_float } from "../dbfs.js";
 import { typeof_detail } from "../typeof_detail.js";
 
@@ -68,7 +69,7 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   }
 
   const audio_data_int16t = Int16Array.from(audio_pcm, e => e*32767); // *32767: float32(-1, 1) to int16(-32768, 32767)
-  const audio_data_uint8t = new Uint8Array(audio_data_int16t.buffer);
+  const audio_data_uint8t = int16_to_uint8_little_endian(audio_data_int16t);
 
   const lane_name_adj3 = (lane_name + "   ").slice(0, 3);
   const text_encoder = new TextEncoder();
@@ -105,7 +106,7 @@ export function packet_audio_decode(raw_packet) {
     return [audio_data_float32t, lane_name, ext_data];
   } else {
     const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);
-    const audio_data_int16t = new Int16Array(audio_data_uint8t.buffer);
+    const audio_data_int16t = uint8_to_int16_little_endian(audio_data_uint8t);
     const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
     return [audio_data_float32t, lane_name, ext_data];
   }
