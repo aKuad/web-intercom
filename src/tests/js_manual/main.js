@@ -12,6 +12,13 @@ import { serveDir } from "jsr:@std/http@1";
 Deno.serve(request => {
   const url = new URL(request.url);
 
+  /* API endpoints */
+  if(url.pathname === "/api/echo") {
+    return new Response(request.body);
+  }
+
+
+  /* Page endpoints */
   if(url.pathname.startsWith("/static")) {
     return serveDir(request, { fsRoot: "../../static", urlRoot: "static"});
   }
