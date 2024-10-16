@@ -7,7 +7,7 @@ sequenceDiagram
   participant CM as Client main
   participant WSS as Server<br>(Websocket)
 
-  CM->>WSS: Connect
+  CM->>WSS: Connect<br>Endpoint: /api/audio
   CM->>AP: Init player
   CM->>MC: Start capture
 
