@@ -6,7 +6,7 @@ sequenceDiagram
   participant CM as Client main
   participant WSS as Server<br>(Websocket)
 
-  CM->>WSS: Connect
+  CM->>WSS: Connect<br>Endpoint: /api/mixer
   CM->>MU: Init UI
 
   par Lanes update

@@ -8,7 +8,7 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
-  WSA->>S: Client connecting
+  WSA->>S: Client connecting<br>Endpoint: /api/audio
   S->>AM: Lane create
 
   loop
@@ -27,7 +27,7 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
-  WSM->>S: Client connecting
+  WSM->>S: Client connecting<br>Endpoint: /api/mixer
   S->>+AM: Fetch lanes info
   AM-->>-S: Lanes info
   S->>WSM: Lanes info packet
