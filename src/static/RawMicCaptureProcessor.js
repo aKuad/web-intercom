@@ -4,7 +4,7 @@
  * @author aKuad
  */
 
-import { SAMPLE_RATE, ONE_FRAME_SAMPLES } from "./packet_conv/AUDIO_PARAM.js";
+import { SAMPLE_RATE, ONE_FRAME_SAMPLES } from "./AUDIO_PARAM.js";
 
 
 /**
