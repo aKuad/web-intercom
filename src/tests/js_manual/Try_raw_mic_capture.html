@@ -23,7 +23,7 @@
         console.log("-- try_start_audio_capture");
         raw_mic_capture(pcm => {
           console.log(pcm);
-        }, 0.1, "/static/RawMicCaptureProcessor.js");
+        }, 44100, 0.1, "/static/RawMicCaptureProcessor.js");
         console.log("-- CHECK - Is PCM logged at each 0.1 second?");
       }
 
