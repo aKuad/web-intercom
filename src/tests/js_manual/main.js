@@ -17,6 +17,16 @@ Deno.serve(request => {
     return new Response(request.body);
   }
 
+  if(url.pathname === "/api/ws-echo") {
+    if(request.headers.get("upgrade") === "websocket") {
+      const { socket, response } = Deno.upgradeWebSocket(request);  // Establish websocket echo API connection
+      socket.addEventListener("message", e => socket.send(e.data)); //
+      return response;                                              //
+    } else {
+      return new Response("This API is for websocket, protocol upgrade required", { status: 426 });
+    }
+  }
+
 
   /* Page endpoints */
   if(url.pathname.startsWith("/static")) {
