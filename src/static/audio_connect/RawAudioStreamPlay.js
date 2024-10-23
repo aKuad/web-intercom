@@ -1,5 +1,5 @@
 /**
- * @file Play audion from raw float array stream
+ * @file Play audio from raw float array stream
  *
  * @author aKuad
  */
