@@ -42,7 +42,7 @@ export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
  * @throws {RangeError} If `lane_name` has over 3 characters
  * @throws {RangeError} If `ext_bytes` has over 255 bytes
  */
-export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0), silent_threshold_dbfs = -20.0) {
+export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0), silent_threshold_dbfs = -Infinity) {
   // Arguments type checking
   if(!(audio_pcm instanceof Float32Array)) {
     throw new TypeError(`audio_pcm must be Float32Array, but got ${typeof_detail(audio_pcm)}`);
@@ -75,7 +75,7 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   const text_encoder = new TextEncoder();
   const lane_name_uint8t = text_encoder.encode(lane_name_adj3);
 
-  if(dbfs_float(audio_pcm) < silent_threshold_dbfs) {
+  if(dbfs_float(audio_pcm) <= silent_threshold_dbfs) {
     return Uint8Array.of(SILENT_AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes);
   } else {
     return Uint8Array.of(AUDIO_PACKET_TYPE_ID, ...lane_name_uint8t, ext_bytes.length, ...ext_bytes, ...audio_data_uint8t);

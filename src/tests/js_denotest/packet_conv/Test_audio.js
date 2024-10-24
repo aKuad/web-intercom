@@ -66,7 +66,7 @@ Deno.test(async function true_cases(t) {
     const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array([1,2,3,4]);
-    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org, -20.0);
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     assertEquals(is_audio_packet(raw_packet), true);
@@ -84,7 +84,7 @@ Deno.test(async function true_cases(t) {
     const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES); // Zeros array
     const lane_name_org = "ABC";
     const ext_bytes_org = new Uint8Array();
-    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org);
+    const raw_packet = packet_audio_encode(audio_pcm_org, lane_name_org, ext_bytes_org, -20.0);
     const [audio_pcm_prc, lane_name_prc, ext_bytes_prc] = packet_audio_decode(raw_packet);
 
     assertEquals(is_audio_packet(raw_packet), true);
