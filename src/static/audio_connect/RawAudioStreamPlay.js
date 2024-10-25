@@ -1,9 +1,12 @@
 /**
- * @file Play audion from raw float array stream
+ * @file Play audio from raw float array stream
  *
  * @author aKuad
  */
 
+/**
+ * Play audion from raw float array stream
+ */
 export class RawAudioStreamPlay {
   /**
    * Audio context instance (Web Audio API) for audio controlling
