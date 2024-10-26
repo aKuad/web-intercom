@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="module">
+      /**
+       * Test for `AudioClientModule.js`
+       *
+       * Test steps:
+       *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
+       *   2. Access to `http://localhost:8000/Try_AudioClientModule.html` with browser
+       *   3. Open JavaScript console
+       *   4. Click test control buttons
+       *   5. Check display view or console
+       *
+       * Test cases:
+       *   - Can capture audio device input and send audio packet
+       *   - Can receive audio packet and play received audio
+       *   - Can send ext_bytes
+       *   - Can dispatch ext-bytes-received event on ext_bytes including audio packet received
+       *   - Throw TypeError if unexpected type argument passed at all methods
+       *
+       * @author aKuad
+       */
+
+      import { AudioClientModule } from "/static/audio_connect/AudioClientModule.js";
+      import { assertThrows_ecma } from "/test-util/assertThrows_ecma.js";
+
+
+      window.addEventListener("load", () => {
+        let audio_client_module;
+
+        document.getElementById("button-start-connection").addEventListener("click", e => {
+          e.target.disabled = true;
+          audio_client_module = new AudioClientModule("/api/ws-echo", "MIC", -Infinity);
+          audio_client_module.addEventListener("ext-bytes-received", e => console.log("ext_bytes received:", e.detail));
+          console.log("-- CHECK - Is audio input device echoing to audio output device?");
+        });
+
+        document.getElementById("button-send-ext-bytes").addEventListener("click", () => {
+          audio_client_module.ext_bytes_send(part_generate_random_bytes());
+          console.log("-- CHECK - Is ext_bytes receiving event dispatched (random array logged)?");
+        });
+
+        document.getElementById("button-type-error-test" ).addEventListener("click", () => try_type_error_test(audio_client_module));
+      });
+
+      function part_generate_random_bytes() {
+        const len = Math.floor(Math.random() * 256);
+        const zeros_array = new Array(len).fill(0);
+        const random_array = zeros_array.map(() => Math.floor(Math.random() * 256));
+        return Uint8Array.from(random_array);
+      }
+
+      function try_type_error_test(audio_client_module) {
+        assertThrows_ecma(() => audio_client_module.ext_bytes_send(""), TypeError, "ext_bytes must be Uint8Array, but got string"); // string "" as non Uint8Array
+      }
+    </script>
+  </head>
+
+  <body>
+    <p>
+      <button id="button-start-connection">Start connection</button>
+      <button id="button-send-ext-bytes">Send ext bytes</button>
+    </p>
+    <p>
+      <button id="button-type-error-test">Run type error checking</button>
+    </p>
+  </body>
+</html>
