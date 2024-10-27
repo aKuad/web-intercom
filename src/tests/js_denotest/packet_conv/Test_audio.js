@@ -150,12 +150,13 @@ Deno.test(async function err_cases(t) {
     const lane_name = "ABC";
     const ext_bytes = new Uint8Array([1,2,3,4]);
 
-    assertThrows(() => packet_audio_encode("", lane_name, ext_bytes), TypeError, "audio_pcm must be Float32Array, but got string");
+    assertThrows(() => packet_audio_encode("", lane_name, ext_bytes           ), TypeError, "audio_pcm must be Float32Array, but got string");
     //                                     ~~ as non Float32Array
-    assertThrows(() => packet_audio_encode(audio_pcm,  1, ext_bytes), TypeError, "lane_name must be string, but got number");
+    assertThrows(() => packet_audio_encode(audio_pcm,  1, ext_bytes           ), TypeError, "lane_name must be string, but got number");
     //                                                 ~ as non string
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""), TypeError, "ext_bytes must be Uint8Array, but got string");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ""           ), TypeError, "ext_bytes must be Uint8Array, but got string");
     //                                                           ~~ as non Uint8Array
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes, ""), TypeError, "silent_threshold_dbfs must be number, but got string");
   });
 
 
@@ -176,11 +177,12 @@ Deno.test(async function err_cases(t) {
     const lane_name_over_len      = "ABCD";
     const ext_bytes_over_len      = new Uint8Array(256);
 
-    assertThrows(() => packet_audio_encode(audio_pcm, ""                     , ext_bytes), RangeError, "lane_name can't be empty string");
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_non_ascii    , ext_bytes), RangeError, "For lane_name, non ascii or control ascii characters are not allowed");
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_control_ascii, ext_bytes), RangeError, "For lane_name, non ascii or control ascii characters are not allowed");
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_over_len     , ext_bytes), RangeError, `For lane_name, over 3 characters string is not allowed, but got ${lane_name_over_len.length} characters`);
-    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes_over_len     ), RangeError, `For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes_over_len.length} bytes`);
+    assertThrows(() => packet_audio_encode(audio_pcm, ""                     , ext_bytes   ), RangeError, "lane_name can't be empty string");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_non_ascii    , ext_bytes   ), RangeError, "For lane_name, non ascii or control ascii characters are not allowed");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_control_ascii, ext_bytes   ), RangeError, "For lane_name, non ascii or control ascii characters are not allowed");
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name_over_len     , ext_bytes   ), RangeError, `For lane_name, over 3 characters string is not allowed, but got ${lane_name_over_len.length} characters`);
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name, ext_bytes_over_len        ), RangeError, `For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes_over_len.length} bytes`);
+    assertThrows(() => packet_audio_encode(audio_pcm, lane_name              , ext_bytes, 1), RangeError, "silent_threshold_dbfs must be 0 or negative value, but got 1");
   });
 
 

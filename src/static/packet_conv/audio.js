@@ -32,15 +32,18 @@ export const SILENT_AUDIO_PACKET_TYPE_ID = 0x11;
  * @param {Float32Array} audio_pcm Audio PCM
  * @param {string} lane_name Lane name of view in mixer-client
  * @param {Uint8Array} ext_bytes User's custom external data
+ * @param {number} silent_threshold_dbfs Under this dBFS input will be ignored
  * @returns {Uint8Array} Encoded packet
  *
  * @throws {TypeError} If `audio_pcm` is not `Float32Array`
  * @throws {TypeError} If `lane_name` is not `string`
  * @throws {TypeError} If `ext_bytes` is not `Uint8Array`
+ * @throws {TypeError} If `silent_threshold_dbfs` is not `number`
  * @throws {RangeError} If `lane_name` is empty `string`
  * @throws {RangeError} If `lane_name` has non ascii or control ascii characters
  * @throws {RangeError} If `lane_name` has over 3 characters
  * @throws {RangeError} If `ext_bytes` has over 255 bytes
+ * @throws {RangeError} If `silent_threshold_dbfs` is positive value
  */
 export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8Array(0), silent_threshold_dbfs = -20.0) {
   // Arguments type checking
@@ -52,6 +55,9 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   }
   if(!(ext_bytes instanceof Uint8Array)) {
     throw new TypeError(`ext_bytes must be Uint8Array, but got ${typeof_detail(ext_bytes)}`);
+  }
+  if(typeof silent_threshold_dbfs !== "number") {
+    throw new TypeError(`silent_threshold_dbfs must be number, but got ${typeof_detail(silent_threshold_dbfs)}`);
   }
 
   // Arguments range checking
@@ -66,6 +72,9 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
   }
   if(ext_bytes.length > 255) {
     throw new RangeError(`For ext_bytes, over 255 bytes data is not allowed, but got ${ext_bytes.length} bytes`);
+  }
+  if(silent_threshold_dbfs > 0) {
+    throw new RangeError(`silent_threshold_dbfs must be 0 or negative value, but got ${silent_threshold_dbfs}`);
   }
 
   const audio_data_int16t = Int16Array.from(audio_pcm, e => e*32767); // *32767: float32(-1, 1) to int16(-32768, 32767)
