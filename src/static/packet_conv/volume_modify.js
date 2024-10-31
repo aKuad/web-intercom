@@ -49,17 +49,25 @@ export function packet_volume_modify_encode(lane_id, modified_volume) {
 
 
 /**
+ * Data structure of decoded volume_modify packet
+ *
+ * @typedef {Object} VolumeModify
+ * @property {number} lane_id Lane ID to control
+ * @property {number} modified_volume Modified volume value
+ */
+
+/**
  * Unpack volume_modify packet
  *
  * Note: About raises, see reference of `is_volume_modify_packet`.
  *
  * @param {Uint8Array} raw_packet Encoded packet
- * @returns {Array<number>} Decoded data - Lane ID and modified volume
+ * @returns {VolumeModify} Decoded data
  */
 export function packet_volume_modify_decode(raw_packet) {
   is_volume_modify_packet(raw_packet, true);
 
-  return [raw_packet[1], raw_packet[2]];
+  return {lane_id: raw_packet[1], modified_volume: raw_packet[2]};
 }
 
 

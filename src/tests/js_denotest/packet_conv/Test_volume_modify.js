@@ -24,11 +24,11 @@ Deno.test(async function true_cases(t) {
     const lane_id_org = 1;
     const modified_volume_org = 100;
     const raw_packet = packet_volume_modify_encode(lane_id_org, modified_volume_org);
-    const [lane_id_prc, modified_volume_prc] = packet_volume_modify_decode(raw_packet);
+    const {lane_id, modified_volume} = packet_volume_modify_decode(raw_packet);
 
     assertEquals(is_volume_modify_packet(raw_packet), true);
-    assertEquals(lane_id_prc, lane_id_org);
-    assertEquals(modified_volume_prc, modified_volume_org);
+    assertEquals(lane_id, lane_id_org);
+    assertEquals(modified_volume, modified_volume_org);
   });
 
 
