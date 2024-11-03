@@ -32,22 +32,31 @@ sequenceDiagram
   participant WSM as Mixer client<br>(Websocket)
   participant S as Server main
   participant AM as Audio mixer
+  participant VC as variable(bool):<br>is_mixer_connecting
+
+  Note over S: Initial
+  VC->>VC: false (init)
 
   Note over S: Connection start (success)
   WSM->>S: Client connecting<br>Endpoint: /api/mixer
+  S->>VC: true
   S->>+AM: Fetch lanes info
   AM-->>-S: Lanes info
   S->>WSM: Lanes info packet
 
+  Note over S: Connection start (filed: already connected)
+  WSM->>S: Client connecting<br>Endpoint: /api/mixer
+  S->>VC: check is false
+  S->>WSM: 400 response<br>'An mixer client is connecting'
+
   Note over S: Main communication
   par Lanes update
-    Note over S: on client joined / renamed / left
-    S->>WSM: Lanes info packet<br>(to all mixer clients)
+    Note over S: on audio client joined / renamed / left
+    S->>WSM: Lanes info packet
   and Volume control
     Note over S: on volume controlled (at mixer client)
     WSM->>S: Volume modify packet
     S->>AM: Volume modification
-    S->>WSM: Lanes info packet<br>(to all mixer clients)
   and Loudness monitor
     loop runs every 0.1 sec
       S->>+AM: Fetch each lanes dBFS
@@ -59,4 +68,5 @@ sequenceDiagram
 
   Note over S: Connection end
   WSM->>S: Connection close
+  S->>VC: false
 ```
