@@ -8,15 +8,21 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
+  Note over S: Connection start
   WSA->>S: Client connecting<br>Endpoint: /api/audio
   S->>AM: Lane create
 
   loop
+    Note over S: Main communication
     WSA->>+S: Audio packet<br>[mic input]
     S->>+AM: Lane input
     AM-->>-S: Mixed audio
     S-->>-WSA: Audio packet<br>[mixed audio]
   end
+
+  Note over S: Connection end
+  WSA->>S: Connection close
+  S->>AM: Lane delete
 ```
 
 ## Mixer control
@@ -27,11 +33,13 @@ sequenceDiagram
   participant S as Server main
   participant AM as Audio mixer
 
+  Note over S: Connection start (success)
   WSM->>S: Client connecting<br>Endpoint: /api/mixer
   S->>+AM: Fetch lanes info
   AM-->>-S: Lanes info
   S->>WSM: Lanes info packet
 
+  Note over S: Main communication
   par Lanes update
     Note over S: on client joined / renamed / left
     S->>WSM: Lanes info packet<br>(to all mixer clients)
@@ -48,4 +56,7 @@ sequenceDiagram
       S->>WSM: Loudness monitor packet
     end
   end
+
+  Note over S: Connection end
+  WSM->>S: Connection close
 ```
