@@ -39,7 +39,9 @@ sequenceDiagram
 
   Note over S: Connection start (success)
   WSM->>S: Client connecting<br>Endpoint: /api/mixer
+  S->>VC: check is false
   S->>VC: true
+  S->>AM: Add event listener
   S->>+AM: Fetch lanes info
   AM-->>-S: Lanes info
   S->>WSM: Lanes info packet
@@ -52,6 +54,7 @@ sequenceDiagram
   Note over S: Main communication
   par Lanes update
     Note over S: on audio client joined / renamed / left
+    AM->>S: Event dispatch
     S->>WSM: Lanes info packet
   and Volume control
     Note over S: on volume controlled (at mixer client)
@@ -59,7 +62,7 @@ sequenceDiagram
     S->>AM: Volume modification
   and Loudness monitor
     loop runs every 0.1 sec
-      S->>+AM: Fetch each lanes dBFS
+      S->>+AM: Fetch lanes dBFS
       AM-->>-S: dBFS
       S->>S: dBFS float to 0~255 integer
       S->>WSM: Loudness monitor packet
@@ -68,5 +71,6 @@ sequenceDiagram
 
   Note over S: Connection end
   WSM->>S: Connection close
+  S->>AM: Remove event listener
   S->>VC: false
 ```
