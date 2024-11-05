@@ -93,12 +93,21 @@ export function packet_audio_encode(audio_pcm, lane_name, ext_bytes = new Uint8A
 
 
 /**
+ * Data structure of decoded audio packet
+ *
+ * @typedef {Object} AudioData
+ * @property {Float32Array} audio_pcm Audio PCM
+ * @property {string} lane_name Lane name of view in mixer-client
+ * @property {Uint8Array} ext_bytes User's custom external data
+ */
+
+/**
  * Unpack audio packet
  *
  * Note: About raises, see reference of `is_audio_packet`.
  *
  * @param {Uint8Array} raw_packet Encoded packet
- * @returns {Array<Float32Array | string | Uint8Array>} Decoded data - Audio PCM, lane name and external data
+ * @returns {AudioData} Decoded data - Audio PCM, lane name and external data
  */
 export function packet_audio_decode(raw_packet) {
   is_audio_packet(raw_packet, true);
@@ -107,17 +116,17 @@ export function packet_audio_decode(raw_packet) {
   const text_decoder = new TextDecoder();
   const lane_name = text_decoder.decode(lane_name_uint8t);
 
-  const ext_data_len = raw_packet[4];
-  const ext_data = raw_packet.slice(5, 5 + ext_data_len); // +1 for length byte\
+  const ext_bytes_len = raw_packet[4];
+  const ext_bytes = raw_packet.slice(5, 5 + ext_bytes_len); // +1 for length byte\
 
   if(raw_packet[0] == SILENT_AUDIO_PACKET_TYPE_ID) {
     const audio_data_float32t = new Float32Array(ONE_FRAME_SAMPLES);
-    return [audio_data_float32t, lane_name, ext_data];
+    return {audio_pcm: audio_data_float32t, lane_name: lane_name, ext_bytes: ext_bytes};
   } else {
-    const audio_data_uint8t = raw_packet.slice(5 + ext_data_len);
+    const audio_data_uint8t = raw_packet.slice(5 + ext_bytes_len);
     const audio_data_int16t = uint8_to_int16_little_endian(audio_data_uint8t);
     const audio_data_float32t = Float32Array.from(audio_data_int16t, e => e/32767); // /32767: int16(-32768, 32767) to float32(-1, 1)
-    return [audio_data_float32t, lane_name, ext_data];
+    return {audio_pcm: audio_data_float32t, lane_name: lane_name, ext_bytes: ext_bytes};
   }
 }
 

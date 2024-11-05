@@ -138,9 +138,9 @@ export class AudioClientModule extends EventTarget {
    * @param {Uint8Array} packet Audio packet
    */
   #audio_decode_play(packet) {
-    const [pcm,, ext_bytes] = packet_audio_decode(packet);
+    const {audio_pcm, ext_bytes} = packet_audio_decode(packet);
 
-    this.#audio_player.play(pcm);
+    this.#audio_player.play(audio_pcm);
 
     if(ext_bytes.length !== 0) {
       this.dispatchEvent(new CustomEvent("ext-bytes-received", { detail: ext_bytes }));
