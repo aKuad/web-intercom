@@ -4,7 +4,7 @@
  * @author aKuad
  */
 
-import { raw_mic_capture } from "./raw_mic_capture.js";
+import { RawMicCapture } from "./RawMicCapture.js";
 import { RawAudioStreamPlay } from "./RawAudioStreamPlay.js";
 import { packet_audio_decode, packet_audio_encode } from "../packet_conv/audio.js";
 import { SAMPLE_RATE, FRAME_DURATION_SEC } from "../AUDIO_PARAM.js";
@@ -86,10 +86,9 @@ export class AudioClientModule extends EventTarget {
 
     // Audio capture & send process
     const audio_send = this.#audio_send.bind(this); // keep 'this' points to class
-    raw_mic_capture(pcm => audio_send(pcm),
-                    SAMPLE_RATE,
-                    FRAME_DURATION_SEC,
-                    "/static/audio_connect/RawMicCaptureProcessor.js");
+    const raw_mic_capture = new RawMicCapture();
+    raw_mic_capture.addEventListener("frame-ready", e => audio_send(e.data));
+    raw_mic_capture.start_capture(SAMPLE_RATE, FRAME_DURATION_SEC, "/static/audio_connect/RawMicCaptureProcessor.js");
   }
 
 
