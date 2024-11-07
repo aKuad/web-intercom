@@ -27,7 +27,7 @@
        *   - Can delete lanes
        *   - Can set any value to fader
        *   - Can set any value to meter
-       *   - Can set/unset callback function of fader moved
+       *   - Can set/unset event of fader moved
        *   - Can move lane fader by left/right key
        *   - Can move active lane (to move fader) by up/down key
        *   - Throw TypeError if unexpected type argument passed at all methods
@@ -45,7 +45,7 @@
       window.addEventListener("load", () => {
         const mixer_ui = new MixerUI(document.getElementById("mixer-view"));
 
-        mixer_ui.set_callback_on_fader_moved(part_print_id_value);
+        mixer_ui.addEventListener("fader-moved", part_print_id_value);
 
         for(let i = 0; i < 3; i++) {
           document.getElementById(`button-create-lane-${i}` ).addEventListener("click", () => mixer_ui.create_lane(`LA${i}`, i));
@@ -54,8 +54,8 @@
           document.getElementById(`button-random-meter-${i}`).addEventListener("click", () => mixer_ui.set_meter_value(i, part_random_255()));
         }
 
-        document.getElementById("button-callback-enable" ).addEventListener("click", () => mixer_ui.set_callback_on_fader_moved(part_print_id_value));
-        document.getElementById("button-callback-disable").addEventListener("click", () => mixer_ui.set_callback_on_fader_moved(null));
+        document.getElementById("button-event-enable" ).addEventListener("click", () => mixer_ui.addEventListener("fader-moved", part_print_id_value));
+        document.getElementById("button-event-disable").addEventListener("click", () => mixer_ui.removeEventListener("fader-moved", part_print_id_value));
 
         document.getElementById("button-type-error-test" ).addEventListener("click", () => try_type_error_test(mixer_ui));
         document.getElementById("button-range-error-test").addEventListener("click", () => try_range_error_test(mixer_ui));
@@ -65,8 +65,8 @@
         return Math.floor(Math.random() * 255);
       }
 
-      function part_print_id_value(lane_id, moved_value) {
-        console.log(`$lane_id: ${lane_id}, moved_value: ${moved_value}`);
+      function part_print_id_value(e) {
+        console.log(`lane_id: ${e.origin}, moved_value: ${e.data}`);
       }
 
       function try_type_error_test(mixer_ui) {
@@ -82,8 +82,6 @@
 
         assertThrows_ecma(() => mixer_ui.set_meter_value("", 0)         , TypeError, "lane_id must be number, but got string"); // string "" as non number
         assertThrows_ecma(() => mixer_ui.set_meter_value(0, "")         , TypeError, "value must be number, but got string"); // string "" as non number
-
-        assertThrows_ecma(() => mixer_ui.set_callback_on_fader_moved(""), TypeError, "callback_on_fader_moved must be function or null, but got string"); // string "" as non function
       }
 
       function try_range_error_test(mixer_ui) {
@@ -130,8 +128,8 @@
     </p>
     <hr>
     <p>
-      <button id="button-callback-enable">Enable callback</button>
-      <button id="button-callback-disable">Disable callback</button>
+      <button id="button-event-enable">Enable fader-moved event</button>
+      <button id="button-event-disable">Disable fader-moved event</button>
     </p>
     <hr>
     <p>

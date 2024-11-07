@@ -10,21 +10,13 @@ import { typeof_detail } from "../typeof_detail.js";
 /**
  * Audio mixer fader & meter UI component
  */
-export class MixerUI {
+export class MixerUI extends EventTarget{
   /**
    * Element to view UI
    *
    * @type {HTMLElement}
    */
   #base_container;
-
-
-  /**
-   * Callback function for fader moved (value updated)
-   *
-   * @type {callback_on_fader_moved | null}
-   */
-  #callback_on_fader_moved;
 
 
   /**
@@ -35,14 +27,14 @@ export class MixerUI {
    * @throws {TypeError} If `base_container` is not `HTMLElement`
    */
   constructor(base_container) {
+    super();
+
     // Argument type checking
     if(!(base_container instanceof HTMLElement)) {
       throw TypeError(`base_container must be HTMLElement, but got ${typeof_detail(base_container)}`);
     }
 
     this.#base_container = base_container;
-    this.#callback_on_fader_moved = null;
-
     this.#base_container.classList.add("MixerUI-base");
 
     document.addEventListener("keydown", e => {
@@ -56,6 +48,15 @@ export class MixerUI {
     });
   }
 
+
+  /**
+   * Dispatch when fader moved
+   *
+   * @event MessageEvent#fader-moved
+   * @type {Object}
+   * @property {number} data Moved value of fader (0~255)
+   * @property {string} origin Lane ID of fader moved (for API specification, passed the number as string)
+   */
 
   /**
    * Create a lane with specified lane ID
@@ -91,7 +92,7 @@ export class MixerUI {
 
     const lane = this.#create_lane_element(lane_name, lane_id);
     lane.getElementsByClassName("MixerUI-lane-fader-input")[0].addEventListener("input", (e => {
-      if(this.#callback_on_fader_moved !== null) this.#callback_on_fader_moved(lane_id, e.target.value);
+      this.dispatchEvent(new MessageEvent("fader-moved", {data: e.target.value, origin: lane_id.toString()}));
     }).bind(this));
 
     this.#base_container.appendChild(lane);
@@ -105,27 +106,6 @@ export class MixerUI {
    */
   delete_lane(lane_id) {
     this.#get_lane_from_id(lane_id).remove();
-  }
-
-
-  /**
-   * @callback callback_on_fader_moved It will be called when fader moved
-   * @param {number} lane_id Lane ID of fader moved
-   * @param {number} moved_value Moved value of fader (0~255)
-   */
-
-  /**
-   * Set callback function of fader moved
-   *
-   * @param {callback_on_fader_moved | null} callback_on_fader_moved Callback function of fader moved
-   */
-  set_callback_on_fader_moved(callback_on_fader_moved) {
-    // Argument type checking
-    if(callback_on_fader_moved !== null && typeof(callback_on_fader_moved) !== "function") {
-      throw new TypeError(`callback_on_fader_moved must be function or null, but got ${typeof_detail(callback_on_fader_moved)}`);
-    }
-
-    this.#callback_on_fader_moved = callback_on_fader_moved;
   }
 
 
