@@ -128,7 +128,8 @@ export class AudioClientModule extends EventTarget {
    * Dispatch on `ext_bytes` received
    *
    * @event AudioClientModule#ext-bytes-received
-   * @property {Uint8Array} detail Received `ext_bytes`
+   * @type {MessageEvent}
+   * @property {Uint8Array} data Received `ext_bytes`
    */
 
   /**
@@ -142,7 +143,7 @@ export class AudioClientModule extends EventTarget {
     this.#audio_player.play(audio_pcm);
 
     if(ext_bytes.length !== 0) {
-      this.dispatchEvent(new CustomEvent("ext-bytes-received", { detail: ext_bytes }));
+      this.dispatchEvent(new MessageEvent("ext-bytes-received", { data: ext_bytes }));
     }
   }
 }
