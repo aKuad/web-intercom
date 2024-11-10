@@ -8,7 +8,7 @@
        *
        * Test steps:
        *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
-       *   2. Access to `http://localhost:8000/audio_connect/Try_raw_mic_capture.html` with browser
+       *   2. Access to `http://localhost:8000/audio_connect/Try_RawMicCapture.html` with browser
        *   3. Open JavaScript console
        *   4. Click try start buttons
        *   5. Check is audio PCM output in console
@@ -16,14 +16,14 @@
        * @author aKuad
        */
 
-      import { raw_mic_capture } from "/static/audio_connect/raw_mic_capture.js";
+      import { RawMicCapture } from "/static/audio_connect/RawMicCapture.js";
 
 
       function try_start_audio_capture() {
         console.log("-- try_start_audio_capture");
-        raw_mic_capture(pcm => {
-          console.log(pcm);
-        }, 44100, 0.1, "/static/audio_connect/RawMicCaptureProcessor.js");
+        const raw_mic_capture = new RawMicCapture();
+        raw_mic_capture.addEventListener("frame-ready", e => console.log(e.data));
+        raw_mic_capture.start_capture(44100, 0.1, "/static/audio_connect/RawMicCaptureProcessor.js");
         console.log("-- CHECK - Is PCM logged at each 0.1 second?");
       }
 

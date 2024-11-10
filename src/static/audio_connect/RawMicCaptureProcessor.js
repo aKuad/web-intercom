@@ -1,5 +1,5 @@
 /**
- * @file Audio worklet processor definition for `raw_mic_capture.js` module
+ * @file Audio worklet processor definition for `RawMicCapture.js` module
  *
  * @author aKuad
  */
