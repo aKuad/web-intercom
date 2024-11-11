@@ -11,7 +11,8 @@
 
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 
-import { LaneInfo, packet_lanes_info_encode, packet_lanes_info_decode, is_lanes_info_packet, LANES_INFO_PACKET_TYPE_ID } from "../../../static/packet_conv/lanes_info.js";
+import { LaneInfo } from "../../../static/packet_conv/LaneInfo.js";
+import { packet_lanes_info_encode, packet_lanes_info_decode, is_lanes_info_packet, LANES_INFO_PACKET_TYPE_ID } from "../../../static/packet_conv/lanes_info.js";
 
 
 Deno.test(async function true_cases(t) {
