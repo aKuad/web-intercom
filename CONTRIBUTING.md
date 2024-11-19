@@ -39,10 +39,10 @@ Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `f
 
 ### Files naming
 
-| Item                        | Convention          |
-| --------------------------- | ------------------- |
-| Class definition module     | `UpperCamelCase.js` |
-| Functions definition module | `snake_case.js`     |
+| Item                        | Convention (also `.ts` is) |
+| --------------------------- | -------------------------- |
+| Class definition module     | `UpperCamelCase.js`        |
+| Functions definition module | `snake_case.js`            |
 
 ### Functions and variables (etc.) naming
 
