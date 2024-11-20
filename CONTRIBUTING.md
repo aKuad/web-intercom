@@ -37,6 +37,15 @@ Put words for describe the work into `*`. Multiple words join with `-`. (e.g. `f
 >
 > For test code, there are some different conventions. See: [src/tests/README.md](src/tests/README.md)
 
+### Source files location
+
+| Location      | Items                                      |
+| ------------- | ------------------------------------------ |
+| `src/modules` | TS modules for only server side            |
+| `src/pages`   | HTML pages of client UI                    |
+| `src/static`  | JS modules for client or server side       |
+| `src/tests`   | Test code of modules in `modules`/`static` |
+
 ### Files naming
 
 | Item                        | Convention          |
