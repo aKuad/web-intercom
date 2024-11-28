@@ -22,5 +22,5 @@ jobs:
       uses: denoland/setup-deno@v1
       with:
         deno-version: v1.x
-    - name: Run all tests
+    - name: Lint all js/ts files
       run: deno lint
