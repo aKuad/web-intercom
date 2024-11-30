@@ -9,7 +9,7 @@
  * @author aKuad
  */
 
-import { assertEquals, assertThrows } from "jsr:@std/assert@1";
+import { assertEquals, assertAlmostEquals, assertThrows } from "jsr:@std/assert@1";
 
 import { LaneInfo } from "../../../static/packet_conv/LaneInfo.js";
 
@@ -25,6 +25,20 @@ Deno.test(async function true_cases(t) {
     const lane_info_prc = LaneInfo.from_bytes(lane_info_bytes);
 
     assertEquals(lane_info_prc, lane_info_org);
+  });
+
+
+  /**
+   * - `current_gain_db` conversion error is in tolerance
+   *   - During scale conversion [-80, 80] to [0, 255], 0.5 error will be 0.31372549 (= 0.5/255*160)
+   */
+  await t.step(function gain_conversion_error() {
+    const lane_info_org = new LaneInfo(0, "ABC", 0);
+    const lane_info_bytes = lane_info_org.to_bytes();
+    const lane_info_prc = LaneInfo.from_bytes(lane_info_bytes);
+
+    // gain 0 will be converted to 127.5, but in uint8t rounds to 127, then error 0.5
+    assertAlmostEquals(lane_info_prc.current_gain_db, lane_info_org.current_gain_db, 0.314);
   });
 
 
