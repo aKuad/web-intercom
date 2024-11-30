@@ -23,9 +23,9 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function enc_dec_verify() {
     const lanes_loudness_org = [
-      new LaneLoudness(0, 127),
-      new LaneLoudness(1, 50),
-      new LaneLoudness(2, 200)
+      new LaneLoudness(0,   0), // no round error at 0
+      new LaneLoudness(1, -80), // or -80
+      new LaneLoudness(2, -80)
     ];
 
     const raw_packet = packet_lanes_loudness_encode(lanes_loudness_org);
@@ -46,7 +46,7 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function verify_ng() {
     const lanes_loudness_org = [
-      new LaneLoudness(0, 127)
+      new LaneLoudness(0, 0)
     ];
     const raw_packet_correct = packet_lanes_loudness_encode(lanes_loudness_org);
 
