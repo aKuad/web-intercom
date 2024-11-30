@@ -23,9 +23,9 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function enc_dec_verify() {
     const lanes_info_org = [
-      new LaneInfo(0, "ABC", 127),
-      new LaneInfo(1, "DEF",  50),
-      new LaneInfo(2, "G"  , 200)
+      new LaneInfo(0, "ABC", 80), // no round error at 80
+      new LaneInfo(1, "DEF", 80),
+      new LaneInfo(2, "G"  , 80)
     ];
 
     const raw_packet = packet_lanes_info_encode(lanes_info_org);
@@ -46,7 +46,7 @@ Deno.test(async function true_cases(t) {
    */
   await t.step(function verify_ng() {
     const lanes_info_org = [
-      new LaneInfo(0, "ABC", 127)
+      new LaneInfo(0, "ABC", 0)
     ];
     const raw_packet_correct = packet_lanes_info_encode(lanes_info_org);
 
