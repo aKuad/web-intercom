@@ -9,7 +9,7 @@
  * @author aKuad
  */
 
-import { assertEquals, assertThrows } from "jsr:@std/assert@1";
+import { assertEquals, assertAlmostEquals, assertThrows } from "jsr:@std/assert@1";
 
 import { LaneLoudness } from "../../../static/packet_conv/LaneLoudness.js";
 
@@ -25,6 +25,20 @@ Deno.test(async function true_cases(t) {
     const lane_loudness_prc = LaneLoudness.from_bytes(lane_loudness_bytes);
 
     assertEquals(lane_loudness_prc, lane_loudness_org);
+  });
+
+
+  /**
+   * - `current_dbfs` conversion error is in tolerance
+   *   - During scale conversion [-80, 0] to [0, 255], 0.5 error will be 0.156862745 (= 0.5/255*80)
+   */
+  await t.step(function gain_conversion_error() {
+    const lane_loudness_org = new LaneLoudness(0, -40);
+    const lane_loudness_bytes = lane_loudness_org.to_bytes();
+    const lane_loudness_prc = LaneLoudness.from_bytes(lane_loudness_bytes);
+
+    // dbfs -40 will be converted to 127.5, but in uint8t rounds to 127, then error 0.5
+    assertAlmostEquals(lane_loudness_prc.current_dbfs, lane_loudness_org.current_dbfs, 0.157);
   });
 
 
