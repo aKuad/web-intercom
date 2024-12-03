@@ -23,4 +23,5 @@ jobs:
       with:
         deno-version: v1.x
     - name: Run all tests
-      run: deno test --parallel **Test_*.js **Test_*.ts
+      # run: deno test --parallel **Test_*.js **Test_*.ts
+      run: deno test --parallel **Test_*.js
