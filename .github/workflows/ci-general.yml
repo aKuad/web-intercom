@@ -1,4 +1,4 @@
-name: Trailing whitespaces check
+name: CI for general
 
 on: [push]
 
