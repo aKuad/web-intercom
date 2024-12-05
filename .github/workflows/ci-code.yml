@@ -2,6 +2,7 @@ name: CI for code
 
 on:
   push:
+    tags: ['*']
     branches:
     - 'main'
     - 'feature/*'
