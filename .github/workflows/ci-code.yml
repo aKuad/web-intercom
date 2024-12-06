@@ -1,0 +1,46 @@
+name: CI for code
+
+on:
+  push:
+    tags: ['*']
+    branches:
+    - 'main'
+    - 'feature/*'
+    - 'fix/*'
+    - 'refactor/*'
+
+jobs:
+  # Lint all JS code by Deno
+  js-denolint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Lint all js/ts files
+      run: deno lint
+
+
+  # Run all JS unit-tests by deno test
+  js-denotest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/tests/js_denotest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Run all tests
+      run: deno test --parallel **Test_*.js **Test_*.ts
