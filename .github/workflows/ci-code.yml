@@ -34,8 +34,6 @@ jobs:
     defaults:
       run:
         working-directory: src/tests/js_denotest
-    env:
-      NO_COLOR: "true"  # Disable deno color output
 
     steps:
     - name: Source checkout
@@ -47,6 +45,8 @@ jobs:
     - name: Run all tests
       run: deno test --parallel --coverage **Test_*.js **Test_*.ts
     - name: Report coverage as actions summary
+      env:
+        NO_COLOR: "true"  # Disable deno color output
       run: |
         echo '## Deno coverage report' >> $GITHUB_STEP_SUMMARY
         echo >> $GITHUB_STEP_SUMMARY  # Print blank newline
