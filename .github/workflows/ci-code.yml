@@ -51,3 +51,6 @@ jobs:
         echo '## Deno coverage report' >> $GITHUB_STEP_SUMMARY
         echo >> $GITHUB_STEP_SUMMARY  # Print blank newline
         deno coverage | grep -E -v '^-+$' | sed -e 's/^/|/g' | sed '2i|---|---|---|' >> $GITHUB_STEP_SUMMARY
+        #               remove '---...' line
+        #                                   add '|' to line head
+        #                                                      complete markdown table syntax
