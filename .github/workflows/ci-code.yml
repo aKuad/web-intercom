@@ -43,9 +43,14 @@ jobs:
       with:
         deno-version: v1.x
     - name: Run all tests
-      run: deno test --parallel --coverage **Test_*.js **Test_*.ts
+      run: deno test --parallel --coverage Test_*.js Test_*.ts */Test_*.js  # Quick fix for sub directory test code
     - name: Report coverage as actions summary
+      env:
+        NO_COLOR: "true"  # Disable deno color output
       run: |
         echo '## Deno coverage report' >> $GITHUB_STEP_SUMMARY
         echo >> $GITHUB_STEP_SUMMARY  # Print blank newline
-        deno coverage | sed -E -e 's/'\033'\\[[0-9]+m//g' | grep -E -v '^-+$' | sed -e 's/^/|/g' | sed '2i|---|---|---|' >> $GITHUB_STEP_SUMMARY
+        deno coverage | grep -E -v '^-+$' | sed -e 's/^/|/g' | sed '2i|---|---|---|' >> $GITHUB_STEP_SUMMARY
+        #               remove '---...' line
+        #                                   add '|' to line head
+        #                                                      complete markdown table syntax
