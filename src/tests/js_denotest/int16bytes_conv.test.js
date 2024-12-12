@@ -7,7 +7,7 @@
  *   * Throw `TypeError` if unexpected type argument passed at all function
  *
  * Test steps:
- *   * Run this script by deno test - `deno test **Test*.js`
+ *   * Run this script by deno test - `deno test`
  *
  * @author aKuad
  */

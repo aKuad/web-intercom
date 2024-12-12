@@ -7,7 +7,7 @@
  *   * Throw AssertionError if any element has error over than specified tolerance
  *
  * Test steps:
- *   * Run this script by deno test - `deno test **Test*.js`
+ *   * Run this script by deno test - `deno test`
  *
  * @author aKuad
  */
