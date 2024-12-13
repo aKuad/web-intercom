@@ -4,7 +4,7 @@
  * About test cases, see each test step function comment
  *
  * Test steps:
- *   * Run this script by deno test - `deno test **Test*.js`
+ *   * Run this script by deno test - `deno test`
  *
  * @author aKuad
  */
