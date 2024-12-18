@@ -8,7 +8,7 @@ import { RawMicCapture } from "./RawMicCapture.js";
 import { RawAudioStreamPlay } from "./RawAudioStreamPlay.js";
 import { packet_audio_decode, packet_audio_encode } from "../packet_conv/audio.js";
 import { SAMPLE_RATE, FRAME_DURATION_SEC } from "../AUDIO_PARAM.js";
-import { typeof_detail } from "../typeof_detail.js";
+import { typeof_detail } from "../util/typeof_detail.js";
 
 
 /**

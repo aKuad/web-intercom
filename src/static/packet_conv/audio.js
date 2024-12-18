@@ -11,7 +11,7 @@
 import { ONE_FRAME_SAMPLES, ONE_SAMPLE_BYTES } from "../AUDIO_PARAM.js";
 import { int16_to_uint8_little_endian, uint8_to_int16_little_endian } from "../util/int16bytes_conv.js";
 import { dbfs_float } from "../util/dbfs.js";
-import { typeof_detail } from "../typeof_detail.js";
+import { typeof_detail } from "../util/typeof_detail.js";
 
 
 /**
