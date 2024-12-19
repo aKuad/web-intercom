@@ -9,7 +9,7 @@
  */
 
 import { assertEquals, assertAlmostEquals, assertThrows } from "jsr:@std/assert@1";
-import { generate_rand_float32array } from "./util/rand_f32a.js";
+import { generate_rand_float32array } from "./test-util/rand_f32a.js";
 
 import { AudioMixer, MaxLanesReachedError, NonExistingLaneIdError } from "../../modules/AudioMixer.ts";
 import { ONE_FRAME_SAMPLES } from "../../static/AUDIO_PARAM.js";
