@@ -6,7 +6,7 @@
  * @author aKuad
  */
 
-import { typeof_detail } from "../typeof_detail.js";
+import { typeof_detail } from "../util/typeof_detail.js";
 
 
 /**
