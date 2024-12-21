@@ -11,7 +11,7 @@
 
 import { assertEquals } from "jsr:@std/assert@1";
 
-import { typeof_detail } from "../../static/typeof_detail.js";
+import { typeof_detail } from "../../../static/util/typeof_detail.js";
 
 
 Deno.test(async function true_cases(t) {

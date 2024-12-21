@@ -7,7 +7,7 @@
  */
 
 import { ONE_FRAME_SAMPLES } from "../static/AUDIO_PARAM.js";
-import { dbfs_float } from "../static/dbfs.js";
+import { dbfs_float } from "../static/util/dbfs.js";
 import { LaneInfo } from "../static/packet_conv/LaneInfo.js";
 import { LaneLoudness } from "../static/packet_conv/LaneLoudness.js";
 

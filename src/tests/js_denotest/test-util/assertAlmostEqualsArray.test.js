@@ -14,7 +14,7 @@
 
 import { assertThrows, AssertionError } from "jsr:@std/assert@1";
 
-import { assertAlmostEqualsArray } from "./util/assertAlmostEqualsArray.js";
+import { assertAlmostEqualsArray } from "./assertAlmostEqualsArray.js";
 
 
 Deno.test(async function true_cases(t) {

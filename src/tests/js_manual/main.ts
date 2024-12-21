@@ -34,7 +34,7 @@ Deno.serve(request => {
   }
 
   if(url.pathname.startsWith("/test-util")) {
-    return serveDir(request, { fsRoot: "../js_denotest/util", urlRoot: "test-util"});
+    return serveDir(request, { fsRoot: "../js_denotest/test-util", urlRoot: "test-util"});
   }
 
   return serveDir(request, { fsRoot: "./", urlRoot: ""});

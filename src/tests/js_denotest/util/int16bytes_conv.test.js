@@ -14,7 +14,7 @@
 
 import { assertEquals, assertThrows } from "jsr:@std/assert@1";
 
-import { int16_to_uint8_little_endian, uint8_to_int16_little_endian } from "../../static/int16bytes_conv.js";
+import { int16_to_uint8_little_endian, uint8_to_int16_little_endian } from "../../../static/util/int16bytes_conv.js";
 
 
 Deno.test(async function true_cases(t) {
