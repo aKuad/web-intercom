@@ -1,0 +1,56 @@
+name: CD for GitHub Pages
+
+on: push
+
+jobs:
+  # Generate Deno doc
+  build-modules-doc:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v2.x
+    - name: Generate modules document
+      run: deno doc --html --name="Web Intercom" --private modules/**.ts static/**.js
+    - name: Output docs as an artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: modules-doc
+        path: ./docs/
+        retention-days: 1
+
+
+  # GitHub Pages deployment
+  deploy-pages:
+    # Deployment for only main branch, build steps are for all
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+    needs: [build-modules-doc]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages-deploy.outputs.page_url }}
+
+    steps:
+    - name: Place modules-doc
+      uses: actions/download-artifact@v4
+      with:
+        name: modules-doc
+        path: .
+    - name: Upload artifact for pages deploy
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+    - name: Deploy pages
+      id: pages-deploy
+      uses: actions/deploy-pages@v4
