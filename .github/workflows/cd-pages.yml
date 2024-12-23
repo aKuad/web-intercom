@@ -18,7 +18,7 @@ jobs:
       with:
         deno-version: v2.x
     - name: Generate modules document
-      run: deno doc --html --name="Web Intercom" --private modules/**.ts static/**.js
+      run: deno doc --html --name="Web Intercom" --private modules/*.ts static/*.js static/*/*.js
     - name: Output docs as an artifact
       uses: actions/upload-artifact@v4
       with:
