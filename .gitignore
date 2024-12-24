@@ -4,3 +4,6 @@ __pycache__
 
 # Deno environment files
 *coverage
+
+# Deno generated document files
+*docs
