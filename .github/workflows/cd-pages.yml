@@ -27,13 +27,40 @@ jobs:
         retention-days: 1
 
 
+  # Generate test coverage report
+  build-coverage-report:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/tests/js_denotest
+
+    steps:
+    - name: Source checkout
+      uses: actions/checkout@v4
+    - name: Set up Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v2.x
+    - name:
+      run: deno test --parallel --coverage
+    - name: Export coverage report as HTML
+      run: deno coverage --html
+    - name: Output HTML as an artifact
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: src/tests/js_denotest/coverage/html/
+        retention-days: 1
+
+
   # GitHub Pages deployment
   deploy-pages:
     # Deployment for only main branch, build steps are for all
     if: github.ref == 'refs/heads/main'
 
     runs-on: ubuntu-latest
-    needs: [build-modules-doc]
+    needs: [build-modules-doc, build-coverage-report]
     permissions:
       pages: write
       id-token: write
