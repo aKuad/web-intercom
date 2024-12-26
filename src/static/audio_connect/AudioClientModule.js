@@ -93,6 +93,18 @@ export class AudioClientModule extends EventTarget {
 
 
   /**
+   * Getter of websocket object for client connection
+   *
+   * It can use for status changed event or checking
+   *
+   * @returns {WebSocket} Websocket of client connection
+   */
+  get websocket_obj() {
+    return this.#web_socket;
+  }
+
+
+  /**
    * Enqueue an `ext_bytes` to send buffer
    *
    * @param {Uint8Array} ext_bytes `ext_bytes` to send
