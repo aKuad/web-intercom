@@ -54,16 +54,10 @@ jobs:
         retention-days: 1
 
 
-  # GitHub Pages deployment
-  deploy-pages:
+  # GitHub Pages artifact make
+  make-pages-artifact:
     runs-on: ubuntu-latest
     needs: [build-modules-doc, build-coverage-report]
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.pages-deploy.outputs.page_url }}
 
     steps:
     - name: Place modules-doc
@@ -80,8 +74,23 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: .
+
+
+  # GitHub Pages deployment
+  deploy-pages:
+    # Deployment for only main branch, build steps are for all
+    if: github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+    needs: [make-pages-artifact]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages-deploy.outputs.page_url }}
+
+    steps:
     - name: Deploy pages
       id: pages-deploy
-      # Deployment for only main branch, build steps are for all
-      if: github.ref == 'refs/heads/main'
       uses: actions/deploy-pages@v4
