@@ -73,7 +73,12 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: modules-doc
-        path: .
+        path: modules-doc
+    - name: Place coverage-report
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage-report
     - name: Upload artifact for pages deploy
       uses: actions/upload-pages-artifact@v3
       with:
