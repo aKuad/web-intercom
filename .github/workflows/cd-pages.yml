@@ -56,9 +56,6 @@ jobs:
 
   # GitHub Pages deployment
   deploy-pages:
-    # Deployment for only main branch, build steps are for all
-    if: github.ref == 'refs/heads/main'
-
     runs-on: ubuntu-latest
     needs: [build-modules-doc, build-coverage-report]
     permissions:
@@ -85,4 +82,6 @@ jobs:
         path: .
     - name: Deploy pages
       id: pages-deploy
+      # Deployment for only main branch, build steps are for all
+      if: github.ref == 'refs/heads/main'
       uses: actions/deploy-pages@v4
