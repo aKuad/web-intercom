@@ -33,6 +33,7 @@
         document.getElementById("button-start-connection").addEventListener("click", e => {
           e.target.disabled = true;
           audio_client_module = new AudioClientModule("/api/ws-echo", "MIC", -Infinity);
+          audio_client_module.websocket_obj.addEventListener("open", () => console.log("Connection open detected"));
           audio_client_module.addEventListener("ext-bytes-received", e => console.log("ext_bytes received:", e.data));
           console.log("-- CHECK - Is audio input device echoing to audio output device?");
         });
