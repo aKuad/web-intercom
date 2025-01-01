@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/audio_client.css">
+    <script type="module" src="/static/audio_client.js"></script>
+    <title>Web Intercom - Audio Client</title>
+  </head>
+
+  <body>
+    <header>Audio Client</header>
+    <div id="control-container">
+      <label id="lane-name-guide" for="lane-name">Set lane name:</label>
+      <input type="text" id="lane-name-input" name="lane-name" minlength="1" maxlength="3" value="MIC">
+      <button id="connect-start">Connect</button>
+      <div id="lane-name-view"></div>
+    </div>
+    <div id="error-view"></div>
+  </body>
+</html>

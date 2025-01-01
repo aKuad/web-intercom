@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/* Root elements */
+html {
+  font-family: sans-serif;
+  font-size: 16px;
+
+  color: #fff;
+  background-color: hsl(0, 0%, 20%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Outline elements */
+header {
+  font-size: 3rem;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: solid #fff 2px;
+
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0.2em;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#control-container {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#error-view {
+  color: hsl(0, 100%, 70%);
+  font-size: 2rem;
+
+  width: 100vw;
+  text-align: center;
+  position: fixed;
+  bottom: 10vh;
+}
+
+
+/* Control elements */
+#lane-name-guide {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+#lane-name-input {
+  background-color: hsl(0, 0%, 40%);
+  color: #fff;
+  font-size: 6rem;
+  text-align: center;
+
+  display: block;
+  width: 3em;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  border-bottom: solid hsl(0, 0%, 80%) 3px;
+  border-radius: 0.2em 0.2em 0 0;
+  margin-bottom: 4rem;
+}
+#lane-name-input:focus {
+  border-bottom-color: hsl(240, 100%, 80%);
+}
+#lane-name-input.invalid-input {
+  border-bottom-color: hsl(0, 100%, 80%);
+}
+
+#connect-start {
+  background-color: hsl(0, 0%, 0%);
+  color: #fff;
+  padding: 0.2em 1em;
+  font-size: 3rem;
+
+  border: solid #fff 2px;
+  border-radius: 0.5em;
+}
+#connect-start:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#lane-name-view {
+  font-size: 6rem;
+}
