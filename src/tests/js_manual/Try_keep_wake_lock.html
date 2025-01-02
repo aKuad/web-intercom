@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <script type="module">
+      /**
+       * Test for `keep_wake_lock.js`
+       *
+       * Test steps:
+       *   1. Execute `main.js` (in same directory) with Deno - `deno run --allow-net --allow-read main.js`
+       *   2. Access to `http://localhost:8000/Try_keep_wake_lock.html` with browser
+       *   3. Open JavaScript console
+       *   4. Click test control buttons
+       *   5. Check display view or console
+       *
+       * Test cases:
+       *   - Can keep not be screen turned off, system slept or system locked
+       *   - Can continue wake lock even if document been re-visible (after hide)
+       *
+       * @author aKuad
+       */
+
+      import { keep_wake_lock } from "/static/util/keep_wake_lock.js";
+
+
+      window.addEventListener("load", () => {
+        document.getElementById("start-wake-lock").addEventListener("click", e => {
+          e.target.disabled = true;
+          keep_wake_lock();
+          console.log("-- CHECK - Is WakeLock (not be screen turned off, system slept or system locked) kept?");
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <p>
+      <button id="start-wake-lock">Start to keep WakeLock</button>
+    </p>
+  </body>
+</html>
