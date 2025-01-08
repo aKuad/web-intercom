@@ -20,6 +20,7 @@ jobs:
       with:
         name: index
         path: src/index.html
+        retention-days: 1
 
 
   # Generate Deno doc
