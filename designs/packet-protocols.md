@@ -39,15 +39,15 @@ It is an audio packet but no having audio data. It is same as an audio packet wh
 
 Too small (unnecessary) audio data will be muted at mixing. It can reduce network traffic.
 
-## Volume modify packet
+## Gain modify packet
 
 mixer client -> serve
 
-| Length [byte] | Type  | Description           |
-| ------------: | ----- | --------------------- |
-|             1 | uint8 | Packet type ID (0x20) |
-|             1 | uint8 | Lane ID to control    |
-|             1 | uint8 | Modified volume value |
+| Length [byte] | Type  | Description                       |
+| ------------: | ----- | --------------------------------- |
+|             1 | uint8 | Packet type ID (0x20)             |
+|             1 | uint8 | Lane ID to control                |
+|             1 | uint8 | Modified gain value (-80\~80[dB]) |
 
 ## Lanes info packet
 
@@ -58,7 +58,7 @@ server -> mixer client
 |             1 | uint8  | Packet type ID (0x30)                          |
 |             1 | uint8  | Lane ID                                        |
 |             3 | string | Lane name (\*1)                                |
-|             1 | uint8  | Current volume value                           |
+|             1 | uint8  | Current gain value (-80\~80[dB])               |
 |               |        | Repeat them (without ID) for all audio clients |
 
 ## Lanes loudness packet
@@ -69,5 +69,5 @@ server -> mixer client
 | ------------: | ----- | ---------------------------------------------- |
 |             1 | uint8 | Packet type ID (0x40)                          |
 |             1 | uint8 | Lane ID                                        |
-|             1 | uint8 | Current loudness                               |
+|             1 | uint8 | Current loudness [dBFS]                        |
 |               |       | Repeat them (without ID) for all audio clients |
