@@ -50,10 +50,10 @@ globalThis.addEventListener("load", () => {
     // Connect & connection closed event
     const audio_client_module = new AudioClientModule("/api/audio", lane_name, -40.0);
     audio_client_module.websocket_obj.addEventListener("close", () => {
-      document.getElementById("error-view").innerText = "Connection error occurred";
+      document.getElementById("error-view").innerText = "Connection closed by server";
     });
     audio_client_module.websocket_obj.addEventListener("error", () => {
-      document.getElementById("error-view").innerText = "Connection closed by server";
+      document.getElementById("error-view").innerText = "Connection error occurred";
     });
   });
 });
