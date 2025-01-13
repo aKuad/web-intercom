@@ -54,7 +54,7 @@ export class MixerUI extends EventTarget{
    *
    * @event MessageEvent#fader-moved
    * @type {Object}
-   * @property {number} data Moved value of fader (0~255)
+   * @property {number} data Moved value of fader (-80~80)
    * @property {string} origin Lane ID of fader moved (for API specification, passed the number as string)
    */
 
@@ -115,21 +115,21 @@ export class MixerUI extends EventTarget{
    * @param {number} lane_id Lane ID to change fader
    * @param {number} value New value of fader
    *
-   * @throws {TypeError} If `value` is not `num`
-   * @throws {RangeError} If `value` is not in 0~255
+   * @throws {TypeError} If `value` is not `number`
+   * @throws {RangeError} If `value` is over 80
    */
   set_fader_value(lane_id, value) {
     // Argument type/range checking
     if(typeof(value) !== "number") {
       throw new TypeError(`value must be number, but got ${typeof_detail(value)}`);
     }
-    if(value < 0 || value > 255) {
-      throw new RangeError(`value must be in 0~255, but got ${value}`);
+    if(value > 80) {
+      throw new RangeError(`value must be under or equal 80, but got ${value}`);
     }
 
     const lane = this.#get_lane_from_id(lane_id);
     const fader = lane.getElementsByClassName("MixerUI-lane-fader-input")[0];
-    fader.value = value;
+    fader.value = value < -80 ? -80 : value;  // under -80 adjust to -80
   }
 
 
@@ -139,21 +139,26 @@ export class MixerUI extends EventTarget{
    * @param {number} lane_id Lane ID to change meter
    * @param {number} value New value of meter
    *
-   * @throws {TypeError} If `value` is not `num`
-   * @throws {RangeError} If `value` is not in 0~255
+   * @throws {TypeError} If `value` is not `number`
+   * @throws {RangeError} If `value` is over 80
    */
   set_meter_value(lane_id, value) {
     // Argument type/range checking
     if(typeof(value) !== "number") {
       throw new TypeError(`value must be number, but got ${typeof_detail(value)}`);
     }
-    if(value < 0 || value > 255) {
-      throw new RangeError(`value must be in 0~255, but got ${value}`);
+    if(value > 80) {
+      throw new RangeError(`value must be under or equal 80, but got ${value}`);
     }
 
     const lane = this.#get_lane_from_id(lane_id);
     const meter = lane.getElementsByClassName("MixerUI-lane-meter-value")[0];
-    meter.style.width = `${value / 255 * 100}%`;
+    const value_adj = value < -80 ? -80 : value;  // under -80 adjust to -80
+    meter.style.width = `${(value_adj + 80) / 160 * 100}%`;
+    //         [-80, 80]
+    // +80  -> [0, 160]
+    // /160 -> [0, 1]
+    // *100 -> [0, 100]
   }
 
 
@@ -179,9 +184,10 @@ export class MixerUI extends EventTarget{
     const lane_fader_input = document.createElement("input");
     lane_fader_input.classList.add("MixerUI-lane-fader-input");
     lane_fader_input.type = "range";
-    lane_fader_input.min = 0;
-    lane_fader_input.max = 255;
-    lane_fader_input.value = 127;
+    lane_fader_input.min = -80;
+    lane_fader_input.max = 80;
+    lane_fader_input.value = 0;
+    lane_fader_input.step = "any";
     lane_fader.appendChild(lane_fader_input);
     lane.appendChild(lane_fader);
 
@@ -202,8 +208,8 @@ export class MixerUI extends EventTarget{
    * @param {number} lane_id Lane ID to get HTML element of lane container
    * @returns {HTMLDivElement | null} HTML element of lane, or null (if not existing lane_id specified)
    *
-   * @throws {TypeError} If `lane_id` is not `num`
-   * @throws {RangeError} If `lane_id` is not in 0~255
+   * @throws {TypeError} If `lane_id` is not `number`
+   * @throws {RangeError} If `lane_id` is over 80
    */
   #get_lane_from_id(lane_id, throw_on_non_existing = true) {
     // Argument type/range checking
