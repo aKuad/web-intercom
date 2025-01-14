@@ -41,10 +41,10 @@
   column-gap: var(--MixerUI-space-name-fader);
   row-gap: var(--MixerUI-space-fader-meter);
 
-  border-top: 2px solid hsl(0, 0%, 70%);
+  border-bottom: 2px solid hsl(0, 0%, 70%);
 }
 .MixerUI-container:last-child {
-  border-bottom: 2px solid hsl(0, 0%, 70%);
+  border-bottom: none;
 }
 .MixerUI-container:has(.MixerUI-lane-fader-input:focus) {
   background-color: hsl(0, 0%, 20%);
