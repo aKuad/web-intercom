@@ -8,6 +8,7 @@
 
 import { serveDir } from "jsr:@std/http@1";
 
+import { main_audio } from "./modules/main_audio.ts";
 import { main_mixer } from "./modules/main_mixer.ts";
 import { AudioMixer } from "./modules/AudioMixer.ts";
 
@@ -27,12 +28,7 @@ Deno.serve(request => {
     }
 
     const { socket, response } = Deno.upgradeWebSocket(request);
-    socket.binaryType = "arraybuffer";
-
-    socket.addEventListener("message", e => {
-      const ws_receive: ArrayBuffer = e.data;
-      socket.send(ws_receive);  // Echo API as temporary implementation
-    });
+    main_audio(socket, audio_mixer);
     return response;
 
 
