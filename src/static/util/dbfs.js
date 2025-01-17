@@ -32,7 +32,7 @@ export function dbfs_float(frame_array) {
   }
 
   // Arguments range checking
-  if(frame_array.filter(e => e <= -1.0 || e >= 1.0).length) {
+  if(frame_array.filter(e => e < -1.0 || e > 1.0).length) {
     throw new RangeError("Out of range elements included, must be -1.0 ~ 1.0");
   }
 
