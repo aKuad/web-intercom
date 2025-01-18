@@ -37,6 +37,21 @@ Deno.test(async function true_cases(t) {
 
 
   /**
+   * - Can encode/decode lanes-info packet without data
+   * - Can verify the packet is valid as lanes-info packet without data
+   */
+  await t.step(function enc_dec_verify_without_data() {
+    const lanes_info_org = [];
+
+    const raw_packet = packet_lanes_info_encode(lanes_info_org);
+    const lanes_info_prc = packet_lanes_info_decode(raw_packet);
+
+    assertEquals(is_lanes_info_packet(raw_packet), true);
+    assertEquals(lanes_info_prc, lanes_info_org);
+  });
+
+
+  /**
    * - Verify function must be return false if non `Uint8Array` passed
    * - Verify function must be return false if empty `Uint8Array` passed
    * - Verify function must be return false if non lanes-info packet passed
@@ -81,12 +96,9 @@ Deno.test(async function err_cases(t) {
   });
 
 
-  /**
-   * - At encoding function, `lanes_info` must not be empty `Array`
-   */
-  await t.step(function enc_invalid_value() {
-    assertThrows(() => packet_lanes_info_encode([]), RangeError, "Empty array passed");
-  });
+  // await t.step(function enc_invalid_value() {
+  //   // no value error cases of `packet_lanes_info_encode`
+  // });
 
 
   // await t.step(function dec_invalid_type() {
