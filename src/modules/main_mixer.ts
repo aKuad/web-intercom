@@ -18,7 +18,7 @@ import { is_gain_modify_packet, packet_gain_modify_decode } from "../static/pack
  * @param socket WebSocket for communicate client
  * @param audio_mixer AudioMixer of server core
  */
-export function main_mixer(socket: WebSocket, _audio_mixer: AudioMixer) {
+export function main_mixer(socket: WebSocket, audio_mixer: AudioMixer) {
   socket.binaryType = "arraybuffer";
 
   socket.addEventListener("open", () => {
@@ -40,6 +40,16 @@ export function main_mixer(socket: WebSocket, _audio_mixer: AudioMixer) {
       ////
     }
   });
+
+  const on_lane_updated = { handleEvent: (e: MessageEvent<LaneInfo[]>) => {
+    //// Temporary implementation: just only print ////
+    console.log(e.data);
+    ////
+  }};
+  audio_mixer.addEventListener("lane-updated", on_lane_updated);
+  // Update detection works only during mixer client connecting
+  socket.addEventListener("close", () => audio_mixer.removeEventListener("lane-updated", on_lane_updated));
+  socket.addEventListener("error", () => audio_mixer.removeEventListener("lane-updated", on_lane_updated));
 
   const loudness_monitor_interval = setInterval(() => {
     //// Temporary implementation: send random loudness ////
