@@ -37,6 +37,21 @@ Deno.test(async function true_cases(t) {
 
 
   /**
+   * - Can encode/decode lanes_loudness packet without data
+   * - Can verify the packet is valid as lanes_loudness packet without data
+   */
+  await t.step(function enc_dec_verify_without_data() {
+    const lanes_loudness_org = [];
+
+    const raw_packet = packet_lanes_loudness_encode(lanes_loudness_org);
+    const lanes_loudness_prc = packet_lanes_loudness_decode(raw_packet);
+
+    assertEquals(is_lanes_loudness_packet(raw_packet), true);
+    assertEquals(lanes_loudness_prc, lanes_loudness_org);
+  });
+
+
+  /**
    * - Verify function must be return false if non `Uint8Array` passed
    * - Verify function must be return false if empty `Uint8Array` passed
    * - Verify function must be return false if non lanes_loudness packet passed
@@ -81,12 +96,9 @@ Deno.test(async function err_cases(t) {
   });
 
 
-  /**
-   * - At encoding function, `lanes_loudness` must not be empty `Array`
-   */
-  await t.step(function enc_invalid_value() {
-    assertThrows(() => packet_lanes_loudness_encode([]), RangeError, "Empty array passed");
-  });
+  // await t.step(function enc_invalid_value() {
+  //   // no value error cases of `packet_lanes_loudness_encode`
+  // });
 
 
   // await t.step(function dec_invalid_type() {
