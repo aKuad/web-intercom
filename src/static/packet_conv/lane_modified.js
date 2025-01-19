@@ -38,7 +38,7 @@ export function packet_lane_modified_encode(lane_info) {
  * Note: About raises, see reference of `is_lane_modified_packet`.
  *
  * @param {Uint8Array} raw_packet Encoded packet
- * @returns {Array<LaneInfo>} Decoded data - Lane ID, lane name, current volume
+ * @returns {LaneInfo} Decoded data - Lane ID, lane name, current volume
  */
 export function packet_lane_modified_decode(raw_packet) {
   is_lane_modified_packet(raw_packet, true);

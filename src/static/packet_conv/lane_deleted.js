@@ -52,7 +52,7 @@ export function packet_lane_deleted_encode(lane_id) {
  * Note: About raises, see reference of `is_lane_deleted_packet`.
  *
  * @param {Uint8Array} raw_packet Encoded packet
- * @returns {GainModify} Decoded data
+ * @returns {number} Lane ID of deleted
  */
 export function packet_lane_deleted_decode(raw_packet) {
   is_lane_deleted_packet(raw_packet, true);
