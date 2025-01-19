@@ -110,11 +110,11 @@ export class AudioMixer extends EventTarget{
 
 
   /**
-   * Dispatch on lane status modified - created, name modified or deleted
+   * Dispatch on lane created
    *
-   * @event AudioMixer#lane-updated
+   * @event AudioMixer#lane-created
    * @type {MessageEvent}
-   * @property {LaneInfo[]} data LaneInfo array of current lanes
+   * @property {LaneInfo} data LaneInfo of created lane
    */
 
   /**
@@ -129,12 +129,19 @@ export class AudioMixer extends EventTarget{
     const new_lane = new AudioMixerLane(this.#create_silent_pcm(), "NEW", 0.0, Date.now(), -Infinity)
     this.#lanes.set(lane_id, new_lane);
 
-    const lanes_info = this.get_lanes_info();
-    this.dispatchEvent(new MessageEvent<LaneInfo[]>("lane-updated", {data: lanes_info}));
+    this.dispatchEvent(new MessageEvent<LaneInfo>("lane-created", {data: new LaneInfo(lane_id, "NEW", 0.0)}));
 
     return lane_id;
   }
 
+
+  /**
+   * Dispatch on lane name modified
+   *
+   * @event AudioMixer#lane-name-modified
+   * @type {MessageEvent}
+   * @property {LaneInfo} data LaneInfo of modified lane
+   */
 
   /**
    * Input processing and return mixed audio
@@ -159,8 +166,7 @@ export class AudioMixer extends EventTarget{
     if(lane_name !== lane.lane_name) {
       lane.lane_name = lane_name;
 
-      const lanes_info = this.get_lanes_info();
-      this.dispatchEvent(new MessageEvent<LaneInfo[]>("lane-updated", {data: lanes_info}));
+      this.dispatchEvent(new MessageEvent<LaneInfo>("lane-name-modified", {data: new LaneInfo(lane_id, lane_name, lane.gain_db)}));
     }
 
     // Audio mixing
@@ -225,6 +231,14 @@ export class AudioMixer extends EventTarget{
 
 
   /**
+   * Dispatch on lane deleted
+   *
+   * @event AudioMixer#lane-deleted
+   * @type {MessageEvent}
+   * @property {number} data Lane ID of deleted
+   */
+
+  /**
    * Delete a lane
    *
    * @param lane_id Lane ID to delete
@@ -233,8 +247,7 @@ export class AudioMixer extends EventTarget{
     this.#try_get_lane(lane_id);
     this.#lanes.delete(lane_id);
 
-    const lanes_info = this.get_lanes_info();
-    this.dispatchEvent(new MessageEvent<LaneInfo[]>("lane-updated", {data: lanes_info}));
+    this.dispatchEvent(new MessageEvent<number>("lane-deleted", {data: lane_id}));
   }
 
 

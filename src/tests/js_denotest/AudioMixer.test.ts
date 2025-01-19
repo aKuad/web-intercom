@@ -170,46 +170,55 @@ Deno.test(async function true_cases(t) {
 
 
   /**
-   * - Can dispatch event with `lane_info` array passing at lane status updated
+   * - Can dispatch `lane-created` event with a `LaneInfo` passing at lane created
    */
-  await t.step(function lane_changed_event() {
+  await t.step(function lane_created_event() {
+    const audio_mixer = new AudioMixer();
+
+    let actual_lane_info  : LaneInfo = new LaneInfo(0, "DUM", 0.0); // Dummy LaneInfo for prevent used before been assigned error
+    audio_mixer.addEventListener("lane-created", {handleEvent: (e: MessageEvent<LaneInfo>) => {
+      actual_lane_info = e.data;
+    }});
+    const lane_id = audio_mixer.create_lane();
+
+    const expected_lane_info = new LaneInfo(lane_id, "NEW" , 0.0);
+    assertEquals(actual_lane_info, expected_lane_info);
+  });
+
+
+  /**
+   * - Can dispatch `lane-name-modified` event with a `LaneInfo` passing at lane name modified
+   */
+  await t.step(function lane_name_modified_event() {
     const audio_mixer = new AudioMixer();
     const silent_pcm = new Float32Array(ONE_FRAME_SAMPLES);
-    const lane_id_0 = audio_mixer.create_lane();
-    audio_mixer.lane_io(lane_id_0, silent_pcm, "L0"); // set any lane_name for lane_id_0
 
-    // set to get value at event handler
-    let expected_lanes_info: LaneInfo[] = [];
-    let actual_lanes_info: LaneInfo[] = [];
-    audio_mixer.addEventListener("lane-updated", {handleEvent: (e: MessageEvent<LaneInfo[]>) => {
-      actual_lanes_info = e.data;
+    let actual_lane_info  : LaneInfo = new LaneInfo(0, "DUM", 0.0); // Dummy LaneInfo for prevent used before been assigned error
+    audio_mixer.addEventListener("lane-name-modified", {handleEvent: (e: MessageEvent<LaneInfo>) => {
+      actual_lane_info = e.data;
     }});
+    const lane_id = audio_mixer.create_lane();
+    audio_mixer.lane_io(lane_id, silent_pcm, "L0"); // set any modified name
 
-    // on lane created
-    actual_lanes_info = [];
-    const lane_id_1 = audio_mixer.create_lane();
-    expected_lanes_info = [
-      new LaneInfo(lane_id_0, "L0" , 0.0),
-      new LaneInfo(lane_id_1, "NEW", 0.0)
-    ];
-    assertEquals(actual_lanes_info, expected_lanes_info);
+    const expected_lane_info = new LaneInfo(lane_id, "L0" , 0.0);
+    assertEquals(actual_lane_info, expected_lane_info);
+  });
 
-    // on lane name modified
-    actual_lanes_info = [];
-    audio_mixer.lane_io(lane_id_1, silent_pcm, "L1");
-    expected_lanes_info = [
-      new LaneInfo(lane_id_0, "L0", 0.0),
-      new LaneInfo(lane_id_1, "L1", 0.0)
-    ];
-    assertEquals(actual_lanes_info, expected_lanes_info);
 
-    // on lane deleted
-    actual_lanes_info = [];
-    audio_mixer.delete_lane(lane_id_1);
-    expected_lanes_info = [
-      new LaneInfo(lane_id_0, "L0", 0.0),
-    ];
-    assertEquals(actual_lanes_info, expected_lanes_info);
+  /**
+   * - Can dispatch `lane-deleted` event with a `lane_id` passing at lane deleted
+   */
+  await t.step(function lane_deleted_event() {
+    const audio_mixer = new AudioMixer();
+
+    let actual_lane_id: number = 255; // Dummy lane ID for prevent used before been assigned error
+    audio_mixer.addEventListener("lane-deleted", {handleEvent: (e: MessageEvent<number>) => {
+      actual_lane_id = e.data;
+    }});
+    const expected_lane_id = audio_mixer.create_lane();
+    audio_mixer.delete_lane(expected_lane_id);
+
+    assertEquals(actual_lane_id, expected_lane_id);
   });
 });
 
