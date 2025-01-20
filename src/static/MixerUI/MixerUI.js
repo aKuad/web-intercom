@@ -163,6 +163,20 @@ export class MixerUI extends EventTarget{
 
 
   /**
+   * Change a lane name
+   *
+   * Note: It won't check lane_name limitations (1~3 chars, only ascii)
+   *
+   * @param {number} lane_id Lane ID to change lane name
+   * @param {number} lane_name New lane name
+   */
+  set_lane_name(lane_id, lane_name) {
+    const lane = this.#get_lane_from_id(lane_id);
+    lane.getElementsByClassName("MixerUI-lane-name")[0].innerText = lane_name;
+  }
+
+
+  /**
    * Create a new lane element - helper function of `create_lane`
    *
    * @param {name} name Lane name to view
