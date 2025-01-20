@@ -21,16 +21,12 @@ export const LANES_LOUDNESS_PACKET_TYPE_ID = 0x40;
  * @returns {Uint8Array} Encoded packet
  *
  * @throws {TypeError} If `lanes_loudness` is not `Array`
- * @throws {RangeError} If `lanes_loudness` is empty array
  * @throws {TypeError} If `lanes_loudness` has non `LaneLoudness` elements
  */
 export function packet_lanes_loudness_encode(lanes_loudness) {
   // Arguments type checking
   if(!(lanes_loudness instanceof Array)) {
     throw new TypeError(`lanes_loudness must be Array, but got ${typeof_detail(lanes_loudness)}`);
-  }
-  if(lanes_loudness.length === 0) {
-    throw new RangeError("Empty array passed");
   }
   if(lanes_loudness.filter(e => !(e instanceof LaneLoudness)).length !== 0) {
     throw new TypeError("Non LaneLoudness elements detected");

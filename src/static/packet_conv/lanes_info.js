@@ -21,16 +21,12 @@ export const LANES_INFO_PACKET_TYPE_ID = 0x30;
  * @returns {Uint8Array} Encoded packet
  *
  * @throws {TypeError} If `lanes_info` is not `Array`
- * @throws {RangeError} If `lanes_info` is empty array
  * @throws {TypeError} If `lanes_info` has non `LaneInfo` elements
  */
 export function packet_lanes_info_encode(lanes_info) {
   // Arguments type checking
   if(!(lanes_info instanceof Array)) {
     throw new TypeError(`lanes_info must be Array, but got ${typeof_detail(lanes_info)}`);
-  }
-  if(lanes_info.length === 0) {
-    throw new RangeError("Empty array passed");
   }
   if(lanes_info.filter(e => !(e instanceof LaneInfo)).length !== 0) {
     throw new TypeError("Non LaneInfo elements detected");
