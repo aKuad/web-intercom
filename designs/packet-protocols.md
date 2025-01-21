@@ -61,6 +61,37 @@ server -> mixer client
 |             1 | uint8  | Current gain value (-80\~80[dB])               |
 |               |        | Repeat them (without ID) for all audio clients |
 
+## Lane created packet
+
+server -> mixer client
+
+| Length [byte] | type   | Description                      |
+| ------------: | ------ | -------------------------------- |
+|             1 | uint8  | Packet type ID (0x31)            |
+|             1 | uint8  | Created lane ID                  |
+|             3 | string | Lane name (\*1)                  |
+|             1 | uint8  | Current gain value (-80\~80[dB]) |
+
+## Lane modified packet
+
+server -> mixer client
+
+| Length [byte] | type   | Description                      |
+| ------------: | ------ | -------------------------------- |
+|             1 | uint8  | Packet type ID (0x33)            |
+|             1 | uint8  | Modified lane ID                 |
+|             3 | string | Lane name (\*1)                  |
+|             1 | uint8  | Current gain value (-80\~80[dB]) |
+
+## Lane deleted packet
+
+server -> mixer client
+
+| Length [byte] | type  | Description           |
+| ------------: | ----- | --------------------- |
+|             1 | uint8 | Packet type ID (0x32) |
+|             1 | uint8 | Deleted lane ID       |
+
 ## Lanes loudness packet
 
 server -> mixer client

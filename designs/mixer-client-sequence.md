@@ -9,18 +9,18 @@ sequenceDiagram
   CM->>WSS: Connect<br>Endpoint: /api/mixer
   CM->>MU: Init UI
 
-  par Lanes update
-    Note over CM: on client joined / renamed / left
+  par Mixer client connected
+    Note over CM: on mixer connection open
     WSS->>CM: Lanes info packet
     CM->>MU: UI updating (lanes)
-  and Volume control by own
-    Note over CM: on volume controlled (by own)
+  and Lane update
+    Note over CM: on audio client joined / renamed / left
+    WSS->>CM: Lane created / modified / deleted packet
+    CM->>MU: UI updating (a lane)
+  and Volume control
+    Note over CM: on volume controlled
     MU->>CM: Event dispatch
-    CM->>WSS: Volume modify packet
-  and Volume control by other
-    Note over CM: on volume controlled (by other mixer client)
-    WSS->>CM: Lanes info packet
-    CM->>MU: UI updating (volume)
+    CM->>WSS: Gain modify packet
   and Loudness monitor
     loop runs every 0.1 sec
       WSS->>CM: Loudness monitor packet

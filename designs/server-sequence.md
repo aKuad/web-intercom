@@ -52,10 +52,14 @@ sequenceDiagram
   S->>WSM: 400 response<br>'An mixer client is connecting'
 
   Note over S: Main communication
-  par Lanes update
-    Note over S: on audio client joined / renamed / left
+  par Mixer client connected
+    Note over S: on mixer connection open
     AM->>S: Event dispatch
     S->>WSM: Lanes info packet
+  and Lanes update
+    Note over S: on audio client joined / renamed / left
+    AM->>S: Event dispatch
+    S->>WSM: Lane created / modified / deleted packet
   and Volume control
     Note over S: on volume controlled (at mixer client)
     WSM->>S: Volume modify packet
