@@ -28,6 +28,7 @@
        * Test cases:
        *   - Can create lanes
        *   - Can delete lanes
+       *   - Can set lane name
        *   - Can set any value to fader (with under -80 adjusting to -80)
        *   - Can set any value to meter (with under -80 adjusting to -80)
        *   - Can set/unset event of fader moved
@@ -55,6 +56,7 @@
         for(let i = 0; i < 3; i++) {
           document.getElementById(`button-create-lane-${i}` ).addEventListener("click", () => mixer_ui.create_lane(`LA${i}`, i));
           document.getElementById(`button-delete-lane-${i}` ).addEventListener("click", () => mixer_ui.delete_lane(i));
+          document.getElementById(`button-rename-lane-${i}` ).addEventListener("click", () => mixer_ui.set_lane_name(i, `N${i}`));
           document.getElementById(`button-random-fader-${i}`).addEventListener("click", () => mixer_ui.set_fader_value(i, part_random_neg80_to_pos80()));
           document.getElementById(`button-random-meter-${i}`).addEventListener("click", () => mixer_ui.set_meter_value(i, part_random_neg80_to_pos80()));
         }
@@ -114,6 +116,7 @@
     <p>
       <button id="button-create-lane-0">Create lane 0</button>
       <button id="button-delete-lane-0">Delete lane 0</button>
+      <button id="button-rename-lane-0">Rename lane 0</button>
       <button id="button-random-fader-0">Random fader 0</button>
       <button id="button-random-meter-0">Random meter 0</button>
       <button id="button-set-fader-0">Set fader -0.1</button>
@@ -122,12 +125,14 @@
     <p>
       <button id="button-create-lane-1">Create lane 1</button>
       <button id="button-delete-lane-1">Delete lane 1</button>
+      <button id="button-rename-lane-1">Rename lane 1</button>
       <button id="button-random-fader-1">Random fader 1</button>
       <button id="button-random-meter-1">Random meter 1</button><br>
     </p>
     <p>
       <button id="button-create-lane-2">Create lane 2</button>
       <button id="button-delete-lane-2">Delete lane 2</button>
+      <button id="button-rename-lane-2">Rename lane 2</button>
       <button id="button-random-fader-2">Random fader 2</button>
       <button id="button-random-meter-2">Random meter 2</button>
     </p>
