@@ -8,6 +8,9 @@ import { MixerUI } from "./MixerUI/MixerUI.js";
 import { AudioClientModule } from "./audio_connect/AudioClientModule.js";
 import { packet_gain_modify_encode } from "./packet_conv/gain_modify.js";
 import { is_lanes_info_packet, packet_lanes_info_decode } from "./packet_conv/lanes_info.js";
+import { is_lane_created_packet, packet_lane_created_decode } from "./packet_conv/lane_created.js";
+import { is_lane_modified_packet, packet_lane_modified_decode } from "./packet_conv/lane_modified.js";
+import { is_lane_deleted_packet, packet_lane_deleted_decode } from "./packet_conv/lane_deleted.js";
 import { is_lanes_loudness_packet, packet_lanes_loudness_decode } from "./packet_conv/lanes_loudness.js";
 
 
@@ -18,6 +21,7 @@ globalThis.addEventListener("load", () => {
 
     // Try to get mixer control connection
     const mixer_ws = new WebSocket("/api/mixer");
+    mixer_ws.binaryType = "arraybuffer";
     const is_mixer_connect_success = await new Promise(resolve => {
       mixer_ws.addEventListener("open", () => resolve(true));
       mixer_ws.addEventListener("error", () => resolve(false));
@@ -41,18 +45,30 @@ globalThis.addEventListener("load", () => {
       mixer_ws.send(gain_modify_packet);
     });
 
-    // UI update for lane count modify & loudness monitor
-    mixer_ws.binaryType = "arraybuffer";
+    // UI update for lane init & lane modify & loudness monitor
     mixer_ws.addEventListener("message", e => {
       const ws_receive = new Uint8Array(e.data);
       if(is_lanes_info_packet(ws_receive)) {
         const lanes_info = packet_lanes_info_decode(ws_receive);
-        //// Temporary implementation: only lanes addition ////
         lanes_info.forEach(lane_info => {
           mixer_ui.create_lane(lane_info.lane_name, lane_info.lane_id)
           mixer_ui.set_fader_value(lane_info.lane_id, lane_info.current_gain_db);
         });
-        ////
+
+      } else if(is_lane_created_packet(ws_receive)) {
+        const { lane_id, lane_name, current_gain_db } = packet_lane_created_decode(ws_receive);
+        mixer_ui.create_lane(lane_name, lane_id);
+        mixer_ui.set_fader_value(lane_id, current_gain_db);
+
+      } else if(is_lane_modified_packet(ws_receive)) {
+        const { lane_id, lane_name, current_gain_db } = packet_lane_modified_decode(ws_receive)
+        mixer_ui.set_fader_value(lane_id, current_gain_db);
+        mixer_ui.set_lane_name(lane_id, lane_name);
+
+      } else if(is_lane_deleted_packet(ws_receive)) {
+        const lane_id = packet_lane_deleted_decode(ws_receive);
+        mixer_ui.delete_lane(lane_id);
+
       } else if(is_lanes_loudness_packet(ws_receive)) {
         const lanes_loudness = packet_lanes_loudness_decode(ws_receive);
         lanes_loudness.forEach(lane_loudness => {
