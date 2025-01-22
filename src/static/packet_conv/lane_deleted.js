@@ -57,7 +57,7 @@ export function packet_lane_deleted_encode(lane_id) {
 export function packet_lane_deleted_decode(raw_packet) {
   is_lane_deleted_packet(raw_packet, true);
 
-  return {lane_id: raw_packet[1]};
+  return raw_packet[1];
 }
 
 
