@@ -23,7 +23,7 @@ Deno.test(async function true_cases(t) {
   await t.step(function enc_dec_verify() {
     const lane_id_org = 1;
     const raw_packet = packet_lane_deleted_encode(lane_id_org);
-    const {lane_id } = packet_lane_deleted_decode(raw_packet);
+    const lane_id = packet_lane_deleted_decode(raw_packet);
 
     assertEquals(is_lane_deleted_packet(raw_packet), true);
     assertEquals(lane_id, lane_id_org);
