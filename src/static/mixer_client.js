@@ -15,6 +15,37 @@ import { is_lanes_loudness_packet, packet_lanes_loudness_decode } from "./packet
 
 
 globalThis.addEventListener("load", () => {
+  /* Lane name input checking */
+  document.getElementById("lane-name-input").addEventListener("input", e => {
+    const input_name = e.target.value;
+
+    if(input_name === "") {
+      // If empty input
+      set_input_error("Lane name can't be empty");
+    } else if(!(/^[\x20-\x7F]*$/.test(input_name))) {
+      // If non ascii input
+      set_input_error("Non ascii disallowed for lane name");
+    } else {
+      // Correct input
+      set_input_error("");
+    }
+  });
+
+
+  function set_input_error(message) {
+    if(message === "") {
+      document.getElementById("lane-name-input").classList.remove("invalid-input");
+      document.getElementById("connect-start").disabled = false;
+      document.getElementById("error-view").innerText = "";
+    } else {
+      document.getElementById("lane-name-input").classList.add("invalid-input");
+      document.getElementById("connect-start").disabled = true;
+      document.getElementById("error-view").innerText = message;
+    }
+  }
+
+
+  /* Connection main behavior */
   document.getElementById("connect-start").addEventListener("click", async e => {
     // Prevent double click
     e.target.disabled = true;
@@ -37,6 +68,8 @@ globalThis.addEventListener("load", () => {
     }
 
     // UI control for gain modify
+    const lane_name = document.getElementById("lane-name-input").value; // Get lane name before input removed
+    document.getElementById("mixer-container").replaceChildren(); // Remove all child elements (are lane name input)
     const mixer_ui = new MixerUI(document.getElementById("mixer-container"));
     mixer_ui.addEventListener("fader-moved", e => {
       const lane_id = Number(e.origin);
@@ -90,7 +123,7 @@ globalThis.addEventListener("load", () => {
     });
 
     // Audio client for mixer user
-    const audio_client_module = new AudioClientModule("/api/audio", "MIX", -40.0);
+    const audio_client_module = new AudioClientModule("/api/audio", lane_name, -40.0);
     audio_client_module.websocket_obj.addEventListener("close", () => {
       document.getElementById("error-view").innerText = "Audio connection closed by server";
     });

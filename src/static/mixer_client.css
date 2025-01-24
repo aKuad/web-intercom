@@ -62,6 +62,35 @@ header {
 
 
 /* Control elements */
+#lane-name-guide {
+  font-size: 3rem;
+  display: block;
+  text-align: center;
+  margin: 2rem auto;
+}
+
+#lane-name-input {
+  background-color: hsl(0, 0%, 40%);
+  color: #fff;
+  font-size: 6rem;
+  text-align: center;
+
+  display: block;
+  width: 3em;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  border-bottom: solid hsl(0, 0%, 80%) 3px;
+  border-radius: 0.2em 0.2em 0 0;
+  margin: 0 auto 4rem auto;
+}
+#lane-name-input:focus {
+  border-bottom-color: hsl(240, 100%, 80%);
+}
+#lane-name-input.invalid-input {
+  border-bottom-color: hsl(0, 100%, 80%);
+}
+
 #connect-start {
   background-color: hsl(0, 0%, 0%);
   color: #fff;
@@ -69,7 +98,11 @@ header {
   font-size: 3rem;
 
   display: block;
-  margin: 0.5em auto;
+  margin: 0 auto 3rem auto;
   border: solid #fff 2px;
   border-radius: 0.5em;
+}
+#connect-start:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

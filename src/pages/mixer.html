@@ -11,7 +11,11 @@
 
   <body>
     <header>Mixer Client</header>
-    <div id="mixer-container"><button id="connect-start">Connect</button></div>
+    <div id="mixer-container">
+      <label id="lane-name-guide" for="lane-name">Set lane name:</label>
+      <input type="text" id="lane-name-input" name="lane-name" minlength="1" maxlength="3" value="MIX">
+      <button id="connect-start">Connect</button>
+    </div>
     <div id="error-view"></div>
   </body>
 </html>
