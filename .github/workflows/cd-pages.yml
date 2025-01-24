@@ -61,9 +61,10 @@ jobs:
       uses: denoland/setup-deno@v1
       with:
         deno-version: v2.x
-    - name:
+    - name: Run all tests
       run: deno test --parallel --coverage
     - name: Export coverage report as HTML
+      if: always()
       run: deno coverage --html
     - name: Output HTML as an artifact
       if: always()
