@@ -5,6 +5,7 @@
  */
 
 import { MixerUI } from "./MixerUI/MixerUI.js";
+import { keep_wake_lock } from "./util/keep_wake_lock.js";
 import { AudioClientModule } from "./audio_connect/AudioClientModule.js";
 import { packet_gain_modify_encode } from "./packet_conv/gain_modify.js";
 import { is_lanes_info_packet, packet_lanes_info_decode } from "./packet_conv/lanes_info.js";
@@ -66,6 +67,9 @@ globalThis.addEventListener("load", () => {
       document.getElementById("error-view").innerText = "Mixer client is in use";
       return;
     }
+
+    // Prevent system lock or display sleep
+    keep_wake_lock();
 
     // UI control for gain modify
     const lane_name = document.getElementById("lane-name-input").value; // Get lane name before input removed
