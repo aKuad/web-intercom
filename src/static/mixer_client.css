@@ -25,36 +25,48 @@ header {
   width: 100vw;
   box-sizing: border-box;
   padding: 0.2em;
-  position: fixed;
-  top: 0;
-  left: 0;
 }
 
-#control-container {
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+#mixer-container {
+  background-color: hsl(0, 0%, 10%);
+  box-sizing: border-box;
+  width: 700px;
+  margin: 20px auto;
+  border: solid #fff 2px;
+  border-radius: 1em;
+  overflow: hidden;
+}
+@media (max-width: 740px) {
+  #mixer-container {
+    width: calc(100% - 40px);
+    margin: 20px 20px;
+  }
 }
 
 #error-view {
   color: hsl(0, 100%, 70%);
   font-size: 2rem;
 
-  width: 100vw;
+  background-color: #000;
+  padding: 0.2em 1em;
+  border: solid #fff 2px;
   text-align: center;
   position: fixed;
   bottom: 10vh;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+#error-view:empty {
+  display: none;
 }
 
 
 /* Control elements */
 #lane-name-guide {
   font-size: 3rem;
-  margin-bottom: 2rem;
+  display: block;
+  text-align: center;
+  margin: 2rem auto;
 }
 
 #lane-name-input {
@@ -70,7 +82,7 @@ header {
   border: none;
   border-bottom: solid hsl(0, 0%, 80%) 3px;
   border-radius: 0.2em 0.2em 0 0;
-  margin-bottom: 4rem;
+  margin: 0 auto 4rem auto;
 }
 #lane-name-input:focus {
   border-bottom-color: hsl(240, 100%, 80%);
@@ -85,21 +97,12 @@ header {
   padding: 0.2em 1em;
   font-size: 3rem;
 
+  display: block;
+  margin: 0 auto 3rem auto;
   border: solid #fff 2px;
   border-radius: 0.5em;
-  margin-bottom: 4rem;
 }
 #connect-start:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-#mixer-client-link {
-  color: #fff;
-  font-size: 2rem;
-  display: block;
-}
-
-#lane-name-view {
-  font-size: 6rem;
 }

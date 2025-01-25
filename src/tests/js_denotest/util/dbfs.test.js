@@ -32,6 +32,18 @@ Deno.test(async function true_cases(t) {
     console.log(`Quiet: ${dbfs_quiet} dBFS`);
     assertAlmostEquals(dbfs_loud - 20.0, dbfs_quiet, 0.1);  // During calculation, error includes about 0.02
   });
+
+
+  /**
+   * - Allow array value -1.0 and 1.0
+   *   - Edge case test
+   */
+  await t.step(function float_edge() {
+    const pcm  = generate_rand_float32array(ONE_FRAME_SAMPLES);
+    pcm[0] = 1.0;
+    pcm[1] = -1.0;
+    dbfs_float(pcm);
+  });
 });
 
 
