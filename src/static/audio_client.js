@@ -45,6 +45,7 @@ globalThis.addEventListener("load", () => {
     document.getElementById("lane-name-guide").innerText = "Lane name:";
     document.getElementById("lane-name-input").remove();
     document.getElementById("connect-start").remove();
+    document.getElementById("mixer-client-link").remove();
     document.getElementById("lane-name-view").innerText = lane_name;
 
     // Connect & connection closed event

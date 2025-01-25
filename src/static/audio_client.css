@@ -87,10 +87,17 @@ header {
 
   border: solid #fff 2px;
   border-radius: 0.5em;
+  margin-bottom: 4rem;
 }
 #connect-start:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+#mixer-client-link {
+  color: #fff;
+  font-size: 2rem;
+  display: block;
 }
 
 #lane-name-view {
