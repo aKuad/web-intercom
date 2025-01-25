@@ -4,6 +4,7 @@
  * @author aKuad
  */
 
+import { keep_wake_lock } from "./util/keep_wake_lock.js";
 import { AudioClientModule } from "./audio_connect/AudioClientModule.js";
 
 
@@ -40,6 +41,9 @@ globalThis.addEventListener("load", () => {
   /* Start connection */
   document.getElementById("connect-start").addEventListener("click", () => {
     const lane_name = document.getElementById("lane-name-input").value;
+
+    // Prevent system lock or display sleep
+    keep_wake_lock();
 
     // View update for communicating
     document.getElementById("lane-name-guide").innerText = "Lane name:";
