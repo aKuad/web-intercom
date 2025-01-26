@@ -105,6 +105,31 @@ Deno.test(async function true_cases(t) {
 
 
   /**
+   * - Can get all lanes info (is lane ID, lane name and current gain)
+   */
+  await t.step(function lanes_info() {
+    const audio_mixer = new AudioMixer();
+    const lane_id_0 = audio_mixer.create_lane();
+    const lane_id_1 = audio_mixer.create_lane();
+
+    const input_random_pcm = generate_rand_float32array(ONE_FRAME_SAMPLES).map(e => e * 0.1);
+
+    audio_mixer.set_lane_gain_db(lane_id_0, 10.0);
+    audio_mixer.set_lane_gain_db(lane_id_1, -5.0);
+    audio_mixer.lane_io(lane_id_0, input_random_pcm, "L0");
+    audio_mixer.lane_io(lane_id_1, input_random_pcm, "L1");
+
+    const lanes_info_expected = [
+      new LaneInfo(lane_id_0, "L0", 10.0),
+      new LaneInfo(lane_id_1, "L1", -5.0)
+    ];
+    const lanes_info_actual = audio_mixer.get_lanes_info();
+
+    assertEquals(lanes_info_actual, lanes_info_expected);
+  });
+
+
+  /**
    * - Can output lanes dBFS
    */
   await t.step(function calc_dbfs() {
