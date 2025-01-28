@@ -16,6 +16,17 @@ Inter-communication system on browser via LAN. Powered by Deno.
 - Easy to setup the server
   - Required only Deno
 
+## Server deployment
+
+As requirements, install [Deno](https://deno.com/) at first.
+
+Then just only run:
+
+```sh
+cd src
+deno run --allow-net --allow-read main.ts
+```
+
 ## Client usage
 
 ### Audio client
@@ -37,10 +48,6 @@ Type lane name, then click 'connect'.
 Then view all lanes fader and meter. Move fader to control gain of each lane.
 
 ![Mixer client UI - Volume control](./assets/ui-image-mixer-client-2.webp)
-
-## Server deployment
-
-*Work in progress*
 
 ## License
 
