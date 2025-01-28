@@ -4,7 +4,7 @@
 
 Inter-communication system on browser via LAN. Powered by Deno.
 
-<!-- Screen shots here -->
+![Top image](./assets/top-image.webp)
 
 ## Features
 
@@ -18,7 +18,25 @@ Inter-communication system on browser via LAN. Powered by Deno.
 
 ## Client usage
 
-*Work in progress*
+### Audio client
+
+Access to `http://server.address/`
+
+Type lane name, then click 'connect'.
+
+![Audio client UI - Lane name setting](./assets/ui-image-audio-client.webp)
+
+### Mixer client
+
+Access to `http://server.address/mixer.html`
+
+Type lane name, then click 'connect'.
+
+![Mixer client UI - Lane name setting](./assets/ui-image-mixer-client-1.webp)
+
+Then view all lanes fader and meter. Move fader to control gain of each lane.
+
+![Mixer client UI - Volume control](./assets/ui-image-mixer-client-2.webp)
 
 ## Server deployment
 
