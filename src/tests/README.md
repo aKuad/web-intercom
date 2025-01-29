@@ -9,13 +9,13 @@
 cd js_denotest
 
 # Run tests
-deno test **Test*.js
+deno test
 
 # For parallel run
-deno test --parallel **Test*.js
+deno test --parallel
 
 # For report coverage
-deno test --coverage **Test*.js
+deno test --coverage
 deno coverage
 ```
 
@@ -27,13 +27,13 @@ Work in progress
 
 As standard, follow [Coding conventions](../../CONTRIBUTING.md#coding-conventions). Then follow below.
 
-### Files naming prefix
+### Files place & naming convention
 
-| Item                                         | Prefix   |
-| -------------------------------------------- | -------- |
-| Automated unit test                          | `Test_*` |
-| Manual unit test                             | `Try_*`  |
-| Test support utility (e.g. temporary server) | `Util_*` |
+| Item                                             | convention               |
+| ------------------------------------------------ | ------------------------ |
+| Automated unit test                              | `*.test.js` (also `.ts`) |
+| Manual unit test                                 | `Try_*`                  |
+| Test support utility (e.g. random data generate) | `test-util/*.js`         |
 
 > [!NOTE]
 >
