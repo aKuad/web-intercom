@@ -16,6 +16,10 @@ Inter-communication system on browser via LAN. Powered by Deno.
 - Easy to setup the server
   - Required only Deno
 
+## Note
+
+It not works on iOS Safari via HTTP (not SSL/TLS) connection. Safari not allow using `navigator.mediaDevices` at unsecure connection.
+
 ## Server deployment
 
 As requirements, install [Deno](https://deno.com/) at first.
