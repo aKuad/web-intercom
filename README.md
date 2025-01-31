@@ -18,7 +18,7 @@ Inter-communication system on browser via LAN. Powered by Deno.
 
 ## Note
 
-It not works on iOS Safari via HTTP (not SSL/TLS) connection. Safari not allow using `navigator.mediaDevices` at unsecure connection.
+For using mic input, secure context is required. It means not working on HTTP, need to be HTTPS.
 
 ## Server deployment
 
