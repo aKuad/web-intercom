@@ -4,7 +4,7 @@
 
 Inter-communication system on browser via LAN. Powered by Deno.
 
-<!-- Screen shots here -->
+![Top image](./assets/top-image.webp)
 
 ## Features
 
@@ -16,13 +16,42 @@ Inter-communication system on browser via LAN. Powered by Deno.
 - Easy to setup the server
   - Required only Deno
 
-## Client usage
+## Note
 
-*Work in progress*
+For using mic input, secure context is required. It means not working on HTTP, need to be HTTPS.
 
 ## Server deployment
 
-*Work in progress*
+As requirements, install [Deno](https://deno.com/) at first.
+
+Then just only run:
+
+```sh
+cd src
+deno run --allow-net --allow-read main.ts
+```
+
+## Client usage
+
+### Audio client
+
+Access to `http://server.address/`
+
+Type lane name, then click 'connect'.
+
+![Audio client UI - Lane name setting](./assets/ui-image-audio-client.webp)
+
+### Mixer client
+
+Access to `http://server.address/mixer.html`
+
+Type lane name, then click 'connect'.
+
+![Mixer client UI - Lane name setting](./assets/ui-image-mixer-client-1.webp)
+
+Then view all lanes fader and meter. Move fader to control gain of each lane.
+
+![Mixer client UI - Volume control](./assets/ui-image-mixer-client-2.webp)
 
 ## License
 
