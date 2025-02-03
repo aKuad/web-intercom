@@ -45,7 +45,7 @@ cd src
 openssl req -newkey rsa:4096 -x509 -nodes -subj '/CN=common_name_here' -keyout key.pem -out cert.pem
 ```
 
-> ![NOTE]
+> [!NOTE]
 >
 > `src/main.ts` loads private key from `src/key.pem` and certificate from `src/cert.pem`.
 
