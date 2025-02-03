@@ -16,26 +16,50 @@ Inter-communication system on browser via LAN. Powered by Deno.
 - Easy to setup the server
   - Required only Deno
 
-## Note
-
-For using mic input, secure context is required. It means not working on HTTP, need to be HTTPS.
-
 ## Server deployment
 
 As requirements, install [Deno](https://deno.com/) at first.
 
-Then just only run:
+### For localhost check
+
+Just only run:
+
+```sh
+deno run --allow-net --allow-read main.ts
+```
+
+### For outside connection
+
+> [!NOTE]
+>
+> For using mic input, secure context is required. It means not working on HTTP, need to be HTTP**S**.
+
+Generate key and certificate for HTTP**S** connection.
+
+> [!CAUTION]
+>
+> This step generates self signed certificate. Use only in LAN, then **do not open to the Internet**.
 
 ```sh
 cd src
-deno run --allow-net --allow-read main.ts
+openssl req -newkey rsa:4096 -x509 -nodes -subj '/CN=common_name_here' -keyout key.pem -out cert.pem
+```
+
+> [!NOTE]
+>
+> `src/main.ts` loads private key from `src/key.pem` and certificate from `src/cert.pem`.
+
+Then run with `--tls` option:
+
+```sh
+deno run --allow-net --allow-read --tls main.ts
 ```
 
 ## Client usage
 
 ### Audio client
 
-Access to `http://server.address/`
+Access to `http(s)://server.address/`
 
 Type lane name, then click 'connect'.
 
@@ -43,7 +67,7 @@ Type lane name, then click 'connect'.
 
 ### Mixer client
 
-Access to `http://server.address/mixer.html`
+Access to `http(s)://server.address/mixer.html`
 
 Type lane name, then click 'connect'.
 
