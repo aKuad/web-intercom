@@ -20,7 +20,7 @@ import { packet_lanes_loudness_encode } from "../static/packet_conv/lanes_loudne
  * @param socket WebSocket for communicate client
  * @param audio_mixer AudioMixer of server core
  */
-export function main_mixer(socket: WebSocket, audio_mixer: AudioMixer) {
+export function main_mixer(socket: WebSocket, audio_mixer: AudioMixer): void {
   socket.binaryType = "arraybuffer";
 
   // Lane initialization
