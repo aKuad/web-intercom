@@ -194,7 +194,7 @@ export class AudioMixer extends EventTarget{
    *
    * @returns Current mixer status of lane name and gain
    */
-  get_lanes_info() {
+  get_lanes_info(): LaneInfo[] {
     const lanes_info: Array<LaneInfo> = [];
     this.#lanes.forEach((lane, lane_id) => {
       lanes_info.push(new LaneInfo(lane_id, lane.lane_name, lane.gain_db));
@@ -208,7 +208,7 @@ export class AudioMixer extends EventTarget{
    *
    * @returns Current mixer status of loudness
    */
-  get_lanes_dbfs() {
+  get_lanes_dbfs(): LaneLoudness[] {
     const lanes_loudness: Array<LaneLoudness> = [];
     this.#lanes.forEach((lane, lane_id) => {
       lanes_loudness.push(new LaneLoudness(lane_id, lane.dbfs));
@@ -223,7 +223,7 @@ export class AudioMixer extends EventTarget{
    * @param lane_id Lane ID to set gain
    * @param gain_db Gain (in db) to set
    */
-  set_lane_gain_db(lane_id: number, gain_db: number) {
+  set_lane_gain_db(lane_id: number, gain_db: number): void {
     const target_lane = this.#try_get_lane(lane_id);
 
     target_lane.gain_db = gain_db;
@@ -243,7 +243,7 @@ export class AudioMixer extends EventTarget{
    *
    * @param lane_id Lane ID to delete
    */
-  delete_lane(lane_id: number) {
+  delete_lane(lane_id: number): void {
     this.#try_get_lane(lane_id);
     this.#lanes.delete(lane_id);
 
@@ -269,7 +269,7 @@ export class AudioMixer extends EventTarget{
    * @param pcm_to_operate This array will be mutated as added value
    * @param pcm_to_overlay This values add to `pcm_to_operate`
    */
-  #pcm_overlay(pcm_to_operate: Float32Array, pcm_to_overlay: Float32Array) {
+  #pcm_overlay(pcm_to_operate: Float32Array, pcm_to_overlay: Float32Array): void {
     pcm_to_operate.forEach((_, i) => {
       pcm_to_operate[i] += pcm_to_overlay[i];
     });
@@ -283,7 +283,7 @@ export class AudioMixer extends EventTarget{
    *
    * @param pcm PCM to process (it will be mutated to clipped PCM)
    */
-  #pcm_clipping(pcm: Float32Array) {
+  #pcm_clipping(pcm: Float32Array): void {
     pcm.forEach((_, i) => {
       if(pcm[i] < -1) pcm[i] = -1;
       if(pcm[i] >  1) pcm[i] =  1;

@@ -14,7 +14,7 @@ import { is_audio_packet, packet_audio_encode, packet_audio_decode } from "../st
  * @param socket WebSocket for communicate client
  * @param audio_mixer AudioMixer of server core
  */
-export function main_audio(socket: WebSocket, audio_mixer: AudioMixer) {
+export function main_audio(socket: WebSocket, audio_mixer: AudioMixer): void {
   socket.binaryType = "arraybuffer";
   let lane_id: number;
 
