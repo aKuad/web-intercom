@@ -7,6 +7,7 @@ sequenceDiagram
   participant WSA as Audio client<br>(Websocket)
   participant S as Server main
   participant AM as Audio mixer
+  participant ATEM
 
   Note over S: Connection start
   WSA->>S: Client connecting<br>Endpoint: /api/audio
@@ -14,10 +15,15 @@ sequenceDiagram
 
   loop
     Note over S: Main communication
+    alt On ATEM state changed
+      ATEM->>S: Set next ext bytes
+    end
     WSA->>+S: Audio packet<br>[mic input]
     S->>+AM: Lane input
     AM-->>-S: Mixed audio
+    S->>S: Include ext bytes into audio packet
     S-->>-WSA: Audio packet<br>[mixed audio]
+    S->>S: Unset next ext bytes
   end
 
   Note over S: Connection end
