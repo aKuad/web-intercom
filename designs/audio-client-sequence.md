@@ -2,6 +2,7 @@
 
 ```mermaid
 sequenceDiagram
+  participant UI
   participant AP as Audio player
   participant MC as Mic capture
   participant CM as Client main
@@ -21,6 +22,9 @@ sequenceDiagram
     WSS-->>CM: Receive [silent] audio packet (mixed)
     CM-->CM: Audio packet decoding
     CM->>AP: Play mixed audio
+    alt If ext bytes have
+      CM->>UI: UI update to light OFF / Green (preview) / Red (program)
+    end
   end
 ```
 
