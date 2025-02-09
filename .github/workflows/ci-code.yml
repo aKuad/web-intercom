@@ -43,7 +43,7 @@ jobs:
       with:
         deno-version: v2.x
     - name: Run all tests
-      run: deno test --parallel --coverage
+      run: deno test --parallel --coverage --allow-env --allow-read --allow-ffi
     - name: Report coverage as actions summary
       env:
         NO_COLOR: "true"  # Disable deno color output
