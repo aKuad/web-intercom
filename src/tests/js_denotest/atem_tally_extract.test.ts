@@ -68,6 +68,19 @@ Deno.test(async function true_cases(t) {
 
 
   /**
+   * - Can ignore (no throw) undefined `mixEffects[]`
+   */
+  await t.step(function me_undefined() {
+    const me_0_original = atem_state.video.mixEffects[0];
+    atem_state.video.mixEffects[0] = undefined;
+    assertEquals(atem_tally_extract(atem_state), [0b0, 0b0]);
+
+    // Clean up
+    atem_state.video.mixEffects[0] = me_0_original;
+  });
+
+
+  /**
    * - Can extract M/E upstream-keyer fill source
    * - Can ignore M/E upstream-keyer when not on-air
    */
@@ -82,6 +95,19 @@ Deno.test(async function true_cases(t) {
     // Cleanup
     me_0_usk.fillSource = 0;
     me_0_usk.onAir = false;
+  });
+
+
+  /**
+   * - Can ignore (no throw) undefined `mixEffects[].upstreamKeyers[]`
+   */
+  await t.step(function me_upstream_keyer_undefined() {
+    const usk_original = me_0.upstreamKeyers[0];
+    me_0.upstreamKeyers[0] = undefined;
+    assertEquals(atem_tally_extract(atem_state), [0b0, 0b0]);
+
+    // Cleanup
+    me_0.upstreamKeyers[0] = usk_original;
   });
 
 
@@ -108,6 +134,23 @@ Deno.test(async function true_cases(t) {
     dsk_0.onAir = false;
     dsk_1_src.fillSource = 0;
     dsk_1.onAir = false;
+  });
+
+
+  /**
+   * - Can ignore (no throw) undefined `downstreamKeyers[]`
+   * - Can ignore (no throw) undefined `downstreamKeyers[].sources`
+   */
+  await t.step(function downstream_keyer_undefined() {
+    const dsk_0_original = atem_state.video.downstreamKeyers[0];
+    const dsk_1_src_original = dsk_1.sources;
+    atem_state.video.downstreamKeyers[0] = undefined;
+    dsk_1.sources = undefined;
+    assertEquals(atem_tally_extract(atem_state), [0b0, 0b0]);
+
+    // Cleanup
+    atem_state.video.downstreamKeyers[0] = dsk_0_original;
+    dsk_1.sources = dsk_1_src_original;
   });
 
 

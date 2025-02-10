@@ -23,13 +23,11 @@ export function atem_tally_extract(atem_state: AtemState): number[] {
 
   // Input sources extraction from M/Es
   atem_state.video.mixEffects.forEach(mix_effect => {
-    // deno-coverage-ignore-next
     if(!mix_effect) { return; } // For remove type inference of undefined
     preview_sources.push(mix_effect.previewInput);
     program_sources.push(mix_effect.programInput);
 
     mix_effect.upstreamKeyers.forEach(upstream_keyer => {
-      // deno-coverage-ignore-next
       if(!upstream_keyer) { return; }       // For remove type inference of undefined
       if(!upstream_keyer.onAir) { return; } // Ignore when non on-air
       program_sources.push(upstream_keyer.fillSource);
@@ -38,11 +36,9 @@ export function atem_tally_extract(atem_state: AtemState): number[] {
 
   // Input sources extraction from downstream keyers
   atem_state.video.downstreamKeyers.forEach(downstream_keyer => {
-    // deno-coverage-ignore-next
     if(!downstream_keyer) { return; }         // For remove type inference of undefined
-    if(!downstream_keyer.onAir) { return; }   // Ignore when non on-air
-    // deno-coverage-ignore-next
     if(!downstream_keyer.sources) { return; } // For remove type inference of undefined
+    if(!downstream_keyer.onAir) { return; }   // Ignore when non on-air
     program_sources.push(downstream_keyer.sources.fillSource);
   });
 
