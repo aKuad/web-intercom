@@ -11,7 +11,7 @@ import { AtemState } from "npm:atem-connection";
  * Extract preview/program and downstream-keyer fill-source using input sources from AtemState object
  *
  * Return 'in bits' means, for-example: using source 3, then returns 0b0000100
- * 
+ *
  * Note: Support sources for ID 1~32, over or under then will be ignored
  *
  * @param atem_state ATEM state object to extract
