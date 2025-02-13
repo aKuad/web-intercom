@@ -9,15 +9,21 @@
 cd js_denotest
 
 # Run tests
-deno test
+deno test --allow-env --allow-ffi --allow-read
 
 # For parallel run
-deno test --parallel
+deno test --parallel --allow-env --allow-ffi --allow-read
 
 # For report coverage
-deno test --coverage
+deno test --coverage --allow-env --allow-ffi --allow-read
 deno coverage
 ```
+
+> [!NOTE]
+>
+> Options `--allow-env --allow-ffi` for using a npm package `atem-connection`.
+>
+> An option `--allow-read` for test data `atem-state-data-video.json` loading by `atem_tally_extract.test.ts`.
 
 ### JavaScript manual tests
 
