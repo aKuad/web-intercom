@@ -59,7 +59,7 @@ deno run --allow-net --allow-read --tls main.ts
 
 ### Audio client
 
-Access to `http(s)://server.address/`
+Access to `http(s)://server.address:8000/`
 
 Type lane name, then click 'connect'.
 
@@ -67,7 +67,7 @@ Type lane name, then click 'connect'.
 
 ### Mixer client
 
-Access to `http(s)://server.address/mixer.html`
+Access to `http(s)://server.address:8000/mixer.html`
 
 Type lane name, then click 'connect'.
 
