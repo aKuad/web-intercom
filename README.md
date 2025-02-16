@@ -52,7 +52,7 @@ openssl req -newkey rsa:4096 -x509 -nodes -subj '/CN=common_name_here' -keyout k
 Then run with `--tls` option:
 
 ```sh
-deno run --allow-net --allow-read --tls main.ts
+deno run --allow-net --allow-read main.ts --tls
 ```
 
 ## Client usage
