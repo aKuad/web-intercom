@@ -25,6 +25,7 @@ As requirements, install [Deno](https://deno.com/) at first.
 Just only run:
 
 ```sh
+cd src
 deno run --allow-net --allow-read main.ts
 ```
 
@@ -52,6 +53,7 @@ openssl req -newkey rsa:4096 -x509 -nodes -subj '/CN=common_name_here' -keyout k
 Then run with `--tls` option:
 
 ```sh
+# on src directory
 deno run --allow-net --allow-read main.ts --tls
 ```
 
