@@ -20,10 +20,7 @@ globalThis.addEventListener("load", () => {
   document.getElementById("lane-name-input").addEventListener("input", e => {
     const input_name = e.target.value;
 
-    if(input_name === "") {
-      // If empty input
-      set_input_error("Lane name can't be empty");
-    } else if(!(/^[\x20-\x7F]*$/.test(input_name))) {
+    if(!(/^[\x20-\x7F]*$/.test(input_name))) {
       // If non ascii input
       set_input_error("Non ascii disallowed for lane name");
     } else {
@@ -72,7 +69,9 @@ globalThis.addEventListener("load", () => {
     keep_wake_lock();
 
     // UI control for gain modify
-    const lane_name = document.getElementById("lane-name-input").value; // Get lane name before input removed
+    //// Get lane name before input removed
+    //// Try to set input value, if empty, set placeholder value
+    const lane_name = document.getElementById("lane-name-input").value || document.getElementById("lane-name-input").placeholder;
     document.getElementById("mixer-container").replaceChildren(); // Remove all child elements (are lane name input)
     const mixer_ui = new MixerUI(document.getElementById("mixer-container"));
     mixer_ui.addEventListener("fader-moved", e => {
