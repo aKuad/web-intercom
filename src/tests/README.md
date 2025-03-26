@@ -21,7 +21,21 @@ deno coverage
 
 ### JavaScript manual tests
 
-Work in progress
+```sh
+# Set current directory
+cd js_manual
+
+# Run test server
+deno run --allow-net --allow-read main.ts
+```
+
+Type the commands, then:
+
+1. Access `http://localhost:8000` ... then testable module lists will be shown
+2. Choose a module from the list ... then move to test page
+3. Input any controls on the page ... then check behavior
+
+Test cases are wrote in `*.try.html`. For detail, see them.
 
 ## Coding conversions
 
