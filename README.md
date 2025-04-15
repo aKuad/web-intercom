@@ -1,6 +1,6 @@
 # web-intercom
 
-[![Version](https://img.shields.io/github/v/release/aKuad/web-intercom?label=version)](https://github.com/aKuad/py-web-intercom/releases) [![License](https://img.shields.io/github/license/aKuad/web-intercom)](https://github.com/aKuad/py-web-intercom/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/release/aKuad/web-intercom?label=version)](https://github.com/aKuad/web-intercom/releases) [![License](https://img.shields.io/github/license/aKuad/web-intercom)](https://github.com/aKuad/web-intercom/blob/main/LICENSE)
 
 Inter-communication system on browser via LAN. Powered by Deno.
 
@@ -81,4 +81,4 @@ Then view all lanes fader and meter. Move fader to control gain of each lane.
 
 ## License
 
-[CC0-1.0](https://github.com/aKuad/py-web-intercom/blob/main/LICENSE)
+[CC0-1.0](https://github.com/aKuad/web-intercom/blob/main/LICENSE)
